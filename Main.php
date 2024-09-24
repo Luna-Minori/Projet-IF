@@ -1,21 +1,3 @@
-
-<?php
-$host = 'localhost';
-$db = 'Base_data'; // Remplacez par le nom de votre base de données
-$user = 'root'; // Nom d'utilisateur
-$pass = '8021@L5qkcjmm4'; // Remplacez par le mot de passe de l'utilisateur root
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-
-try {
-    $conn = new PDO($dsn, $user, $pass);
-    // Autres opérations...
-} catch (PDOException $e) {
-    echo 'Erreur : ' . $e->getMessage();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,14 +17,36 @@ try {
     <!-- Top -->
     <header>
         <div>
+            <input type="text" name="nom"/>
+            <button type="submit">Envoyer text</button>
        <?php
         session_start();
-        $ID = $_SESSION['ID'];
-        $sql = new PDO ("mysql:host=localhost;dbname=Base_data;charset=utf8", "root", "");
-        if($_server["REQUEST_METHOD"] == "POST"){
-            $a=2;
+        $nom = $_POST['nom'];
+        $test_tableau = ['aa', 'aaa',35];
+        $recipes = [
+            ['Cassoulet','[...]','mickael.andrieu@exemple.com',true,],
+            ['Couscous','[...]','mickael.andrieu@exemple.com',false,],
+        ];        
+        ?>
+        <ul>
+        <?php for ($lines = 0; $lines <= 1; $lines++): ?>
+            <li><?php echo $recipes[$lines][0] . ' (' . $recipes[$lines][2] . ')'; ?></li>
+        <?php endfor; ?>
+        </ul>
+        <?php
+        echo 'Hello' . htmlspecialchars($nom);
+        try {
+            $ID = $_SESSION['ID'];
+            $sql = new PDO ("mysql:host=localhost;dbname=Base_data;charset=utf8", "root", "");
+            if($_server["REQUEST_METHOD"] == "POST"){
+                $nom = $_POST['nom'];
+                echo 'hello' . $nom;
+            }
+        } catch (PDOException $e) { // affiche message erreure si la connexion avec la base de donnée n'a pas marcher
+            echo 'Erreur : ' . $e->getMessage();
         }
         ?>
+
         <select name="game">
             $rep = $sql->prepar("SELECT game.name, player_id");
 

@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #3e3e3e;
     color: #333;
     padding: 20px;
 }
@@ -17,6 +17,7 @@ header {
     color: white;
     padding: 20px 0;
     margin-bottom: 20px;
+    border-radius: 8px;
 }
 .profile{
     position: relative;
@@ -38,15 +39,17 @@ h2 {
 
 section {
     margin-bottom: 20px;
-    background-color: white;
+    background-color: rgb(75, 75, 75);
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: white;
 }
 
 ul {
     list-style: none;
     padding-left: 20px;
+
 }
 
 li {

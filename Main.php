@@ -55,7 +55,7 @@
         <p>Create your tournaments and manage it easily!</p>
         <div class="profile">
             <img class="Profile_picture" scr="Image\Profile_picture.jpg"></img>
-            <button onclick="Create_user()">Exécuter le script PHP</button>
+            <button onclick="Create_user()">Create New Account</button>
         </div>
         
         </div>

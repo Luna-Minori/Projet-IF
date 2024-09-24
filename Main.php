@@ -16,7 +16,7 @@
  
     <!-- Top -->
     <header>
-        <div>
+        <!-- <div>
             <input type="text" name="nom"/>
             <button type="submit">Envoyer text</button>
        <?php
@@ -49,10 +49,9 @@
 
         <select name="game">
             $rep = $sql->prepar("SELECT game.name, player_id");
-
-        </select>
+        </select> -->
         <h1>Tournament Manager</h1>
-        <p>Create your tournaments and manage it easily!</p>
+        <p>Create your tournaments and manage them easily!</p>
         <div class="profile">
             <img class="Profile_picture" scr="Image\Profile_picture.jpg"></img>
             <button onclick="Create_user()">Create New Account</button>

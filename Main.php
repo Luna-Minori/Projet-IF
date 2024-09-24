@@ -115,7 +115,6 @@
             </tr>
             <!-- Add more players -->
         </table>
-        ?php>
     </section>
 
 </body>

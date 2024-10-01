@@ -37,6 +37,9 @@
 <body>
 
 <form action="Create_user.php" method="post">
+    Username : <input type="text" name="name" /><br />
+    Email : <input type="text" name="email" /><br />
+    Password : <input type="password" name="password" /><br />
     <input type="submit" value="Envoyer" />
 </form>
 

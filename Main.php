@@ -16,24 +16,22 @@
  
     <!-- Top -->
     <header>
-        <div>
-            <input type="text" name="nom"/>
-            <button type="submit">Envoyer text</button>
+        <form method="post" action="verif.php">
+            <input type="text" name="nom" size="12"><br>
+            <input type="text" name="prenom" size="12">
+<input type="submit" value="OK">
+
        <?php
         session_start();
-        $nom = $_POST['nom'];
-        $test_tableau = ['aa', 'aaa',35];
-        $recipes = [
-            ['Cassoulet','[...]','mickael.andrieu@exemple.com',true,],
-            ['Couscous','[...]','mickael.andrieu@exemple.com',false,],
-        ];        
+        echo 'Prénom : '.$_POST["prenom"].'<br>';        
         ?>
         <ul>
         <?php for ($lines = 0; $lines <= 1; $lines++): ?>
-            <li><?php echo $recipes[$lines][0] . ' (' . $recipes[$lines][2] . ')'; ?></li>
+            <li><?php echo $lines;?></li>
         <?php endfor; ?>
         </ul>
         <?php
+        $nom = "aa";
         echo 'Hello' . htmlspecialchars($nom);
         try {
             $ID = $_SESSION['ID'];

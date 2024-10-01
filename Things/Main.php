@@ -12,34 +12,32 @@
         }
     </script>
 </head>
-
- 
-    <!-- Top -->
+<body>
     <header>
-        <h1>Tournament Manager</h1>
-        <p>Create your tournaments and manage it easily!</p>
         <nav>
+            <div class="Title_nav">
+                <h1>Tournament Manager</h1>
+                <p>Create your tournaments and manage it easily!</p>
+            </div>
             <ul>
-                <li class="déroulant_Main"><a href="#"> Creation</a>
-                    <ul class="déroulant_Second">
-                        <li><a> Account creation </a></li>
-                        <li><a> Team creation </a></li>
-                        <li><a> Tournament creation </a></li>
+                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Create_user.php"> Account creation </a></li>
+                        <li><a href="Create_user.php"> Team creation </a></li>
+                        <li><a href="Create_user.php"> Tournament creation </a></li>
                     </ul>
                 </li>
-            </ul>
-                <li class="déroulant_Main"><a href="#"> Creation</a>
-                        <ul class="déroulant_Second">
+                <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+                        <ul class="deroulant_Second">
                             <li><a> Account creation </a></li>
                             <li><a> Team creation </a></li>
                             <li><a> Tournament creation </a></li>
                         </ul>
                  </li>
-
-
-
-
+            </ul>
         </nav>
+    </header>
+    <div class="Main_page">
         <a href="Create_user.php"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fimage-en-couleur&psig=AOvVaw2GkuW_LHP2yye1XpwYkYf7&ust=1727873580357000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPC4weqc7YgDFQAAAAAdAAAAABAE"></img></a>
 
         <form method="post" action="Creation_Team.php">
@@ -101,7 +99,6 @@
         </div>
         
         </div>
-    </header>
 
     <!-- Tournament Details Section -->
     <section id="tournament-details">
@@ -158,6 +155,6 @@
             <!-- Add more players -->
         </table>
     </section>
-
+    </div>
 </body>
 </html>

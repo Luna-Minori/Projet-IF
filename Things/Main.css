@@ -112,7 +112,8 @@ nav > ul li:hover .deroulant_Second{
 }
 
 h1 {
-    font-size: 2.5em;
+    font-size: 2em;
+    padding: 0.5em;
 }
 
 h2 {
@@ -129,12 +130,12 @@ section {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-ul {
+.test {
     list-style: none;
     padding-left: 20px;
 }
 
-li {
+.testli {
     margin-bottom: 10px;
 }
 

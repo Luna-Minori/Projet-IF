@@ -17,7 +17,6 @@
         <nav>
             <div class="Title_nav">
                 <h1>Tournament Manager</h1>
-                <p>Create your tournaments and manage it easily!</p>
             </div>
             <ul>
                 <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
@@ -66,8 +65,7 @@
             <input type="reset" value="Reset">
 
        <?php
-        session_start();
-        echo 'Prénom : '.$_POST["prenom"].'<br>';        
+        session_start();       
         ?>
         <ul>
         <?php for ($lines = 0; $lines <= 1; $lines++): ?>
@@ -77,16 +75,6 @@
         <?php
         $nom = "aa";
         echo 'Hello' . htmlspecialchars($nom);
-        try {
-            $ID = $_SESSION['ID'];
-            $sql = new PDO ("mysql:host=localhost;dbname=Base_data;charset=utf8", "root", "");
-            if($_server["REQUEST_METHOD"] == "POST"){
-                $nom = $_POST['nom'];
-                echo 'hello' . $nom;
-            }
-        } catch (PDOException $e) { // affiche message erreure si la connexion avec la base de donnée n'a pas marcher
-            echo 'Erreur : ' . $e->getMessage();
-        }
         ?>
 
         <select name="game">
@@ -111,11 +99,11 @@
     <!-- Participants Section -->
     <section id="participants">
         <h2>Participants</h2>
-        <ul>
-            <li>Player 1</li>
-            <li>Player 2</li>
-            <li>Player 3</li>
-            <li>Player 4</li>
+        <ul class ="test">
+            <li class="testli">Player 1</li>
+            <li class="testli">Player 2</li>
+            <li class="testli">Player 3</li>
+            <li class="tetsli">Player 4</li>
             <!-- Add more participants -->
         </ul>
     </section>
@@ -123,9 +111,9 @@
     <!-- Matches Section -->
     <section id="matches">
         <h2>Upcoming Matches</h2>
-        <ul>
-            <li>Player 1 vs Player 2 - 12:00 PM</li>
-            <li>Player 3 vs Player 4 - 1:00 PM</li>
+        <ul class ="test">
+            <li class="testli">Player 1 vs Player 2 - 12:00 PM</li>
+            <li class="testli">Player 3 vs Player 4 - 1:00 PM</li>
             <!-- Add more matches -->
         </ul>
     </section>

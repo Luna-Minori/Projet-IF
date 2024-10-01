@@ -13,6 +13,41 @@
     </script>
 </head>
 <body>
+<header>
+        <nav>
+            <div class="Title_nav">
+                <h1>Tournament Manager</h1>
+            </div>
+            <ul>
+                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Create_user.php"> Account creation </a></li>
+                        <li><a href="Create_user.php"> Team creation </a></li>
+                        <li><a href="Create_user.php"> Tournament creation </a></li>
+                    </ul>
+                </li>
+                <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+                        <ul class="deroulant_Second">
+                            <li><a> Account creation </a></li>
+                            <li><a> Team creation </a></li>
+                            <li><a> Tournament creation </a></li>
+                        </ul>
+                 </li>
+            </ul>
+        </nav>
+    </header>
+    <?php
+    session_start();
+    try {
+
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $sql = "SELECT * FROM nom_de_ta_table";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->fetchAll();
+        } catch (PDOException $e) { // affiche message erreure si la connexion avec la base de donnée n'a pas marcher
+            echo 'Erreur : ' . $e->getMessage();
+    }
+    ?>
         <form method="post" action="verif.php">
                 Firstname :
                 <input class="left-space" type="text" name="nom" size="12" required>

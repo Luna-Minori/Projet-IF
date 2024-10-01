@@ -1,49 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <script>
-        function return_to_main() {
-            // Redirige vers le script PHP
-            window.location.href = 'main.php'; 
-        }
-        </script>
 <head>
-    <meta charset="UTF-8">
-    <title>Mon formulaire</title>
-    <style>
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 4px #999;
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Manager</title>
+    <link rel="stylesheet" href="Create_user.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
         }
-
-        .button:hover {background-color: #3e8e41}
-
-        .button:active {
-            background-color: #3e8e41;
-            box-shadow: 0 2px #666;
-            transform: translateY(2px);
-        }
-    </style>
+    </script>
 </head>
 <body>
+        <form method="post" action="verif.php">
+                Firstname :
+                <input class="left-space" type="text" name="nom" size="12" required>
+                <br>
+                name : 
+                <input class="left-space" type="text" name="prenom" size="12" required>
+                <br>
+                email :
+                <input class="left-space" type="email" name="email" size="12" required>
+                <br>
+                Gender :
+                <input class="left-space" type="Text" name="email" size="12">
+                <br>
+                <input type="radio" name="eail" size="12" required>
+                Accepter vous les conditions générale utilisation de Tournament Manager
+                <br>
+                <input type="submit" name="condition" value="OK" value="1" required>
+                <input type="reset" value="Reset">
+        </form>
 
-<form action="Create_user.php" method="post">
-    Username : <input type="text" name="name" /><br />
-    Email : <input type="text" name="email" /><br />
-    Password : <input type="password" name="password" /><br />
-    <input type="submit" value="Envoyer" />
-</form>
+        <a href=Main.php> Retour Main</a>
+    </body>
 
-<a class="button" onclick="return_to_main()">Retour au menu principal</a>
-
-</body>
 </html>

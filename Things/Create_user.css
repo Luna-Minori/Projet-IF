@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #3e3e3e;
+    background-color: #f0f0f0;
     color: #333;
     padding: 20px;
 }
@@ -16,9 +16,6 @@ header {
     background-color: #4CAF50;
     color: white;
     padding: 20px 0;
-    margin-top: -20px;
-    margin-left: -20px;
-    margin-right: -20px;
     margin-bottom: 20px;
 }
 .profile{
@@ -76,7 +73,6 @@ th {
     color: white;
 }
 
-
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
@@ -84,4 +80,3 @@ tr:nth-child(even) {
 .left-space {
     margin-left: 3em;
 }
-

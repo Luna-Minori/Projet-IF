@@ -16,24 +16,44 @@
  
     <!-- Top -->
     <header>
-        <!-- <div>
-            <input type="text" name="nom"/>
-            <button type="submit">Envoyer text</button>
+        <a href="Create_user.php"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fimage-en-couleur&psig=AOvVaw2GkuW_LHP2yye1XpwYkYf7&ust=1727873580357000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPC4weqc7YgDFQAAAAAdAAAAABAE"></img></a>
+
+        <form method="post" action="Création_Team.php">
+            <p> Name of the team </p>
+            <input type="text" name="nom" size="12" required>
+            <br>
+            <p> game </p>
+            <select required>
+            <option value="Osu">Osu</option>
+            <option value="Mc">Mc</option>
+            <option value="Apex">Apex</option>
+            <option value="Célantix">Célantix</option>
+            </select>
+
+            <br>
+            <p> Team member </p>
+            <input type="text" name="Team_member" size="12" required>
+            <br>
+            <p>Description</p>
+            <input type="Text" name="Description" size="12">
+            <br>
+            <p> Accepter vous les conditions générale utilisation de Tournament Manager</p>
+            <input type="radio" name="eail" size="12">
+            <br>
+            <input type="submit" value="OK">
+            <input type="reset" value="Reset">
+
        <?php
         session_start();
-        $nom = $_POST['nom'];
-        $test_tableau = ['aa', 'aaa',35];
-        $recipes = [
-            ['Cassoulet','[...]','mickael.andrieu@exemple.com',true,],
-            ['Couscous','[...]','mickael.andrieu@exemple.com',false,],
-        ];        
+        echo 'Prénom : '.$_POST["prenom"].'<br>';        
         ?>
         <ul>
         <?php for ($lines = 0; $lines <= 1; $lines++): ?>
-            <li><?php echo $recipes[$lines][0] . ' (' . $recipes[$lines][2] . ')'; ?></li>
+            <li><?php echo $lines;?></li>
         <?php endfor; ?>
         </ul>
         <?php
+        $nom = "aa";
         echo 'Hello' . htmlspecialchars($nom);
         try {
             $ID = $_SESSION['ID'];
@@ -49,12 +69,13 @@
 
         <select name="game">
             $rep = $sql->prepar("SELECT game.name, player_id");
-        </select> -->
+
+        </select>
         <h1>Tournament Manager</h1>
-        <p>Create your tournaments and manage them easily!</p>
+        <p>Create your tournaments and manage it easily!</p>
         <div class="profile">
             <img class="Profile_picture" scr="Image\Profile_picture.jpg"></img>
-            <button onclick="Create_user()">Create New Account</button>
+            <button onclick="Create_user()">Exécuter le script PHP</button>
         </div>
         
         </div>
@@ -114,6 +135,7 @@
             </tr>
             <!-- Add more players -->
         </table>
+        ?php>
     </section>
 
 </body>

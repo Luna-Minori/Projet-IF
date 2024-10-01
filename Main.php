@@ -16,10 +16,32 @@
  
     <!-- Top -->
     <header>
-        <form method="post" action="verif.php">
-            <input type="text" name="nom" size="12"><br>
-            <input type="text" name="prenom" size="12">
-<input type="submit" value="OK">
+        <a href="Create_user.php"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fimage-en-couleur&psig=AOvVaw2GkuW_LHP2yye1XpwYkYf7&ust=1727873580357000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPC4weqc7YgDFQAAAAAdAAAAABAE"></img></a>
+
+        <form method="post" action="Création_Team.php">
+            <p> Name of the team </p>
+            <input type="text" name="nom" size="12" required>
+            <br>
+            <p> game </p>
+            <select required>
+            <option value="Osu">Osu</option>
+            <option value="Mc">Mc</option>
+            <option value="Apex">Apex</option>
+            <option value="Célantix">Célantix</option>
+            </select>
+
+            <br>
+            <p> Team member </p>
+            <input type="text" name="Team_member" size="12" required>
+            <br>
+            <p>Description</p>
+            <input type="Text" name="Description" size="12">
+            <br>
+            <p> Accepter vous les conditions générale utilisation de Tournament Manager</p>
+            <input type="radio" name="eail" size="12">
+            <br>
+            <input type="submit" value="OK">
+            <input type="reset" value="Reset">
 
        <?php
         session_start();

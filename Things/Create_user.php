@@ -48,11 +48,13 @@
     catch (PDOException $e) { 
         echo 'Erreur : ' . $e->getMessage();
     }
-    $test = "SELECT username FROM players";
-    $test1 = $conn->prepare($test);
-    //$result[] = $test1->fetchAll();
-    echo $test1;
+    $sql = "SELECT username FROM players";
+    $rep = $conn->prepare($sql);
+    $rep->execute();
+    $result = $rep->fetchAll();
+    print_r($result);
     ?>
+    <br>
         <form method="post" action="verif.php">
                 Firstname :
                 <input class="left-space" type="text" name="nom" size="12" required>

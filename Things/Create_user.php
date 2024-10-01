@@ -41,12 +41,17 @@
     try {
 
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "SELECT * FROM nom_de_ta_table";
+        $sql = "SELECT * FROM board_game_tournament";
         $stmt = $conn->prepare($sql);
         $result = $stmt->fetchAll();
-        } catch (PDOException $e) { // affiche message erreure si la connexion avec la base de donnée n'a pas marcher
-            echo 'Erreur : ' . $e->getMessage();
+    } 
+    catch (PDOException $e) { 
+        echo 'Erreur : ' . $e->getMessage();
     }
+    $test = "SELECT username FROM players";
+    $test1 = $conn->prepare($test);
+    //$result[] = $test1->fetchAll();
+    echo $test1;
     ?>
         <form method="post" action="verif.php">
                 Firstname :

@@ -21,13 +21,20 @@
         <nav>
             <ul>
                 <li class="déroulant_Main"><a href="#"> Creation</a>
-                    <ul class="déroulant_>
-                        <li> Account creation </li>
-                        <li> Team creation </li>
-                        <li> Tournament creation </li>
+                    <ul class="déroulant_Second">
+                        <li><a> Account creation </a></li>
+                        <li><a> Team creation </a></li>
+                        <li><a> Tournament creation </a></li>
                     </ul>
                 </li>
             </ul>
+                <li class="déroulant_Main"><a href="#"> Creation</a>
+                        <ul class="déroulant_Second">
+                            <li><a> Account creation </a></li>
+                            <li><a> Team creation </a></li>
+                            <li><a> Tournament creation </a></li>
+                        </ul>
+                 </li>
 
 
 
@@ -35,7 +42,7 @@
         </nav>
         <a href="Create_user.php"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fimage-en-couleur&psig=AOvVaw2GkuW_LHP2yye1XpwYkYf7&ust=1727873580357000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPC4weqc7YgDFQAAAAAdAAAAABAE"></img></a>
 
-        <form method="post" action="Création_Team.php">
+        <form method="post" action="Creation_Team.php">
             <p> Name of the team </p>
             <input type="text" name="nom" size="12" required>
             <br>

@@ -48,11 +48,26 @@
     catch (PDOException $e) { 
         echo 'Erreur : ' . $e->getMessage();
     }
+    /*
+    try{
+        $sql = "INSERT INTO players(username, bio, email, hashed_password) VALUES ('Minori', 'me', 'luna@utbm', '@kija')";
+        $rep = $conn->prepare($sql);
+        $rep->execute();
+    }
+    catch (PDOException $e) { 
+        echo 'Erreur : ' . $e->getMessage();
+    }
+    */  
+
     $sql = "SELECT username FROM players";
     $rep = $conn->prepare($sql);
     $rep->execute();
     $result = $rep->fetchAll();
     print_r($result);
+    echo $result["username"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    }
     ?>
     <br>
         <form method="post" action="verif.php">

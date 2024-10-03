@@ -16,7 +16,7 @@
     <header>
         <nav>
             <div class="Title_nav">
-                <h1>Tournament Manager</h1>
+                <img class="logo_site" src="Image/logo_site.jpg"></img>
             </div>
             <ul>
                 <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>

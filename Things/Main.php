@@ -14,78 +14,53 @@
 </head>
 <body>
     <header>
-        <nav>
-            <div class="Title_nav">
-                <img class="logo_site" src="Image/logo_site.jpg"></img>
-            </div>
-            <ul>
-                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Create_user.php"> Account creation </a></li>
-                        <li><a href="Create_user.php"> Team creation </a></li>
-                        <li><a href="Create_user.php"> Tournament creation </a></li>
-                    </ul>
-                </li>
-                <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+        <div class="img_container">
+            <img class="fond" src="Image/fond.png">
+                <nav>
+                    <ul>
+                        <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
+                            <ul class="deroulant_Second">
+                               <li><a href="Create_user.php"> Account creation </a></li>
+                               <li><a href="Create_user.php"> Team creation </a></li>
+                               <li><a href="Create_user.php"> Tournament creation </a></li>
+                            </ul>
+                       </li>
+                    <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
                         <ul class="deroulant_Second">
                             <li><a> Account creation </a></li>
                             <li><a> Team creation </a></li>
                             <li><a> Tournament creation </a></li>
-                        </ul>
-                 </li>
-            </ul>
-        </nav>
+                       </ul>
+                    </li>
+                    <li class="logo_container">
+                        <img class="logo" src="Image/logo.png">
+                    </li>
+                    <li class="deroulant_Main"><a href="#"> Tournament &ensp;</a>
+                            <ul class="deroulant_Second">
+                                <li><a> Account creation </a></li>
+                                <li><a> Team creation </a></li>
+                                <li><a> Tournament creation </a></li>                                </ul>
+                        </li>
+                    <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+                            <ul class="deroulant_Second">
+                                <li><a> Account creation </a></li>
+                                <li><a> Team creation </a></li>
+                                <li><a> Tournament creation </a></li>
+                            </ul>
+                     </li>
+                </ul>
+            </nav>
+            <h1>Tournament Manager</h1>
+        </div>
     </header>
+    
+    
+       
     <div class="Main_page">
-        <a href="Create_user.php"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fimage-en-couleur&psig=AOvVaw2GkuW_LHP2yye1XpwYkYf7&ust=1727873580357000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPC4weqc7YgDFQAAAAAdAAAAABAE"></img></a>
-
-        <form method="post" action="Creation_Team.php">
-            <p> Name of the team </p>
-            <input type="text" name="nom" size="12" required>
-            <br>
-            <p> game </p>
-            <select required>
-            <option value="Osu">Osu</option>
-            <option value="Mc">Mc</option>
-            <option value="Apex">Apex</option>
-            <option value="Célantix">Célantix</option>
-            </select>
-
-            <br>
-            <p> Team member </p>
-            <input type="text" name="Team_member" size="12" required>
-            <br>
-            <p>Description</p>
-            <input type="Text" name="Description" size="12">
-            <br>
-            <p> Accepter vous les conditions générale utilisation de Tournament Manager</p>
-            <input type="radio" name="eail" size="12">
-            <br>
-            <input type="submit" value="OK">
-            <input type="reset" value="Reset">
 
        <?php
         session_start();       
         ?>
-        <ul>
-        <?php for ($lines = 0; $lines <= 1; $lines++): ?>
-            <li><?php echo $lines;?></li>
-        <?php endfor; ?>
-        </ul>
-        <?php
-        $nom = "aa";
-        echo 'Hello' . htmlspecialchars($nom);
-        ?>
-
-        <select name="game">
-            $rep = $sql->prepar("SELECT game.name, player_id");
-
-        </select>
-        <div class="profile">
-            <img class="Profile_picture" scr="Image\Profile_picture.jpg"></img>
-            <button onclick="Create_user()">Exécuter le script PHP</button>
-        </div>
-        
         </div>
 
     <!-- Tournament Details Section -->

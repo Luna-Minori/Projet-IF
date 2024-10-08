@@ -19,6 +19,7 @@ body {
 
 .fond{
     width: 100%;
+    opacity: 0.6;
 }
 
 img {
@@ -42,6 +43,7 @@ header {
     flex-direction: column;
     box-shadow: none;
     margin-top: -3em;
+    
 }
 
 nav{
@@ -76,7 +78,7 @@ nav ul::after{
 nav a{
     display: block;
     text-decoration: none;
-    color: black;
+    color: white;
     border-bottom: 2px solid transparent;
     padding: 10px 0px;
     text-align: center;

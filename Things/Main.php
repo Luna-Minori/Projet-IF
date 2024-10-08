@@ -15,7 +15,7 @@
 <body>
     <header>
         <div class="img_container">
-            <a src="Main.php"><img class="fond" src="Image/fond.png"></a>
+            <img class="fond" src="Image/fond.png">
                 <nav>
                     <ul>
                         <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>

@@ -43,15 +43,19 @@
         <h1>Profile</h1>
         <?php
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $username = "SELECT * FROM players";
+        $username = "SELECT username FROM players";
         $stmt = $conn->prepare($username);
         $stmt->execute();
         $result = $stmt->fetch();
+        print('Username : '. $result[1]. "\n");
+
+        /*
         print('Username : '. $result['username']. "\n");
         print('creation date : '. $result['creation_date']. "\n");
         print('bio : '. $result['bio']. "\n");
         print('email : '. $result['email']. "\n");
         print('Password : '. $result['hashed_password']. "\n");
+        */
         ?>
         <?php
         $creation_date = "SELECT creation_date FROM players";

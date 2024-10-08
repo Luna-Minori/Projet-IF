@@ -42,34 +42,30 @@
     <section class="Profile_Main">
         <h1>Profile</h1>
         <?php
-        session_start();
-            try {
-                if (isset($_SESSION['user_id'])) {
-                    echo "Hi, " . $_SESSION['username'] . " !";
-                } else {
-                    echo "Vous n'êtes pas connecté.";
-                }
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $username = "SELECT username FROM players";
-                $creation_date = "SELECT creation_date FROM players";
-                $bio = "SELECT bio FROM players";
-                $email = "SELECT email FROM players";
-                $stmt = $conn->prepare($username);
-                $result = $stmt->fetch();
-                print($result);
-                $stmt = $conn->prepare($creation_date);
-                $result = $stmt->fetch();
-                print($result);
-                $stmt = $conn->prepare($bio);
-                $result = $stmt->fetch();
-                print($result);
-                $stmt = $conn->prepare($email);
-                $result = $stmt->fetch();
-                print($result);
-            } 
-            catch (PDOException $e) { 
-                echo 'Erreur : ' . $e->getMessage();
-            }
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $username = "SELECT * FROM players";
+        $stmt = $conn->prepare($username);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        print('Username : '. $result['username']. "\n");
+        print('creation date : '. $result['creation_date']. "\n");
+        print('bio : '. $result['bio']. "\n");
+        print('email : '. $result['email']. "\n");
+        print('Password : '. $result['hashed_password']. "\n");
+        ?>
+        <?php
+        $creation_date = "SELECT creation_date FROM players";
+        $stmt = $conn->prepare($creation_date);
+        $result = $stmt->fetch();
+        print($result);
+        $bio = "SELECT bio FROM players";
+        $stmt = $conn->prepare($bio);
+        $result = $stmt->fetch();
+        print($result);
+        $email = "SELECT email FROM players";
+        $stmt = $conn->prepare($email);
+        $result = $stmt->fetch();
+        print($result);
         ?>
     </section>
     <section class="Profile_Main">

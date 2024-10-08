@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 
 --
 -- Base de données : `board game tournament`
---
+--  
 
 -- --------------------------------------------------------
 
@@ -274,6 +274,7 @@ ALTER TABLE `team_tournaments`
 ALTER TABLE `tournaments`
   ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`);
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

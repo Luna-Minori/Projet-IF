@@ -20,8 +20,8 @@
                     <ul>
                         <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
                             <ul class="deroulant_Second">
+                               <li><a href="Create_user.php"> My Profile </a></li>
                                <li><a href="Create_user.php"> Account creation </a></li>
-                               <li><a href="Create_user.php"> Team creation </a></li>
                                <li><a href="Create_user.php"> Tournament creation </a></li>
                             </ul>
                        </li>

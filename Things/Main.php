@@ -41,7 +41,7 @@
                                 <li><a> Team creation </a></li>
                                 <li><a> Tournament creation </a></li>                                </ul>
                         </li>
-                    <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+                    <li class="deroulant_Main"><a href="#"> Account Creation &ensp;</a>
                             <ul class="deroulant_Second">
                                 <li><a> Account creation </a></li>
                                 <li><a> Team creation </a></li>

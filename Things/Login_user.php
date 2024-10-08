@@ -42,7 +42,30 @@
     <div class="Main_page">
 
        <?php
-        session_start();       
+        session_start();
+        try{
+            $sql = "SELECT username FROM players";
+            $rep = $conn->prepare($sql);
+            $rep->execute();
+            $username->fetchAll();
+
+            $sql = "SELECT hashed_password FROM players";
+            $rep = $conn->prepare($sql);
+            $rep->execute();
+            $password->fetchAll();
+            $username_test =" a";
+            $i=0;
+            while($username[$i] != null && $username[$i] == $username_test){
+                $i=$i+1;
+            };
+            if ($username[$i] != null){
+                echo "vous etes co";
+            };
+            
+        }
+        catch (PDOException $e) { 
+            echo 'Erreur : ' . $e->getMessage();
+        }
         ?>
         </div>
 </body>

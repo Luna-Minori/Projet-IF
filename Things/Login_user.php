@@ -32,7 +32,7 @@
                                     <label>Password</label>
                                     <span>Password</span>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="OK"     value="1" required>
+                                <input class="button" type="submit" name="condition" value="OK" value="1" required>
                             </div>
                         </div>
                     </form>
@@ -43,28 +43,33 @@
 
        <?php
         session_start();
-        try{
-            $sql = "SELECT username FROM players";
-            $rep = $conn->prepare($sql);
-            $rep->execute();
-            $username->fetchAll();
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $verif_username = 0;
+        $verif_hashed_password = 0;
 
-            $sql = "SELECT hashed_password FROM players";
-            $rep = $conn->prepare($sql);
-            $rep->execute();
-            $password->fetchAll();
-            $username_test =" a";
-            $i=0;
-            while($username[$i] != null && $username[$i] == $username_test){
-                $i=$i+1;
-            };
-            if ($username[$i] != null){
-                echo "vous etes co";
-            };
+        $sql = "SELECT username FROM players";
+        $rep = $conn->prepare($sql);    
+        $rep->execute();
+        $username_test =" a";
+        while($username = $rep->fetch(PDO::FETCH_ASSOC)){
+            if ($username['username'] == $username_test) {
+                $verif_username = 1;
+                break;
+            }
+        };
+
+        $sql = "SELECT hashed_password FROM players";
+        $rep = $conn->prepare($sql);
+        $rep->execute();
+        while($hashed_password = $rep->fetch(PDO::FETCH_ASSOC)){
+            if ($hashed_password['hashed_password'] == $hashed_password) {
+                $verif_password = 1;
+                break;
+            }
+        };
+
+        if ($verif_username == 1 &&  $verif_password == 1){
             
-        }
-        catch (PDOException $e) { 
-            echo 'Erreur : ' . $e->getMessage();
         }
         ?>
         </div>

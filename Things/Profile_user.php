@@ -9,13 +9,11 @@
         echo "Bienvenue, " . $_SESSION['username'];
     }
 
-    echo $username;
     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
     $username = "SELECT username FROM players";
     $stmt = $conn->prepare($username);
     $stmt->execute();
     $result = $stmt->fetch();
-    print('Username : '. $result[1]. "\n");
 
     /*        
     print('Username : '. $result['username']. "\n");
@@ -24,7 +22,7 @@
     print('email : '. $result['email']. "\n");        
     print('Password : '. $result['hashed_password']. "\n");
     */
-        ?>
+    ?>
         <?php
         $creation_date = "SELECT creation_date FROM players";
         $stmt = $conn->prepare($creation_date);

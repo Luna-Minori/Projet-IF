@@ -1,3 +1,45 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION['username'])) {
+        header('Location: Login_user.php');
+        exit();
+    }
+    else{
+        echo "Bienvenue, " . $_SESSION['username'];
+    }
+
+    echo $username;
+    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+    $username = "SELECT username FROM players";
+    $stmt = $conn->prepare($username);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    print('Username : '. $result[1]. "\n");
+
+    /*        
+    print('Username : '. $result['username']. "\n");
+    print('creation date : '. $result['creation_date']. "\n");
+    print('bio : '. $result['bio']. "\n");
+    print('email : '. $result['email']. "\n");        
+    print('Password : '. $result['hashed_password']. "\n");
+    */
+        ?>
+        <?php
+        $creation_date = "SELECT creation_date FROM players";
+        $stmt = $conn->prepare($creation_date);
+        $result = $stmt->fetch();
+        print($result);
+        $bio = "SELECT bio FROM players";
+        $stmt = $conn->prepare($bio);
+        $result = $stmt->fetch();
+        print($result);
+        $email = "SELECT email FROM players";
+        $stmt = $conn->prepare($email);
+        $result = $stmt->fetch();
+        print($result);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,36 +83,6 @@
     <div class="Box_section">
     <section class="Profile_Main">
         <h1>Profile</h1>
-        <?php
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $username = "SELECT username FROM players";
-        $stmt = $conn->prepare($username);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        print('Username : '. $result[1]. "\n");
-
-        /*
-        print('Username : '. $result['username']. "\n");
-        print('creation date : '. $result['creation_date']. "\n");
-        print('bio : '. $result['bio']. "\n");
-        print('email : '. $result['email']. "\n");
-        print('Password : '. $result['hashed_password']. "\n");
-        */
-        ?>
-        <?php
-        $creation_date = "SELECT creation_date FROM players";
-        $stmt = $conn->prepare($creation_date);
-        $result = $stmt->fetch();
-        print($result);
-        $bio = "SELECT bio FROM players";
-        $stmt = $conn->prepare($bio);
-        $result = $stmt->fetch();
-        print($result);
-        $email = "SELECT email FROM players";
-        $stmt = $conn->prepare($email);
-        $result = $stmt->fetch();
-        print($result);
-        ?>
     </section>
     <section class="Profile_Main">
         <h1>Profile</h1>

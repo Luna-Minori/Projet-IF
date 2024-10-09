@@ -1,4 +1,30 @@
 
+<?php
+    session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $sql = "SELECT username,hashed_password FROM players WHERE username = :username";
+        $rep = $conn->prepare($sql);
+        $rep->bindParam(':username', $username);    
+        $rep->execute();
+        $user = $rep->fetch(PDO::FETCH_ASSOC);
+        echo $password. $user["hashed_password"];
+        if($user != NULL && password_verify($password, $user['hashed_password']) ){
+            $_SESSION['username'] = $user['username'];
+            echo $_SESSION['username'];
+            header('Location: Profile_user.php'); 
+            exit();
+        } else {
+            $error = "Username or password false";
+            echo $error;
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,7 +42,7 @@
 <body>
     <main>
             <div class="Connexion">
-                    <form method="post" action="Profile_user.php">
+                    <form method="post" action="login_user.php">
                         <div class="bo">
                             <h2 class="Title_form">Connexion</h2>
                             <div class="text_form">
@@ -41,37 +67,8 @@
     </main>
     <div class="Main_page">
 
-       <?php
-        session_start();
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $verif_username = 0;
-        $verif_hashed_password = 0;
 
-        $sql = "SELECT username FROM players";
-        $rep = $conn->prepare($sql);    
-        $rep->execute();
-        $username_test =" a";
-        while($username = $rep->fetch(PDO::FETCH_ASSOC)){
-            if ($username['username'] == $username_test) {
-                $verif_username = 1;
-                break;
-            }
-        };
 
-        $sql = "SELECT hashed_password FROM players";
-        $rep = $conn->prepare($sql);
-        $rep->execute();
-        while($hashed_password = $rep->fetch(PDO::FETCH_ASSOC)){
-            if ($hashed_password['hashed_password'] == $hashed_password) {
-                $verif_password = 1;
-                break;
-            }
-        };
-
-        if ($verif_username == 1 &&  $verif_password == 1){
-            
-        }
-        ?>
         </div>
 </body>
 </html>

@@ -1,6 +1,5 @@
-
 <?php
-    // session_start();
+    session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $username = $_POST['username'];
@@ -60,7 +59,8 @@
                                     <label>Password</label>
                                     <span>Password</span>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="OK" value="1" required>
+                                <input class="button" type="submit" name="condition" value="Connexion" value="1" required>
+                                <a class="Button_create_user" href="Create_user.php"><p> Create a account </p></a>
                             </div>
                         </div>
                     </form>

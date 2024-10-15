@@ -71,34 +71,44 @@
                 <div class="email">
                     <?php  echo "email : " . $user['email'];?>
                 </div>
+                <div class="creation_acc">
+                    <?php echo "creation_acc : " . $user['creation_date'];?>
+                </div>
         </div>
     </section>
     <section class="Your game">
         <div class="sub_Title">
                 <p> Your game </p>
         </div>
-        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM players";
-                $rep = $conn->prepare($sql);
-                $rep->execute();
-                $user = $rep->fetch(PDO::FETCH_ASSOC);
-                    
-        ?>
+
+        <?php
+            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+            $sql = "SELECT title FROM games WHERE id = (SELECT game_id FROM played_games WHERE player_id = :user_id)";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
+            $rep->execute();
+            $game = $rep->fetch(PDO::FETCH_ASSOC);
+            ?>
+        <div>
+            <?php echo $game['title']; ?>
+        </div>
         <div class="information">
             <div class="sub_Title">
-                <p> Information </p>
+                <p> Team </p>
             </div>
-                <div class="Username">
-                    <?php echo "Username : " . $user['username']; ?>
-                </div>
-                <div class="email">
-                    <?php  echo "email : " . $user['email'];?>
-                </div>
-        </div>
-    </section>
-    <section class="Profile_Main">
-        <h1>Profile</h1>
 
+            <?php
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT title FROM teams WHERE id = (SELECT game_id FROM player_teams WHERE player_id = :user_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $Team = $rep->fetch(PDO::FETCH_ASSOC);
+            ?>
+                <div class="Username">
+                    <?php echo "Username : " . $Team['Title']; ?>
+                </div>  
+        </div>
     </section>
     </div>
 

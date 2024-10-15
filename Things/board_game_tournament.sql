@@ -38,6 +38,8 @@ CREATE TABLE `games` (
   `max_players_in_teams` int(11) NOT NULL COMMENT 'must be > min_players_in_teams'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT TO games VALUES ('Osu', 'aa', 'false', '1', '1000',);
+
 -- --------------------------------------------------------
 
 --

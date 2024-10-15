@@ -24,43 +24,44 @@ session_start();
 </head>
 <body>
     <header>
-        <h1>Tournament Manager</h1>
         <div class="img_container">
             <img class="fond" src="Image/fond.png">
                 <nav>
-                    <ul>
-                        <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
-                            <ul class="deroulant_Second">
-                               <li><a href="Login_user.php"> My Profile </a></li>
-                               <li><a href="Create_user.php"> Account creation </a></li>
-                               <li><a href="Create_user.php"> Tournament creation </a></li>
-                            </ul>
-                       </li>
-                    <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
-                        <ul class="deroulant_Second">
-                            <li><a> Account creation </a></li>
-                            <li><a> Team creation </a></li>
-                            <li><a> Tournament creation </a></li>
-                       </ul>
-                    </li>
-                    <li class="logo_container">
-                        <img class="logo" src="Image/logo.png">
-                    </li>
-                    <li class="deroulant_Main"><a href="#"> Tournament &ensp;</a>
-                            <ul class="deroulant_Second">
-                                <li><a> Account creation </a></li>
-                                <li><a> Team creation </a></li>
-                                <li><a> Tournament creation </a></li>                                </ul>
+                        <ul>
+                        <li class="logo_container">
+                            <img class="logo" src="Image/logo.png">
                         </li>
-                    <li class="deroulant_Main"><a href="#"> Account Creation &ensp;</a>
+                            <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Account creation </a></li>
+                                   <li><a href="Create_user.php"> Tournament creation </a></li>
+                                </ul>
+                           </li>
+                        <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
                             <ul class="deroulant_Second">
                                 <li><a> Account creation </a></li>
                                 <li><a> Team creation </a></li>
                                 <li><a> Tournament creation </a></li>
-                            </ul>
-                     </li>
-                </ul>
-            </nav>
+                           </ul>
+                        </li>
+                        <li class="deroulant_Main"><a href="#"> Tournament &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> Account creation </a></li>
+                                    <li><a> Team creation </a></li>
+                                    <li><a> Tournament creation </a></li>    
+                                </ul>
+                            </li>
+                        <li class="deroulant_Main"><a href="#"> Account Creation &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> Account creation </a></li>
+                                    <li><a> Team creation </a></li>
+                                    <li><a> Tournament creation </a></li>
+                                </ul>
+                         </li>
+                    </ul>
+                </nav>
+            </img>
             <!-- <h1>Tournament Manager</h1> -->
         </div>
     </header>

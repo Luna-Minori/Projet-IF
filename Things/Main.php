@@ -2,10 +2,10 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['username'])) {
-    header('Location: login_user.php');
-    exit();
-}
+// if (!isset($_SESSION['username'])) {
+//     header('Location: login_user.php');
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +24,7 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
     <header>
+        <h1>Tournament Manager</h1>
         <div class="img_container">
             <img class="fond" src="Image/fond.png">
                 <nav>
@@ -60,11 +61,10 @@ if (!isset($_SESSION['username'])) {
                      </li>
                 </ul>
             </nav>
-            <h1>Tournament Manager</h1>
+            <!-- <h1>Tournament Manager</h1> -->
         </div>
     </header>
-    
-    
+
        
     <div class="Main_page">
 
@@ -74,15 +74,15 @@ if (!isset($_SESSION['username'])) {
         </div>
 
     <!-- Tournament Details Section -->
-    <section id="tournament-details">
+    <!-- <section id="tournament-details">
         <h2>Tournament Details</h2>
         <p><strong>Name:</strong> Summer Championship 2024</p>
         <p><strong>Date:</strong> September 20, 2024</p>
         <p><strong>Location:</strong> Virtual Arena</p>
-    </section>
+    </section> -->
 
     <!-- Participants Section -->
-    <section id="participants">
+    <!-- <section id="participants">
         <h2>Participants</h2>
         <ul class ="test">
             <li class="testli">Player 1</li>
@@ -90,21 +90,21 @@ if (!isset($_SESSION['username'])) {
             <li class="testli">Player 3</li>
             <li class="tetsli">Player 4</li>
             <!-- Add more participants -->
-        </ul>
-    </section>
+        <!-- </ul>
+    </section> -->
 
     <!-- Matches Section -->
-    <section id="matches">
+    <!-- <section id="matches">
         <h2>Upcoming Matches</h2>
         <ul class ="test">
             <li class="testli">Player 1 vs Player 2 - 12:00 PM</li>
-            <li class="testli">Player 3 vs Player 4 - 1:00 PM</li>
+            <li class="testli">Player 3 vs Player 4 - 1:00 PM</li> -->
             <!-- Add more matches -->
-        </ul>
-    </section>
+        <!-- </ul>
+    </section> -->
 
     <!-- Leaderboard Section -->
-    <section id="leaderboard">
+    <!-- <section id="leaderboard">
         <h2>Leaderboard</h2>
         <table>
             <tr>
@@ -124,10 +124,10 @@ if (!isset($_SESSION['username'])) {
                 <td>Player 2</td>
                 <td>2</td>
                 <td>1</td>
-            </tr>
+            </tr> -->
             <!-- Add more players -->
-        </table>
-    </section>
+        <!-- </table>
+    </section> -->
     </div>
 </body>
 </html>

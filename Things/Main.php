@@ -3,7 +3,7 @@ session_start();
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+    header('Location: login_user.php');
     exit();
 }
 ?>
@@ -30,7 +30,7 @@ if (!isset($_SESSION['username'])) {
                     <ul>
                         <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
                             <ul class="deroulant_Second">
-                               <li><a href="login_user.php"> My Profile </a></li>
+                               <li><a href="Login_user.php"> My Profile </a></li>
                                <li><a href="Create_user.php"> Account creation </a></li>
                                <li><a href="Create_user.php"> Tournament creation </a></li>
                             </ul>

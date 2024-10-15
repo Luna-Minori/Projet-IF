@@ -112,9 +112,24 @@ section{
 }
 
 .Profile_Main{
-    background-color: #570808;
+    border-color: #000000;
     margin-bottom: 1em;
     padding: 0.2em;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Title{
+    font-size: 32px;
+    margin-left: 15px;
+}
+
+.sub_Title{
+    font-size: 24px;
+    margin: 15px;
+}
+
+.information{
+    font-size: 16px;
+    padding: 5px;
 }

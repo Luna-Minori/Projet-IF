@@ -2,22 +2,24 @@
 <?php
     session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $username = $_POST['username'];
         $password = $_POST['password'];
         
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
         $sql = "SELECT username,hashed_password FROM players WHERE username = :username";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':username', $username);    
+        $rep->bindParam(':username', $username);
         $rep->execute();
         $user = $rep->fetch(PDO::FETCH_ASSOC);
-        echo $password. $user["hashed_password"];
-        if($user != NULL && password_verify($password, $user['hashed_password']) ){
-            $_SESSION['username'] = $user['username'];
+        if($user != null){
+            echo $password. $user["hashed_password"];
             echo $_SESSION['username'];
-            header('Location: Profile_user.php'); 
-            exit();
+            echo $user['username'];
+            if (password_verify($password, $user['hashed_password']))
+                $_SESSION['username'] = $user['username'];
+                header('Location: Profile_user.php');
+                exit();
         } else {
             $error = "Username or password false";
             echo $error;

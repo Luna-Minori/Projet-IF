@@ -5,37 +5,6 @@
         header('Location: Login_user.php');
         exit();
     }
-    else{
-        echo "Bienvenue, " . $_SESSION['username'];
-    }
-
-    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    $username = "SELECT username FROM players";
-    $stmt = $conn->prepare($username);
-    $stmt->execute();
-    $result = $stmt->fetch();
-
-    /*        
-    print('Username : '. $result['username']. "\n");
-    print('creation date : '. $result['creation_date']. "\n");
-    print('bio : '. $result['bio']. "\n");
-    print('email : '. $result['email']. "\n");        
-    print('Password : '. $result['hashed_password']. "\n");
-    */
-    ?>
-        <?php
-        $creation_date = "SELECT creation_date FROM players";
-        $stmt = $conn->prepare($creation_date);
-        $result = $stmt->fetch();
-        print($result);
-        $bio = "SELECT bio FROM players";
-        $stmt = $conn->prepare($bio);
-        $result = $stmt->fetch();
-        print($result);
-        $email = "SELECT email FROM players";
-        $stmt = $conn->prepare($email);
-        $result = $stmt->fetch();
-        print($result);
 ?>
 
 <!DOCTYPE html>
@@ -80,11 +49,52 @@
     <br>
     <div class="Box_section">
     <section class="Profile_Main">
-        <h1>Profile</h1>
-    </section>
-    <section class="Profile_Main">
-        <h1>Profile</h1>
+        <div class="Title">
+            <?php echo "Hii  " . $_SESSION['username']; ?>
+        </div>
+        <br>
 
+        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT * FROM players";
+                $rep = $conn->prepare($sql);
+                $rep->execute();
+                $user = $rep->fetch(PDO::FETCH_ASSOC);
+                    
+        ?>
+        <div class="information">
+            <div class="sub_Title">
+                <p> Information </p>
+            </div>
+                <div class="Username">
+                    <?php echo "Username : " . $user['username']; ?>
+                </div>
+                <div class="email">
+                    <?php  echo "email : " . $user['email'];?>
+                </div>
+        </div>
+    </section>
+    <section class="Your game">
+        <div class="sub_Title">
+                <p> Your game </p>
+        </div>
+        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT * FROM players";
+                $rep = $conn->prepare($sql);
+                $rep->execute();
+                $user = $rep->fetch(PDO::FETCH_ASSOC);
+                    
+        ?>
+        <div class="information">
+            <div class="sub_Title">
+                <p> Information </p>
+            </div>
+                <div class="Username">
+                    <?php echo "Username : " . $user['username']; ?>
+                </div>
+                <div class="email">
+                    <?php  echo "email : " . $user['email'];?>
+                </div>
+        </div>
     </section>
     <section class="Profile_Main">
         <h1>Profile</h1>

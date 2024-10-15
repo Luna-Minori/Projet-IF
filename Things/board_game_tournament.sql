@@ -38,7 +38,6 @@ CREATE TABLE `games` (
   `max_players_in_teams` int(11) NOT NULL COMMENT 'must be > min_players_in_teams'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT TO games VALUES ('Osu', 'aa', 'false', '1', '1000',);
 
 -- --------------------------------------------------------
 
@@ -61,7 +60,7 @@ CREATE TABLE `played_games` (
 --
 
 CREATE TABLE `players` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
   `creation_date` date NOT NULL DEFAULT current_timestamp(),
   `bio` text DEFAULT NULL,
@@ -106,7 +105,7 @@ CREATE TABLE `player_tournaments` (
 --
 
 CREATE TABLE `teams` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `creation_date` date DEFAULT curdate(),
   `creator_id` int(11) NOT NULL,
@@ -136,7 +135,7 @@ CREATE TABLE `team_tournaments` (
 --
 
 CREATE TABLE `tournaments` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `game_id` int(11) NOT NULL,
   `type` varchar(20) NOT NULL,
   `description` text DEFAULT NULL,

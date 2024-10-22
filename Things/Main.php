@@ -27,7 +27,7 @@ session_start();
         <div class="img_container">
             <img class="fond" src="Image/fond.png">
                 <nav>
-                        <ul>
+                    <ul>
                         <li class="logo_container">
                             <img class="logo" src="Image/logo.png">
                         </li>
@@ -61,18 +61,26 @@ session_start();
                          </li>
                     </ul>
                 </nav>
+                <div class = "content">
+                    <section id="upcoming-tournaments">
+                        <h2>Upcoming Tournaments</h2> 
+                        <p><strong>Name:</strong> Summer Championship 2024</p>
+                        <p><strong>Date:</strong> September 20, 2024</p>
+                        <p><strong>Location:</strong> Virtual Arena</p>
+                    </section>
+                </div>
             </img>
-            <!-- <h1>Tournament Manager</h1> -->
         </div>
     </header>
 
        
     <div class="Main_page">
 
-       <?php
+
+<!-- 
+       <!-- <?php
         session_start();       
-        ?>
-        </div>
+        ?> --> 
 
     <!-- Tournament Details Section -->
     <!-- <section id="tournament-details">

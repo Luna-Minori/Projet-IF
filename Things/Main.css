@@ -19,12 +19,12 @@ body {
 
 .fond{
     width: 100%;
+    height: 200%;
     opacity: 0.6;
 }
 
 img {
     max-width: 100%;
-    height: auto;
 }
 
 header {
@@ -50,7 +50,7 @@ header {
 nav{
     width: 100%;
     margin: 0 auto;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 1);
     position: absolute;
     top: 0px;
     display: flex;
@@ -86,13 +86,13 @@ nav a{
 }
 
 nav a:hover{
-    color: orange;
-    border-bottom: 2px solid gold;
+    color: lightblue;
+    border-bottom: 2px solid lightblue;
 }
 
 .deroulant_Second{
     display: none;
-    background-color: rgba(255, 255, 255, 0.475);
+    background-color: rgba(29, 29, 33, 0.9);
     position: absolute;
     z-index: 1000;
 }
@@ -109,26 +109,13 @@ nav > ul li:hover .deroulant_Second{
 }
 .deroulant_Second a:hover{
     border-bottom: none;
-    background-color: RGBa(200,200,200,0.1);
+    background-color: RGBa(45, 45, 45,1);
 }
 
 .deroulant_Main > a::after{
     font-size: 24px;
 }
 
-.conteneur{
-  margin: 50px 20px;
-  height: 1500px;
-}
-
-.profile{
-    position: relative;
-    align-self: right;
-
-}
-.Profile_picture{
-    padding : 5px;
-}
 
 h1 {
     font-size: 2em;
@@ -140,49 +127,20 @@ h2 {
     margin-bottom: 10px;
 }
 
+.content {
+    z-index: 0;
+    position : absolute;
+    top: 6em;
+    margin-left: 10%;
+    width: 80%;
+    height: 200%;
+    padding: 20px;
+    background-color: rgba(45, 45, 45, 0.8);
+}
+
 section {
     margin-bottom: 20px;
     color: white;
-    background-color: #3e3e3e;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-.test {
-    list-style: none;
-    padding-left: 20px;
-}
-
-.testli {
-    margin-bottom: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #4CAF50;
-}
-
-
-tr:nth-child(even) {
-    color: white;
-}
-
-.left-space {
-    margin-left: 3em;
-}
-

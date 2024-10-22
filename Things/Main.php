@@ -24,12 +24,10 @@ session_start();
 </head>
 <body>
     <header>
-        <div class="img_container">
-            <img class="fond" src="Image/fond.png">
-                <nav>
-                    <ul>
-                        <li class="logo_container">
-                            <img class="logo" src="Image/logo.png">
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
                         </li>
                             <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
                                 <ul class="deroulant_Second">
@@ -69,18 +67,11 @@ session_start();
                         <p><strong>Location:</strong> Virtual Arena</p>
                     </section>
                 </div>
-            </img>
-        </div>
+            </ul>
+        </nav>
     </header>
 
-       
-    <div class="Main_page">
 
-
-<!-- 
-       <!-- <?php
-        session_start();       
-        ?> --> 
 
     <!-- Tournament Details Section -->
     <!-- <section id="tournament-details">
@@ -137,6 +128,5 @@ session_start();
             <!-- Add more players -->
         <!-- </table>
     </section> -->
-    </div>
 </body>
 </html>

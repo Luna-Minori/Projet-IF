@@ -55,8 +55,9 @@
         <br>
 
         <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM players";
+                $sql = "SELECT * FROM players WHERE username = :session_username";
                 $rep = $conn->prepare($sql);
+                $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
                 $rep->execute();
                 $user = $rep->fetch(PDO::FETCH_ASSOC);
                     

@@ -147,4 +147,35 @@ section {
     color: white;
     padding: 15px;
     border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.upcoming-tournaments {
+    border-collapse: collapse;
+    color: brown;
+    margin: 20px 0;
+  }
+  
+.upcoming-tournaments thead tr {
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+  
+.upcoming-tournaments th, .upcoming-tournaments td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+  
+.upcoming-tournaments tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+  
+.upcoming-tournaments tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+  
+.upcoming-tournaments tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }

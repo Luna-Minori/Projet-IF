@@ -165,10 +165,6 @@ section{
     align-self: center;
 }
 
-.text_form_bio{
-    min-height: 900px;
-}
-
 input{
     background-color: #0d1117;
     color: #f0f6fc;

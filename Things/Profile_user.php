@@ -14,12 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Profile_user.css">
-    <script>
-        function Create_user() {
-            // Redirige vers le script PHP
-            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
-        }
-    </script>
 </head>
 <body>
 <header>
@@ -59,8 +53,8 @@
         <div class="information">
             <div class="Menu_info">
                 <div class="sub_Title">Information</div>
-                    <div class="button">
-                            <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
+                <div class="button">
+                    <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
             <div class="tab_item">
@@ -83,6 +77,9 @@
         <div class="information">
             <div class="Menu_info">
                 <div class="sub_Title">Your games</div>
+                <div class="button">
+                    <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
+                </div>
             </div>
             <?php
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
@@ -119,5 +116,4 @@
 
         <a href=Main.php> Retour Main</a>
     </body>
-
 </html>

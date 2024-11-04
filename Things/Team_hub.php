@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['username'])) {
-        $_SESSION['old_page'] = $_SERVER['REQUEST_URI'];
+        $_SESSION['old_page'] = $_SERVER['REQUEST_URL'];
         header('Location: login_user.php');
         exit();
     }

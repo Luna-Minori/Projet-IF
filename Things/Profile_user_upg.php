@@ -110,88 +110,111 @@
     </header>
     <div class="Box_section">
         <section class="Profile_Main">
-        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM players WHERE username = :session_username";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
-                $rep->execute();
-                $user = $rep->fetch(PDO::FETCH_ASSOC);
-                    
-        ?>
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Information</div>
-                    <div class="button">
-                            <a href=""><img src="Image/Menu.png" class="img_button"></a>
-                </div>
-            </div>
-            <div class="Update">
-                <form method="post" action="Profile_user_upg.php">
-                    <div class="text_form">
-                        <br>
-                        <div class="arena_text">
-                            <div>Username</div>
-                            <input class="left-space" type="text" id="username" name="username" size="12" value="<?php echo $user['username']; ?>" required>
-                        </div>
-                        <br>
-                        <div class="arena_text">
-                            <div class="sub_title">Password</div>
-                            <input class="left-space" type="text" name="password" size="12" value="<?php echo $user['hashed_password'];?>"required>
-                        </div>
-                        <br>
-                        <div class="arena_text">
-                            <div class="sub_title">email</div>
-                            <input class="left-space" type="text" name="email" size="12" value="<?php echo $user['email'];?>"required>
-                        </div>
-                        <br>
-                    </div>
-                    <div class="text_form_bio">
-                        <div class="arena_text_bio">
-                            <div class="sub_title">Bio</div>
-                            <input class="left-space" type="text" name="Bio" size="12" value="<?php echo $user['bio'];?>"required>
-                        </div>
-                        <input class="button" type="submit" name="condition" value="Connexion" value="1" required>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-    <section class="Your_game">
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Your games</div>
-            </div>
-            <?php
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM games WHERE id = (SELECT game_id FROM played_games WHERE player_id = :user_id)";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $game = $rep->fetch(PDO::FETCH_ASSOC);
-                ?>
-            <div>
-                <?php echo $game['title']; ?>
-            </div>
-        </div>
-    </section>
-    <section class="Team">
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Team</div>
-            <div class="Menu_info">
-            <?php
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM teams WHERE id = (SELECT game_id FROM player_teams WHERE player_id = :user_id)";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $Team = $rep->fetch(PDO::FETCH_ASSOC);
+            <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                    $sql = "SELECT * FROM players WHERE username = :session_username";
+                    $rep = $conn->prepare($sql);
+                    $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
+                    $rep->execute();
+                    $user = $rep->fetch(PDO::FETCH_ASSOC);
+                        
             ?>
-                <div class="Username">
-                    <?php echo "Username : " . $Team['Title']; ?>
-                </div>  
-        </div>
-    </section>
+            <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">Information</div>
+                        <div class="button">
+                                <a href=""><img src="Image/Menu.png" class="img_button"></a>
+                    </div>
+                </div>
+                <div class="Update">
+                    <form method="post" action="Profile_user_upg.php">
+                        <div class="text_form">
+                            <br>
+                            <div class="arena_text">
+                                <div>Username</div>
+                                <input class="left-space" type="text" id="username" name="username" size="12" value="<?php echo $user['username']; ?>" required>
+                            </div>
+                            <br>
+                            <div class="arena_text">
+                                <div class="sub_title">Password</div>
+                                <input class="left-space" type="text" name="password" size="12" value="<?php echo $user['hashed_password'];?>"required>
+                            </div>
+                            <br>
+                            <div class="arena_text">
+                                <div class="sub_title">email</div>
+                                <input class="left-space" type="text" name="email" size="12" value="<?php echo $user['email'];?>"required>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="text_form_bio">
+                            <div class="arena_text_bio">
+                                <div class="sub_title">Bio</div>
+                                <input class="left-space" type="text" name="Bio" size="12" value="<?php echo $user['bio'];?>"required>
+                            </div>
+                            <input class="button" type="submit" name="condition" value="Connexion" value="1" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="Your_game">
+            <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">Your games</div>
+                </div>
+                <div class="Update">
+                    <form method="post" action="Profile_user_upg.php">
+                        <div class="text_form">
+                            <div class="arena_text">
+                                <div>Add games</div>
+                                    <input class="left-space" type="text" id="username" name="username" size="12" required>
+                                </div>
+                            <div class="arena_text">
+                                <div class="sub_title">Deleted games</div>
+                                <input class="left-space" type="text" name="password" size="12" value=""required>
+                            </div>
+                        </div>
+                        <input class="button" type="submit" name="condition" value="Add games" value="1" required>
+                    </form>
+                <div class="text_games">
+                    <div class="arena_text_games">
+                        <?php                
+                            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                            $sql = "SELECT title FROM games INNER JOIN played_games ON games.id = played_games.game_id WHERE played_games.player_id = :id";
+                            $rep = $conn->prepare($sql);
+                            $rep->bindParam(':id', $id, PDO::PARAM_INT);
+                            $rep->execute();
+                            $game = $rep->fetchAll(PDO::FETCH_ASSOC);
+                            $bool = false;
+                            $i=0;
+                            while ($game = $rep->fetch(PDO::FETCH_ASSOC)) {
+                                echo $game['title'];
+                            }
+
+                            if ($i == 0) {
+                                echo "No games asssociate to your account";
+                            }
+                        ?>
+                    </div>
+                </div>
+        </section>
+        <section class="Team">
+            <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">Team</div>
+                <div class="Menu_info">
+                <?php
+                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                    $sql = "SELECT title FROM teams WHERE id = (SELECT game_id FROM player_teams WHERE player_id = :user_id)";
+                    $rep = $conn->prepare($sql);
+                    $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
+                    $rep->execute();
+                    $Team = $rep->fetch(PDO::FETCH_ASSOC);
+                ?>
+                    <div class="Username">
+                        <?php echo "Username : " . $Team['Title']; ?>
+                    </div>  
+            </div>
+        </section>
     </div>
 
         <a href=Main.php> Retour Main</a>

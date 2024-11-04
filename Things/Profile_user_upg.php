@@ -182,17 +182,10 @@
                             $sql = "SELECT title FROM games INNER JOIN played_games ON games.id = played_games.game_id WHERE played_games.player_id = :id";
                             $rep = $conn->prepare($sql);
                             $rep->bindParam(':id', $id, PDO::PARAM_INT);
-                            $rep->execute();
-                            $game = $rep->fetchAll(PDO::FETCH_ASSOC);
-                            $bool = false;
-                            $i=0;
+                            $rep->execute();                            
                             while ($game = $rep->fetch(PDO::FETCH_ASSOC)) {
-                                echo $game['title'];
-                            }
-
-                            if ($i == 0) {
-                                echo "No games asssociate to your account";
-                            }
+                                echo "    " . $game['title'];
+                            }                            
                         ?>
                     </div>
                 </div>

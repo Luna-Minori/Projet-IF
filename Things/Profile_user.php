@@ -83,15 +83,17 @@
             </div>
             <?php
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM games WHERE id = (SELECT game_id FROM played_games WHERE player_id = :user_id)";
+                $sql = "SELECT title FROM games WHERE id IN (SELECT game_id FROM played_games WHERE player_id = :user_id)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
                 $rep->execute();
-                $game = $rep->fetch(PDO::FETCH_ASSOC);
+                $games = $rep->fetchAll(PDO::FETCH_ASSOC);
                 ?>
-            <div>
-                <?php echo $game['title']; ?>
-            </div>
+                <div>
+                    <?php foreach ($games as $game): ?>
+                        <p><?php echo htmlspecialchars($game['title']); ?></p>
+                    <?php endforeach; ?>
+                </div>
         </div>
     </section>
     <section class="Team">
@@ -111,6 +113,9 @@
                     <?php echo "Username : " . $Team['Title']; ?>
                 </div>  
         </div>
+    </section>
+    <section class="History">
+            
     </section>
     </div>
 

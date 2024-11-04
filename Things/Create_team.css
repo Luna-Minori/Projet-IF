@@ -2,113 +2,35 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-align:justify;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #333333;
-    color: #fff9f9;
+    background-color: #000000;
+    color: #333333;
+}
+
+.img_container{
+    display:relative;
+    overflow:hidden;
+    border:1px solid #000;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 header {
     text-align: center;
     background-color: #000000;
     color: white;
-    margin-bottom: 50px;
-}
-.Title_nav{
-    color : black;
+    display: relative;
 }
 
-nav{
-    width: 100%;
-    margin: 0 auto;
-    background-color: white;
-    position: sticky;
-    top: 0px;
-    display: flex;
-}
-
-nav ul{
+ul{
     list-style-type: none;
-}
-
-.deroulant_Main{
-    margin-left : 3em;
-    margin-right: 3em;
-    margin-top: 1em;
-}
-
-nav ul li{
-    float: left;
-    width: 25%;
-    text-align: center;
-    position: relative;
-}
-
-nav ul::after{
-    content: "";
-    display: table;
-    clear: both;
-}
-
-nav a{
-    display: block;
-    text-decoration: none;
-    color: black;
-    border-bottom: 2px solid transparent;
-    padding: 10px 0px;
-}
-
-nav a:hover{
-    color: orange;
-    border-bottom: 2px solid gold;
-}
-
-.deroulant_Second{
-    display: none;
-    box-shadow: 0px 1px 2px #CCC;
-    background-color: white;
-    position: absolute;
-    z-index: 1000;
-}
-nav > ul li:hover .deroulant_Second{
-    display: block;
-}
-.deroulant_Second li{
-    float: none;
-    width: 100%;
-    text-align: left;
-}
-.deroulant_Second a{
-    padding: 10px;
-    border-bottom: none;
-}
-.deroulant_Second a:hover{
-    border-bottom: none;
-    background-color: RGBa(200,200,200,0.1);
-}
-.deroulant_Main > a::after{
-    content:" ▼";
-    font-size: 12px;
-}
-
-.conteneur{
-  margin: 50px 20px;
-  height: 1500px;
-}
-
-.Main_page{
-    padding: 20px;
-}
-
-.profile{
-    position: relative;
-    align-self: right;
-
-}
-.Profile_picture{
-    padding : 5px;
 }
 
 h1 {
@@ -116,54 +38,87 @@ h1 {
     padding: 0.5em;
 }
 
-h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
+main{
+    background-color: rgba(39, 37, 37, 0.755);
 }
 
-section {
-    margin-bottom: 20px;
-    color: white;
-    background-color: #3e3e3e;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.Connexion{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh;
 }
 
-.test {
-    list-style: none;
-    padding-left: 20px;
+form{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0px 25px rgb(192, 187, 187);
 }
 
-.testli {
-    margin-bottom: 10px;
+.Title_form{
+    font-size: 24px;
+    margin: 0px;
+    text-align: center;
+    color: #000000;
+    font-style: normal;
+    padding-top: 24px;
 }
 
-table {
+.bo{
+    background-color: rgb(255, 255, 255);
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-top: 32px;
+    padding-bottom: 24px;
+}
+
+.text_form{
+    font-size: 20px;
+    padding-top: 32px;
+    letter-spacing: 0.002em;
+}
+
+input{
+    margin-bottom: 12px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: rgb(208, 208, 208);
+    padding: 31px 8px 15px;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    content: "Username";
+    color:red;
+}
+input :hover{
+    border-bottom: rgb(151, 151, 151);
+
+}
+span{
+    opacity: 0;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
+label{
+    opacity: 1;
+    position: relative;
+    top: -75px;
+    left: 8px;
+    font-size: 14px;
+    color: #000;
 }
 
-th, td {
-    padding: 8px;
-    text-align: left;
+.button{
+    background-color: transparent;
+    border-radius: 5px;
+    border: rgb(208, 208, 208);
+    padding: 0px;
+    text-align: center;
 }
 
-th {
-    background-color: #4CAF50;
+.Button_create_user{
+    text-decoration: none;
+    color: red;
+    font-size: 14px;
 }
 
-
-tr:nth-child(even) {
-    color: white;
-}
-
-.left-space {
-    margin-left: 3em;
-}
 

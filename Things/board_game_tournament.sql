@@ -277,6 +277,17 @@ ALTER TABLE `tournaments`
 COMMIT;
 
 
+INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('Catan', 'bb', 1, 2, 8);
+INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('chess', 'bb', 0, 2, 2);
+
+INSERT INTO played_games(player_id, game_id) VALUES (1,2);
+INSERT INTO played_games(player_id, game_id) VALUES (1,3);
+INSERT INTO played_games(player_id, game_id) VALUES (1,4);
+INSERT INTO played_games(player_id, game_id) VALUES (1,5);
+INSERT INTO played_games(player_id, game_id) VALUES (1,6);
+INSERT INTO played_games(player_id, game_id) VALUES (1,7);
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

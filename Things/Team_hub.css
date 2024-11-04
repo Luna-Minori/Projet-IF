@@ -182,12 +182,5 @@ tr:nth-child(even) {
 
 .left-space {
     margin-left: 3em;
-
-}.button{
-    background-color: transparent;
-    border-radius: 5px;
-    border: rgb(208, 208, 208);
-    padding: 0px;
-    text-align: center;
 }
 

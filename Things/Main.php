@@ -1,11 +1,8 @@
 <?php
     session_start();
+    echo $_SESSION['username'];
+    //session_destroy();
 
-    // Vérifier si l'utilisateur est connecté
-    if (!isset($_SESSION['username'])) {
-        header('Location: login_user.php');
-        exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Main.css">
-    <script>
-        function Create_user() {
-            // Redirige vers le script PHP
-            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -30,16 +21,21 @@
                     <ul>
                         <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
                             <ul class="deroulant_Second">
-                               <li><a href="Login_user.php"> My Profile </a></li>
+                               <li> 
+                                    <?php  
+                                        if (!empty($_SESSION['username'])) {
+                                            echo '<a href="Profile_user.php">My Profile</a>';
+                                        } else 
+                                            echo '<a href="Login_user.php">My Profile</a>';
+                                    ?>
                                <li><a href="Create_user.php"> Account creation </a></li>
                                <li><a href="Create_user.php"> Tournament creation </a></li>
                             </ul>
                        </li>
                     <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
                         <ul class="deroulant_Second">
-                            <li><a> Account creation </a></li>
+                            <li><a href="Team_hub.php"> Team_hub </a></li>
                             <li><a> Team creation </a></li>
-                            <li><a> Tournament creation </a></li>
                        </ul>
                     </li>
                     <li class="logo_container">
@@ -57,7 +53,12 @@
                                 <li><a> Team creation </a></li>
                                 <li><a> Tournament creation </a></li>
                             </ul>
-                     </li>
+                    </li>
+                    <li> 
+                        <button>
+                            <a class="Button_log_out" href="Log_out.php"> Log out </a>
+                        </button>
+                    </li>
                 </ul>
             </nav>
             <h1>Tournament Manager</h1>

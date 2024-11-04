@@ -22,9 +22,16 @@
             echo $user['username'];
             $user['hashed_password'] = password_hash($password, PASSWORD_BCRYPT);
             if (password_verify($password, $user['hashed_password'])){
-                $_SESSION['username'] = $user['username'];
-                header('Location: Profile_user.php');
-                exit();
+                if(!isset($_SESSION['old_page'])){
+                    $old = $_SESSION['old_page'];
+                    header('Location: $old');
+                    exit();
+                    }
+                    else {
+                        $_SESSION['username'] = $user['username'];
+                        header('Location: Profile_user.php');
+                        exit();
+                    }
             }
             else {
                 echo "password false";
@@ -45,12 +52,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Login_user.css">
-    <script>
-        function Create_user() {
-            // Redirige vers le script PHP
-            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
-        }
-    </script>
 </head>
 <body>
     <main>

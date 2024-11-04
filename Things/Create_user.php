@@ -1,10 +1,11 @@
 <?php
     session_start();
-
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $username = $_POST['username'];
         $password = $_POST['password'];
         $email = $_POST['email'];
+
+        echo $_POST['email'];
 
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
         $sql = "SELECT * FROM players";
@@ -13,28 +14,34 @@
 
         $bool = false;
         while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
+            echo $Basedata['username'];
+            echo $username;
             if( $Basedata['username'] == $username){
                 echo "this username is already use";
                 $bool = true;
                 exit();
             }
-            if($email == $_POST['email']){
+            if($email == $Basedata['email']){
                 echo "this email is already use";
                 $bool = true;
                 exit();
             }
         }
         if( $bool == false ){
-            $sql = "INSERT INTO players(username, email, hashed_password) VALUES (:username,:email,:hashed_password)";
+
+            echo "coucou";
+            $sql = "UPDATE FROM players(username, email, hashed_password, bio) VALUES (:username,:email,:hashed_password,:bio)";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':username', $username, PDO::PARAM_STR);
             $rep->bindParam(':email', $email, PDO::PARAM_STR);
             $rep->bindParam(':hashed_password', password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
+            $rep->bindParam(':bio', $bio, PDO::PARAM_STR);
             $rep->execute();
 
             $_SESSION['username'] = $username;
             $_SESSION['hashed_password'] = $password;
             $_SESSION['email'] = $email;
+            $_SESSION['bio'] = $bio;
             header('Location: Profile_user.php');
             exit();
         }
@@ -53,7 +60,7 @@
 <header>
     <main>
         <div class="Create">
-            <form method="post" action="Profile_user.php">
+            <form method="post" action="Create_user.php">
                 <div class="bo">
                     <h2 class="Title_form">Account Creation</h2>
                         <div class="text_form">

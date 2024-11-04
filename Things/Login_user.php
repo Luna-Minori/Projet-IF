@@ -1,10 +1,6 @@
 <?php
     session_start();
-/*
-    if (!isset($_SESSION['username'])) {
-        header('Location: Creation_user.php');
-    }
- */
+    echo $_SESSION['old_page'];
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -22,9 +18,9 @@
             echo $user['username'];
             $user['hashed_password'] = password_hash($password, PASSWORD_BCRYPT);
             if (password_verify($password, $user['hashed_password'])){
-                if(!isset($_SESSION['old_page'])){
+                if(isset($_SESSION['old_page'])){
                     $old = $_SESSION['old_page'];
-                    header('Location: $old');
+                    header("Location: $old");
                     exit();
                     }
                     else {

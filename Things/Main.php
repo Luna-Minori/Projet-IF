@@ -1,8 +1,5 @@
 <?php
     session_start();
-    echo $_SESSION['username'];
-    //session_destroy();
-
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +32,7 @@
                     <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
                         <ul class="deroulant_Second">
                             <li><a href="Team_hub.php"> Team_hub </a></li>
-                            <li><a> Team creation </a></li>
+                            <li><a href="Create_team.php"> Team creation </a></li>
                        </ul>
                     </li>
                     <li class="logo_container">

@@ -1,11 +1,11 @@
 <?php
     session_start();
-
+    echo  $_SESSION['username'];
     if (!isset($_SESSION['username'])) {
         header('Location: Login_user.php');
         exit();
     }
-
+    echo  $_SESSION['username'];
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $title = $_POST['title'];
         $password = $_POST['password'];
@@ -17,7 +17,7 @@
         $rep->execute();
         $Hpassword = $rep->fetch(PDO::FETCH_ASSOC);
 
-        if (password_verify($password, $Hpassword['hashed_password'])) {
+        if ($Hpassword && password_verify($password, $Hpassword['hashed_password'])) {
 
             $sql = "SELECT * FROM teams";
             $rep = $conn->prepare($sql);
@@ -57,13 +57,13 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Create_user.css">
+    <link rel="stylesheet" href="Create_team.css">
 </head>
 <body>
 <header>
     <main>
         <div class="Create">
-            <form method="post" action="Create_user.php">
+            <form method="post" action="Create_team.php">
                 <div class="bo">
                     <h2 class="Title_form">Account Creation</h2>
                         <div class="text_form">

@@ -28,6 +28,19 @@
     <link rel="stylesheet" href="Team_hub.css">
 </head>
 <body>
-    <header>
+    <div class="Tab_game_select">
+        <div name="game" id="game_select">
+            <?php   
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT title, id, creator_id FROM teams";
+                $rep = $conn->prepare($sql);
+                $rep->execute();
+                $Basedata = $rep->fetchAll();
+                foreach ($Basedata as $game) {
+                    echo "<div value='" . htmlspecialchars($game['id']) . "'>" . htmlspecialchars($game['title']) ."   ". htmlspecialchars($game['creator_id']) ."</div>";
+                }
+            ?>
+        </div>
+    </div>
 </body>
 </html>

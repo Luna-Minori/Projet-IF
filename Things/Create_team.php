@@ -35,7 +35,7 @@
                 $rep->bindParam(':game', $game, PDO::PARAM_STR);
                 $rep->execute();
 
-                header('Location: Team_profile.php');
+                header('Location: Team_hub.php');
                 exit();
             }
             else {

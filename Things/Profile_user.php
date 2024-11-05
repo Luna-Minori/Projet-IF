@@ -117,6 +117,34 @@
     <section class="History">
             
     </section>
+    <section class="Newgame">
+        <div class="information">
+            <div class="Menu_info">
+                <div class="sub_Title">Newgame</div>
+                    <form method="post" action="login_user.php">
+                        <div class="bo">
+                                <div class="arena_text">
+                                <input class="left-space" type="text" name="Name_newgame" size="12" required>
+                                    <label>Name</label>
+                                    <span>Name</span>
+                                </div>
+                                <div class="arena_text">
+                                <input class="left-space" type="text" name="Rules_newgame" size="12" required>
+                                    <label>Rules</label>
+                                    <span>Rules</span>
+                                </div>
+                                <div class="arena_text">
+                                <input class="left-space" type="text" name="Name_newgame" size="12" required>
+                                    <label>Name</label>
+                                    <span>Name</span>
+                                </div>
+                                <input class="button" type="submit" name="add_newgame" value="Connexion" value="1" required>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </section>
     </div>
 
         <a href=Main.php> Retour Main</a>

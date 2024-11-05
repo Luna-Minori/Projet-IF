@@ -1,53 +1,3 @@
-<?php
-    session_start();
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $email = $_POST['email'];
-
-        echo $_POST['email'];
-
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "SELECT * FROM players";
-        $rep = $conn->prepare($sql);
-        $rep->execute();
-
-        $bool = false;
-        while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
-            echo $Basedata['username'];
-            echo $username;
-            if( $Basedata['username'] == $username){
-                echo "this username is already use";
-                $bool = true;
-                exit();
-            }
-            if($email == $Basedata['email']){
-                echo "this email is already use";
-                $bool = true;
-                exit();
-            }
-        }
-        if( $bool == false ){
-
-            echo "coucou";
-            $sql = "UPDATE FROM players(username, email, hashed_password, bio) VALUES (:username,:email,:hashed_password,:bio)";
-            $rep = $conn->prepare($sql);
-            $rep->bindParam(':username', $username, PDO::PARAM_STR);
-            $rep->bindParam(':email', $email, PDO::PARAM_STR);
-            $rep->bindParam(':hashed_password', password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
-            $rep->bindParam(':bio', $bio, PDO::PARAM_STR);
-            $rep->execute();
-
-            $_SESSION['username'] = $username;
-            $_SESSION['hashed_password'] = $password;
-            $_SESSION['email'] = $email;
-            $_SESSION['bio'] = $bio;
-            header('Location: Profile_user.php');
-            exit();
-        }
-    }
-?>
-    
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -55,38 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Create_user.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
+        }
+    </script>
 </head>
 <body>
 <header>
-    <main>
-        <div class="Create">
-            <form method="post" action="Create_user.php">
-                <div class="bo">
-                    <h2 class="Title_form">Account Creation</h2>
-                        <div class="text_form">
-                            <br>
-                            <div class="arena_text">
-                                <input class="left-space" type="text" id="username" name="username" size="12" required>
-                                    <label>Username</label>
-                                    <span>Username</span>
-                                </div>
-                                <div class="arena_text">
-                                    <input class="left-space" type="text" name="password" size="12" required>
-                                    <label>Password</label>
-                                    <span>Password</span>
-                                </div>
-                                <div class="arena_text">
-                                    <input class="left-space" type="email" name="email" size="12" required>
-                                    <label>email</label>
-                                    <span>email</span>
-                                </div>
-                                <input class="button" type="submit" name="condition" value="Creation" value="1" required>
-                            </div>
-                        </div>
-                    </form>
-            </div>
+        <div class="img_container">
+            <a src="Main.php"><img class="fond" src="Image/fond.png"></a>
+                <nav>
+                    <ul>
+                        <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
+                            <ul class="deroulant_Second">
+                               <li><a href="Create_user.php"> Account creation </a></li>
+                               <li><a href="Create_user.php"> Team creation </a></li>
+                               <li><a href="Create_user.php"> Tournament creation </a></li>
+                            </ul>
+                       </li>
+                    <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
+                        <ul class="deroulant_Second">
+                            <li><a> Account creation </a></li>
+                            <li><a> Team creation </a></li>
+                            <li><a> Tournament creation </a></li>
+                       </ul>
+                    </li>
+                    <li class="logo_container">
+                        <img class="logo" src="Image/logo.png">
+                    </li>
+                    <li class="deroulant_Main"><a href="#"> Tournament &ensp;</a>
+                            <ul class="deroulant_Second">
+                                <li><a> Account creation </a></li>
+                                <li><a> Team creation </a></li>
+                                <li><a> Tournament creation </a></li>                                </ul>
+                        </li>
+                    <li class="deroulant_Main"><a href="#"> Creation of &ensp;</a>
+                            <ul class="deroulant_Second">
+                                <li><a> Account creation </a></li>
+                                <li><a> Team creation </a></li>
+                                <li><a> Tournament creation </a></li>
+                            </ul>
+                     </li>
+                </ul>
+            </nav>
+            <h1>Tournament Manager</h1>
         </div>
-    </main>
+    </header>
+    
+    <?php
+    session_start();
+    /*
+    try {
+
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $sql = "SELECT * FROM board_game_tournament";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->fetchAll();
+    } 
+    catch (PDOException $e) { 
+        echo 'Erreur : ' . $e->getMessage();
+    }
+    try{
+        $sql = "INSERT INTO players(username, bio, email, hashed_password) VALUES ('Minori', 'me', 'luna@utbm', '@kija')";
+        $rep = $conn->prepare($sql);
+        $rep->execute();
+    }
+    catch (PDOException $e) { 
+        echo 'Erreur : ' . $e->getMessage();
+    }
+
+    $sql = "SELECT username FROM players";
+    $rep = $conn->prepare($sql);
+    $rep->execute();
+    $result = $rep->fetchAll();
+    print_r($result);
+    echo $result["username"];
+    */
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        $username = $_POST['username'];
+        echo "Boujour " . htmlspecialchars($username);
+
+    }
+    ?>
+    <br>
+        <form method="post" action="Profile_user.php">
+                Firstname :
+                <input class="left-space" type="text" id="username" name="username" size="12" required>
+                <br>
+                name : 
+                <input class="left-space" type="text" name="prenom" size="12" required>
+                <br>
+                email :
+                <input class="left-space" type="email" name="email" size="12" required>
+                <br>
+                Gender :
+                <input class="left-space" type="Text" name="email" size="12">
+                <br>
+                <input type="radio" name="eail" size="12" required>
+                Accepter vous les conditions générale utilisation de Tournament Manager
+                <br>
+                <input type="submit" name="condition" value="OK"     value="1" required>
+                <input type="reset" value="Reset">
+        </form>
 
         <a href=Main.php> Retour Main</a>
     </body>

@@ -1,7 +1,11 @@
 <?php
+session_start();
 
-    session_start();
-
+// Vérifier si l'utilisateur est connecté
+// if (!isset($_SESSION['username'])) {
+//     header('Location: login_user.php');
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Main.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -18,35 +28,6 @@
             <ul>
                 <li class="logo_container">
                     <img class="logo" src="Image/logo.png">
-                <nav>
-                    <ul>
-                        <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
-                            <ul class="deroulant_Second">
-                               <li> 
-                                    <?php  
-                                        if (!empty($_SESSION['username'])) {
-                                            echo '<a href="Profile_user.php">My Profile</a>';
-                                        } else 
-                                            echo '<a href="Login_user.php">My Profile</a>';
-                                    ?>
-                               <li><a href="Create_user.php"> Account creation </a></li>
-                               <li><a href="Create_user.php"> Tournament creation </a></li>
-                            </ul>
-                       </li>
-                    <li class="deroulant_Main"><a href="#"> Team &ensp;</a>
-                        <ul class="deroulant_Second">
-                            <li><a href="Team_hub.php"> Team_hub </a></li>
-                            <li><a href="Create_team.php"> Team creation </a></li>
-                       </ul>
-                    </li>
-                    <li class="logo_container">
-                        <img class="logo" src="Image/logo.png">
-                    </li>
-                    <li class="deroulant_Main"><a href="#"> Tournament &ensp;</a>
-                            <ul class="deroulant_Second">
-                                <li><a> Account creation </a></li>
-                                <li><a> Team creation </a></li>
-                                <li><a> Tournament creation </a></li>                                </ul>
                         </li>
                             <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                                 <ul class="deroulant_Second">

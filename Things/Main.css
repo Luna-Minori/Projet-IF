@@ -9,10 +9,6 @@ body {
     font-family: Arial, sans-serif;
     background-color: #333333;
     color: #333333;
-    background-image: url(Image/fond.png);
-    background-size: cover;
-    background-position: top;
-    height: 200%;
 }
 
 .img_container{
@@ -23,12 +19,12 @@ body {
 
 .fond{
     width: 100%;
-    height: 200%;
     opacity: 0.6;
 }
 
 img {
     max-width: 100%;
+    height: auto;
 }
 
 header {
@@ -42,25 +38,24 @@ header {
 }
 
 .logo_container{
-    width: 10%;
+    width: 6.5em;
     display: flex;
     flex-direction: column;
     box-shadow: none;
-    margin-bottom: 1em;
-    margin-left: 1em;
+    margin-top: -3em;
     
 }
 
 nav{
     width: 100%;
     margin: 0 auto;
-    background-color: rgba(0, 0, 0, 1);
+    background-color: transparent;
     position: absolute;
     top: 0px;
     display: flex;
     flex-direction: column;
-    padding-top: 1em;
-    padding-left: 0;
+    padding-top: 5em;
+    padding-left: 7em;
     font-size: 20px;
 }
 
@@ -70,7 +65,7 @@ nav ul{
 
 nav ul li{
     float: left;
-    width: 10%;
+    width: 20%;
     text-align: center;
     position: relative;
 }
@@ -85,18 +80,18 @@ nav a{
     text-decoration: none;
     color: white;
     border-bottom: 2px solid transparent;
-    padding: 15px 0px;
+    padding: 10px 0px;
     text-align: center;
 }
 
 nav a:hover{
-    color: lightblue;
-    border-bottom: 2px solid lightblue;
+    color: orange;
+    border-bottom: 2px solid gold;
 }
 
 .deroulant_Second{
     display: none;
-    background-color: rgba(29, 29, 33, 0.9);
+    background-color: rgba(255, 255, 255, 0.475);
     position: absolute;
     z-index: 1000;
 }
@@ -113,13 +108,25 @@ nav > ul li:hover .deroulant_Second{
 }
 .deroulant_Second a:hover{
     border-bottom: none;
-    background-color: RGBa(45, 45, 45,1);
+    background-color: RGBa(200,200,200,0.1);
 }
-
 .deroulant_Main > a::after{
     font-size: 24px;
 }
 
+.conteneur{
+  margin: 50px 20px;
+  height: 1500px;
+}
+
+.profile{
+    position: relative;
+    align-self: right;
+
+}
+.Profile_picture{
+    padding : 5px;
+}
 
 h1 {
     font-size: 2em;
@@ -131,55 +138,56 @@ h2 {
     margin-bottom: 10px;
 }
 
-.content {
-    z-index: 0;
-    position : absolute;
-    top: 6em;
-    margin-left: 10%;
-    width: 80%;
-    height: 200%;
-    padding: 20px;
-    background-color: rgba(45, 45, 45, 0.8);
-}
-
 section {
     margin-bottom: 20px;
     color: white;
+    background-color: #3e3e3e;
     padding: 15px;
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.test {
+    list-style: none;
+    padding-left: 20px;
+}
 
-#upcoming-tournaments {
-    border-collapse: collapse;
-    color: white;
-    margin: 20px 0;
+.testli {
+    margin-bottom: 10px;
+}
+
+table {
     width: 100%;
-    border: 2px solid rgba(0, 0, 0, 0.7);
-  }
-  
-#upcoming-tournaments thead tr {
-    color: white;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
     text-align: left;
-    font-weight: bold;
-}
-  
-#upcoming-tournaments th, #upcoming-tournaments td {
-    padding: 12px 15px;
-    border: 1px solid rgba(0, 0, 0, 0.7);
-}
-  
-#upcoming-tournaments tbody tr {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 }
 
-  
-#upcoming-tournaments tbody tr:nth-of-type(even) {
-    background-color: rgba(0, 0, 0, 0.3);
-
+th {
+    background-color: #4CAF50;
 }
 
-#upcoming-tournaments tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+
+tr:nth-child(even) {
+    color: white;
 }
+
+.left-space {
+    margin-left: 3em;
+
+}.button{
+    background-color: transparent;
+    border-radius: 5px;
+    border: rgb(208, 208, 208);
+    padding: 0px;
+    text-align: center;
+}
+

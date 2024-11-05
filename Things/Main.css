@@ -151,31 +151,33 @@ section {
 }
 
 
-.upcoming-tournaments {
+#upcoming-tournaments {
     border-collapse: collapse;
-    color: brown;
+    color: white;
     margin: 20px 0;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.7);
   }
   
-.upcoming-tournaments thead tr {
-    color: #ffffff;
+#upcoming-tournaments thead tr {
+    color: white;
     text-align: left;
     font-weight: bold;
 }
   
-.upcoming-tournaments th, .upcoming-tournaments td {
+#upcoming-tournaments th, #upcoming-tournaments td {
     padding: 12px 15px;
-    border: 1px solid #dddddd;
+    border: 1px solid rgba(0, 0, 0, 0.7);
 }
   
-.upcoming-tournaments tbody tr {
-    border-bottom: 1px solid #dddddd;
+#upcoming-tournaments tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 }
   
-.upcoming-tournaments tbody tr:nth-of-type(even) {
+#upcoming-tournaments tbody tr:nth-of-type(even) {
     background-color: rgba(0, 0, 0, 0.3);
 }
-  
-.upcoming-tournaments tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+
+#upcoming-tournaments tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }

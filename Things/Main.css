@@ -170,9 +170,15 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+<<<<<<< HEAD
 
 th {
     background-color: #4CAF50;
+=======
+  
+#upcoming-tournaments tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.3);
+>>>>>>> parent of 04c44fd (Merge branch 'main' into css-rebrand)
 }
 
 

@@ -1,5 +1,15 @@
 <?php
+<<<<<<< HEAD
     session_start();
+=======
+session_start();
+
+// Vérifier si l'utilisateur est connecté
+// if (!isset($_SESSION['username'])) {
+//     header('Location: login_user.php');
+//     exit();
+// }
+>>>>>>> parent of 04c44fd (Merge branch 'main' into css-rebrand)
 ?>
 
 <!DOCTYPE html>
@@ -9,9 +19,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Main.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
+        }
+    </script>
 </head>
 <body>
     <header>
+<<<<<<< HEAD
         <div class="img_container">
             <img class="fond" src="Image/fond.png">
                 <nav>
@@ -43,6 +60,12 @@
                                 <li><a> Account creation </a></li>
                                 <li><a> Team creation </a></li>
                                 <li><a> Tournament creation </a></li>                                </ul>
+=======
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+>>>>>>> parent of 04c44fd (Merge branch 'main' into css-rebrand)
                         </li>
                     <li class="deroulant_Main"><a href="#"> Account Creation &ensp;</a>
                             <ul class="deroulant_Second">

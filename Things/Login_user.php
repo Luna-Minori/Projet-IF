@@ -1,44 +1,30 @@
+
 <?php
-    session_start();
-    echo $_SESSION['old_page'];
+    // session_start();
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $username = $_POST['username'];
         $password = $_POST['password'];
-        echo "1  " . $_POST['username'];
         
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
         $sql = "SELECT username,hashed_password FROM players WHERE username = :username";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':username', $username, PDO::PARAM_STR);
+        $rep->bindParam(':username', $username);
         $rep->execute();
         $user = $rep->fetch(PDO::FETCH_ASSOC);
         if($user != null){
             echo $password. $user["hashed_password"];
-            echo "2   " . $_SESSION['username'];
+            echo $_SESSION['username'];
             echo $user['username'];
-            $user['hashed_password'] = password_hash($password, PASSWORD_BCRYPT);
-            if (password_verify($password, $user['hashed_password'])){
-                if(isset($_SESSION['old_page'])){
-                    $old = $_SESSION['old_page'];
-                    header("Location: $old");
-                    exit();
-                    }
-                    else {
-                        $_SESSION['username'] = $user['username'];
-                        header('Location: Profile_user.php');
-                        exit();
-                    }
-            }
-            else {
-                echo "password false";
-            }
-        } 
-        else {
-            $error = "Username false";
+            if (password_verify($password, $user['hashed_password']))
+                $_SESSION['username'] = $user['username'];
+                header('Location: Profile_user.php');
+                exit();
+        } else {
+            $error = "Username or password false";
             echo $error;
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +34,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Login_user.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
+        }
+    </script>
 </head>
 <body>
     <main>
@@ -68,8 +60,7 @@
                                     <label>Password</label>
                                     <span>Password</span>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="Connexion" value="1" required>
-                                <a class="Button_create_user" href="Create_user.php"><p> Create a account </p></a>
+                                <input class="button" type="submit" name="condition" value="OK" value="1" required>
                             </div>
                         </div>
                     </form>

@@ -14,6 +14,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Profile_user.css">
+    <script>
+        function Create_user() {
+            // Redirige vers le script PHP
+            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -40,82 +46,59 @@
             </ul>
         </nav>
     </header>
+    <br>
     <div class="Box_section">
-        <section class="Profile_Main">
+    <section class="Profile_Main">
+        <div class="Title">
+            <?php echo "Hii  " . $_SESSION['username']; ?>
+        </div>
+        <br>
+
         <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM players WHERE username = :session_username";
+                $sql = "SELECT * FROM players";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
                 $rep->execute();
                 $user = $rep->fetch(PDO::FETCH_ASSOC);
                     
         ?>
         <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Information</div>
-                <div class="button">
-                    <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
-                </div>
+            <div class="sub_Title">
+                <p> Information </p>
             </div>
-            <div class="tab_item">
-                <div class="item">
+                <div class="Username">
                     <?php echo "Username : " . $user['username']; ?>
                 </div>
-                <div class="item">
+                <div class="email">
                     <?php  echo "email : " . $user['email'];?>
                 </div>
-                <div class="item">
-                    <?php echo "creation_acc : " . $user['creation_date'];?>
-                </div>
-                <div class="item">
-                    <?php echo "Bio : " . $user['bio'];?>
-                </div>
-            </div>
         </div>
     </section>
-    <section class="Your_game">
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Your games</div>
-                <div class="button">
-                    <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
-                </div>
-            </div>
-            <?php
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM games WHERE id IN (SELECT game_id FROM played_games WHERE player_id = :user_id)";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $games = $rep->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-                <div>
-                    <?php foreach ($games as $game): ?>
-                        <p><?php echo htmlspecialchars($game['title']); ?></p>
-                    <?php endforeach; ?>
-                </div>
+    <section class="Your game">
+        <div class="sub_Title">
+                <p> Your game </p>
         </div>
-    </section>
-    <section class="Team">
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Team</div>
-            <div class="Menu_info">
-            <?php
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM teams WHERE id = (SELECT game_id FROM player_teams WHERE player_id = :user_id)";
+        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT * FROM players";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
                 $rep->execute();
-                $Team = $rep->fetch(PDO::FETCH_ASSOC);
-            ?>
+                $user = $rep->fetch(PDO::FETCH_ASSOC);
+                    
+        ?>
+        <div class="information">
+            <div class="sub_Title">
+                <p> Information </p>
+            </div>
                 <div class="Username">
-                    <?php echo "Username : " . $Team['Title']; ?>
-                </div>  
+                    <?php echo "Username : " . $user['username']; ?>
+                </div>
+                <div class="email">
+                    <?php  echo "email : " . $user['email'];?>
+                </div>
         </div>
     </section>
-    <section class="History">
-            
+    <section class="Profile_Main">
+        <h1>Profile</h1>
+
     </section>
     <section class="Newgame">
         <div class="information">
@@ -149,4 +132,5 @@
 
         <a href=Main.php> Retour Main</a>
     </body>
+
 </html>

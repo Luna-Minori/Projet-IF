@@ -112,13 +112,6 @@ label{
     border-radius: 5px;
     border: rgb(208, 208, 208);
     padding: 0px;
-    text-align: center;
-}
-
-.Button_create_user{
-    text-decoration: none;
-    color: red;
-    font-size: 14px;
 }
 
 

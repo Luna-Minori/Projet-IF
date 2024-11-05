@@ -17,42 +17,52 @@
 </head>
 <body>
 <header>
-        <nav>
-            <div class="Title_nav">
-                <h1>Tournament Manager</h1>
-            </div>
+    <nav>
             <ul>
-                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Create_user.php"> Account creation </a></li>
-                        <li><a href="Create_user.php"> Team creation </a></li>
-                        <li><a href="Create_user.php"> Tournament creation </a></li>
-                    </ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                        <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                            <ul class="deroulant_Second">
+                                <li><a href="Team_hub.php"> My Teams </a></li>
+                                <li><a> Join Teams </a></li>
+                           </ul>
+                        </li>
+                        <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                        <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
                 </li>
-                
-                <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
-                        <ul class="deroulant_Second">
-                            <li><a> Account creation </a></li>
-                            <li><a> Team creation </a></li>
-                            <li><a> Tournament creation </a></li>
-                        </ul>
-                 </li>
             </ul>
-        </nav>
-    </header>
-    <div class="Box_section">
+    </nav>
+</header>
+    <div class="content">
         <section class="Profile_Main">
-        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+         <?php  $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
                 $sql = "SELECT * FROM players WHERE username = :session_username";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
                 $rep->execute();
                 $user = $rep->fetch(PDO::FETCH_ASSOC);
                     
-        ?>
+        ?> 
         <div class="information">
             <div class="Menu_info">
-                <div class="sub_Title">Information</div>
+                <h2>Information</h2>
                 <div class="button">
                     <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
@@ -76,7 +86,7 @@
     <section class="Your_game">
         <div class="information">
             <div class="Menu_info">
-                <div class="sub_Title">Your games</div>
+                <h2>Your games</h2>
                 <div class="button">
                     <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
@@ -99,7 +109,7 @@
     <section class="Team">
         <div class="information">
             <div class="Menu_info">
-                <div class="sub_Title">Team</div>
+                <h2>Team</h2>
             <div class="Menu_info">
             <?php
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
@@ -120,7 +130,7 @@
     <section class="Newgame">
         <div class="information">
             <div class="Menu_info">
-                <div class="sub_Title">Newgame</div>
+                <h2>Newgame</h2>
                     <form method="post" action="login_user.php">
                         <div class="bo">
                                 <div class="arena_text">

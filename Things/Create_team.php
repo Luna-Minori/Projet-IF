@@ -1,52 +1,49 @@
 <?php
     session_start();
-    echo  $_SESSION['username'];
+    
     if (!isset($_SESSION['username'])) {
         header('Location: Login_user.php');
         exit();
     }
-    echo  $_SESSION['username'];
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $title = $_POST['title'];
         $password = $_POST['password'];
+        $game = $_POST['game'];
 
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "SELECT hashed_password FROM players WHERE id = :id";
+        $sql = "SELECT hashed_password FROM players WHERE username = :username";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
         $rep->execute();
-        $Hpassword = $rep->fetch(PDO::FETCH_ASSOC);
+        $Hpassword = $rep->fetchColumn();
 
-        if ($Hpassword && password_verify($password, $Hpassword['hashed_password'])) {
+        if ($Hpassword && password_verify($password, $Hpassword)) {
 
-            $sql = "SELECT * FROM teams";
+            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+            $sql = "SELECT COUNT(*) FROM teams WHERE title = :title";
             $rep = $conn->prepare($sql);
+            $rep->bindParam(':title', $title, PDO::PARAM_STR);
             $rep->execute();
-
-            $nameTaken = false;
-            while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
-                if ($Basedata['title'] == $title) {
-                    echo "This name is already taken";
-                    $nameTaken = true;
-                    break;
-                }
-            }
-
-            if (!$nameTaken) {
-                $sql = "INSERT INTO teams (title, id_creator) VALUES (:title, :id)";
+            $number = $rep->fetchColumn();
+            echo $number;
+            if($number == 0){
+                $sql = "INSERT INTO teams (title, creator_id, game_id) VALUES (:title, (SELECT id FROM players WHERE username = :username), :game)";
                 $rep = $conn->prepare($sql);
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                $rep->bindParam(':name', $username, PDO::PARAM_STR);
-                $rep->bindParam(':id', $id, PDO::PARAM_STR);
+                $rep->bindParam(':title', $title, PDO::PARAM_STR);
+                $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+                $rep->bindParam(':game', $game, PDO::PARAM_STR);
                 $rep->execute();
 
-                $_SESSION['username'] = $username;
-                $_SESSION['hashed_password'] = $hashed_password;
-                $_SESSION['email'] = $email;
-                $_SESSION['bio'] = $bio;
-                header('Location: Profile_user.php');
+                header('Location: Team_profile.php');
                 exit();
             }
+            else {
+                echo "This name is already used";
+            }
+        }
+        else {
+        echo "Invalid password";
         }
     }
 ?>
@@ -77,6 +74,22 @@
                                     <input class="left-space" type="text" name="password" size="12" required>
                                     <label>Your Password</label>
                                     <span>Your Password</span>
+                                </div>
+
+                                <div class="arena_text">
+                                    <select name="game" id="game_select">
+                                        <?php 
+                                            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                                            $sql = "SELECT title, id FROM games";
+                                            $rep = $conn->prepare($sql);
+                                            $rep->execute();
+                                            $Basedata = $rep->fetchAll();
+                                            foreach ($Basedata as $game) {
+                                                echo "<option value='" . htmlspecialchars($game['id']) . "'>" . htmlspecialchars($game['title']) . "</option>";
+                                            }
+
+                                        ?>
+                                    </select>
                                 </div>
                                 <input class="button" type="submit" name="condition" value="Creation" value="1" required>
                             </div>

@@ -37,7 +37,7 @@ session_start();
                            </li>
                         <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
                             <ul class="deroulant_Second">
-                                <li><a href="Team_hub.php"> My Teams </a></li>
+                                <li><a> My Teams </a></li>
                                 <li><a> Join Teams </a></li>
                                 <li><a> Browse Teams </a></li>
                            </ul>

@@ -38,6 +38,7 @@ CREATE TABLE `games` (
   `max_players_in_teams` int(11) NOT NULL COMMENT 'must be > min_players_in_teams'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 -- --------------------------------------------------------
 
 --
@@ -59,7 +60,7 @@ CREATE TABLE `played_games` (
 --
 
 CREATE TABLE `players` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
   `creation_date` date NOT NULL DEFAULT current_timestamp(),
   `bio` text DEFAULT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE `player_tournaments` (
 --
 
 CREATE TABLE `teams` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `creation_date` date DEFAULT curdate(),
   `creator_id` int(11) NOT NULL,
@@ -134,7 +135,7 @@ CREATE TABLE `team_tournaments` (
 --
 
 CREATE TABLE `tournaments` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `game_id` int(11) NOT NULL,
   `type` varchar(20) NOT NULL,
   `description` text DEFAULT NULL,
@@ -274,6 +275,17 @@ ALTER TABLE `team_tournaments`
 ALTER TABLE `tournaments`
   ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`);
 COMMIT;
+
+
+INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('Catan', 'bb', 1, 2, 8);
+INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('chess', 'bb', 0, 2, 2);
+
+INSERT INTO played_games(player_id, game_id) VALUES (1,2);
+INSERT INTO played_games(player_id, game_id) VALUES (1,3);
+INSERT INTO played_games(player_id, game_id) VALUES (1,4);
+INSERT INTO played_games(player_id, game_id) VALUES (1,5);
+INSERT INTO played_games(player_id, game_id) VALUES (1,6);
+INSERT INTO played_games(player_id, game_id) VALUES (1,7);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

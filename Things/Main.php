@@ -9,12 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Main.css">
-    <script>
-        function Create_user() {
-            // Redirige vers le script PHP
-            window.location.href = 'Create_user.php'; // Changez 'traitement.php' pour votre script
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -49,7 +43,6 @@
                                 <li><a> Account creation </a></li>
                                 <li><a> Team creation </a></li>
                                 <li><a> Tournament creation </a></li>                                </ul>
-
                         </li>
                     <li class="deroulant_Main"><a href="#"> Account Creation &ensp;</a>
                             <ul class="deroulant_Second">

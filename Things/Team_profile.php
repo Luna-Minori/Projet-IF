@@ -47,8 +47,7 @@
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':title', $_SESSION['title'], PDO::PARAM_STR);
                 $rep->execute();
-                $user = $rep->fetch(PDO::FETCH_ASSOC);
-                    
+                $team = $rep->fetch(PDO::FETCH_ASSOC);
         ?>
         <div class="information">
             <div class="Menu_info">
@@ -59,39 +58,36 @@
             </div>
             <div class="tab_item">
                 <div class="item">
-                    <?php echo "Username : " . $user['username']; ?>
+                    <?php echo "Username : " . $team['title']; ?>
                 </div>
                 <div class="item">
-                    <?php  echo "email : " . $user['email'];?>
+                    <?php echo "creation_acc : " . $team['creation_date'];?>
                 </div>
                 <div class="item">
-                    <?php echo "creation_acc : " . $user['creation_date'];?>
-                </div>
-                <div class="item">
-                    <?php echo "Bio : " . $user['bio'];?>
+                    <?php echo "Bio : " . $team['bio'];?>
                 </div>
             </div>
         </div>
     </section>
-    <section class="Your_game">
+    <section class="Member">
         <div class="information">
             <div class="Menu_info">
-                <div class="sub_Title">Your games</div>
+                <div class="sub_Title">Member</div>
                 <div class="button">
                     <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
             <?php
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT title FROM games WHERE id IN (SELECT game_id FROM played_games WHERE player_id = :user_id)";
+                $sql = "SELECT username FROM players p INNER JOIN player_teams pt ON p.id = pt.player_id WHERE pt.team_id = :team_id";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
                 $rep->execute();
-                $games = $rep->fetchAll(PDO::FETCH_ASSOC);
+                $Member = $rep->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <div>
-                    <?php foreach ($games as $game): ?>
-                        <p><?php echo htmlspecialchars($game['title']); ?></p>
+                    <?php foreach ($Member as $M): ?>
+                        <p><?php echo htmlspecialchars($M['username']); ?></p>
                     <?php endforeach; ?>
                 </div>
         </div>

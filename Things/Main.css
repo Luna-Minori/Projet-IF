@@ -15,18 +15,6 @@ body {
     height: 200%;
 }
 
-.img_container{
-    display:relative;
-    overflow:hidden;
-    border:1px solid #000;
-}
-
-.fond{
-    width: 100%;
-    height: 200%;
-    opacity: 0.6;
-}
-
 img {
     max-width: 100%;
 }

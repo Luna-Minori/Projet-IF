@@ -110,7 +110,7 @@ CREATE TABLE `teams` (
   `creation_date` date DEFAULT curdate(),
   `creator_id` int(11) NOT NULL,
   `bio` text DEFAULT NULL,
-  `game_id` int(11) NOT NULL,
+  `game_id` int(11) NOT NULL DEFAULT NULL,
   `games_won` int(11) DEFAULT 0,
   `games_lost` int(11) DEFAULT 0,
   `games_tied` int(11) DEFAULT 0
@@ -275,17 +275,6 @@ ALTER TABLE `team_tournaments`
 ALTER TABLE `tournaments`
   ADD CONSTRAINT `tournaments_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`);
 COMMIT;
-
-
-INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('Catan', 'bb', 1, 2, 8);
-INSERT INTO games(title, rules, team_based, min_teams, max_teams) VALUES ('chess', 'bb', 0, 2, 2);
-
-INSERT INTO played_games(player_id, game_id) VALUES (1,2);
-INSERT INTO played_games(player_id, game_id) VALUES (1,3);
-INSERT INTO played_games(player_id, game_id) VALUES (1,4);
-INSERT INTO played_games(player_id, game_id) VALUES (1,5);
-INSERT INTO played_games(player_id, game_id) VALUES (1,6);
-INSERT INTO played_games(player_id, game_id) VALUES (1,7);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

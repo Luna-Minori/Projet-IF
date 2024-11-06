@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug C Program",          // Nom de la configuration de débogage
+            "type": "cppdbg",                   // Type de débogueur pour C/C++
+            "request": "launch",                // Type de requête (ici pour lancer le débogage)
+            "program": "${fileDirname}/${fileBasenameNoExtension}",  // Chemin de l'exécutable
+            "args": [],                         // Arguments passés au programme (laisse vide si non nécessaire)
+            "stopAtEntry": false,               // Ne pas s'arrêter à l'entrée du programme
+            "cwd": "${workspaceFolder}",        // Dossier de travail (workspace)
+            "environment": [],                  // Variables d'environnement (vide par défaut)
+            "externalConsole": false,           // Utiliser la console intégrée de VS Code
+            "MIMode": "gdb",                    // Utiliser GDB comme débogueur
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",   // Affiche les structures de manière lisible
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Compile C Program",  // Compile le programme avant de le déboguer
+            "miDebuggerPath": "/usr/bin/gdb",      // Chemin de GDB (vérifie sur ton système si différent)
+            "logging": {
+                "engineLogging": true
+            }
+        }
+    ]
+}

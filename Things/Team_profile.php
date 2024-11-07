@@ -77,19 +77,64 @@
                     <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
-            <?php
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT username FROM players p INNER JOIN player_teams pt ON p.id = pt.player_id WHERE pt.team_id = :team_id";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $Member = $rep->fetchAll(PDO::FETCH_ASSOC);
+
+            <table class="Tab_Member">
+                <?php
+                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                    $sql = "SELECT p.username, pt.Date_joined, pt.games_won, pt.games_lost, pt.games_tied, pt.Administrator FROM players p INNER JOIN player_teams pt ON p.id = pt.player_id WHERE pt.team_id = :team_id ORDER BY pt.player_id";
+                        $rep = $conn->prepare($sql);
+                    $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
+                    $rep->execute();
+                    $Member = $rep->fetchAll(PDO::FETCH_ASSOC);
                 ?>
-                <div>
+                <tr>
+                    <th> Roles </th>
+                    <th> Username </th>
+                    <th> Join Date </th>
+                    <th> Game tied </th>
+                    <th> Win </th>
+                    <th> Lose </th>
+                </tr>
+                <tr>
+                    <td>
+                        <?php foreach ($Member as $M): ?>
+                            <p>
+                                <?php  
+                                    if($M['Administrator'] == 1 ){
+                                        echo 'Admin';
+                                    } 
+                                    else {
+                                        echo 'Admin';
+                                    }
+                                ?>
+                            </p>
+                        <?php endforeach; ?>
+                    </td>
+                    <td>
+                        <?php foreach ($Member as $M): ?>
+                            <p><?php echo htmlspecialchars($M['username']); ?></p>
+                        <?php endforeach; ?>    
+                    </td>                       
+                     <td>
+                        <?php foreach ($Member as $M): ?>
+                            <p><?php echo htmlspecialchars($M['Date_joined']); ?></p>
+                        <?php endforeach; ?>
+                    </td>
+                    <td>
+                        <?php foreach ($Member as $M): ?>
+                            <p><?php echo htmlspecialchars($M['games_tied']); ?></p>
+                        <?php endforeach; ?>
+                    </td>
+                    <td>
                     <?php foreach ($Member as $M): ?>
-                        <p><?php echo htmlspecialchars($M['username']); ?></p>
+                        <p><?php echo htmlspecialchars($M['games_won']); ?></p>
                     <?php endforeach; ?>
-                </div>
+                    </td>
+                    <td>
+                        <?php foreach ($Member as $M): ?>
+                            <p><?php echo htmlspecialchars($M['games_lost']); ?></p>
+                        <?php endforeach; ?>
+                    </td>
         </div>
     </section>
     <section class="Team">

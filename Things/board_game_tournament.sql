@@ -80,10 +80,12 @@ CREATE TABLE `players` (
 CREATE TABLE `player_teams` (
   `player_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `is_substitue` int(1) DEFAULT 0,
+  `is_substitue` tinyint(1) DEFAULT 0,
+  `Administrator` tinyint(1) DEFAULT 0,
+  `Date_joined` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `games_won` int(11) DEFAULT 0,
   `games_lost` int(11) DEFAULT 0,
-  `games_tied` int(11) DEFAULT 0
+  `games_tied` int(11) DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

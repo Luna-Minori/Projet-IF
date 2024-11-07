@@ -19,7 +19,6 @@
 
         if ($Hpassword && password_verify($password, $Hpassword)) {
 
-            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
             $sql = "SELECT COUNT(*) FROM teams WHERE title = :title";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':title', $title, PDO::PARAM_STR);
@@ -33,6 +32,24 @@
                 $rep->bindParam(':title', $title, PDO::PARAM_STR);
                 $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
                 $rep->bindParam(':game', $game, PDO::PARAM_STR);
+                $rep->execute();
+
+                $sql = "SELECT id FROM players WHERE username = :username";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+                $rep->execute();
+                $id_player = $rep->fetchColumn();
+
+                $sql = "SELECT id FROM teams WHERE title = :title";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':title', $title, PDO::PARAM_STR);
+                $rep->execute();
+                $id_team = $rep->fetchColumn();
+
+                $sql = "INSERT INTO player_teams (player_id, team_id, Administrator) VALUES (:id_player, :id_team, 1)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':id_player', $id_player, PDO::PARAM_INT);
+                $rep->bindParam(':id_team',$id_team, PDO::PARAM_INT);
                 $rep->execute();
 
                 header('Location: Team_hub.php');

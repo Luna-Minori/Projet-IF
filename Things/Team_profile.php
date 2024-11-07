@@ -81,7 +81,7 @@
             <table class="Tab_Member">
                 <?php
                     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                    $sql = "SELECT p.username, pt.Date_joined, pt.games_won, pt.games_lost, pt.games_tied, pt.Administrator FROM players p INNER JOIN player_teams pt ON p.id = pt.player_id WHERE pt.team_id = :team_id ORDER BY pt.player_id";
+                    $sql = "SELECT p.username, pt.Date_joined, pt.games_won, pt.games_lost, pt.games_tied, pt.Administrator, pt.is_substitue FROM players p INNER JOIN player_teams pt ON p.id = pt.player_id WHERE pt.team_id = :team_id ORDER BY pt.player_id";
                         $rep = $conn->prepare($sql);
                     $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
                     $rep->execute();
@@ -104,7 +104,12 @@
                                         echo 'Admin';
                                     } 
                                     else {
-                                        echo 'Admin';
+                                        if($M['is_substitue'] == 1){
+                                            echo 'Substitue';
+                                        }
+                                        else{
+                                            echo 'Member';
+                                        }
                                     }
                                 ?>
                             </p>

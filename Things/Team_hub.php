@@ -33,7 +33,7 @@
             $rep->execute();
             $Bool = $rep->fetchColumn();
             if($Bool == 0){
-                $sql = "INSERT INTO request(player_id, team_id) VALUES (:player_id, :team_id)";
+                $sql = "INSERT INTO team_request(player_id, team_id) VALUES (:player_id, :team_id)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
                 $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);

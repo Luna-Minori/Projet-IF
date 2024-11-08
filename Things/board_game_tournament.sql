@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 08 nov. 2024 à 19:13
+-- Généré le : ven. 08 nov. 2024 à 21:26
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -153,31 +153,6 @@ CREATE TABLE `player_tournaments` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `request`
---
-
-CREATE TABLE `request` (
-  `id` int(11) NOT NULL,
-  `player_id` int(11) NOT NULL,
-  `team_id` int(11) NOT NULL,
-  `Date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `treated` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `request`
---
-
-INSERT INTO `request` (`id`, `player_id`, `team_id`, `Date`, `treated`) VALUES
-(1, 1, 9, '2024-11-08 13:28:07', 1),
-(2, 1, 9, '2024-11-08 13:40:38', 1),
-(3, 1, 9, '2024-11-08 13:56:46', 1),
-(4, 1, 9, '2024-11-08 13:59:28', 1),
-(5, 1, 9, '2024-11-08 16:40:06', 1);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `teams`
 --
 
@@ -210,6 +185,31 @@ INSERT INTO `teams` (`id`, `title`, `creation_date`, `creator_id`, `bio`, `game_
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `team_request`
+--
+
+CREATE TABLE `team_request` (
+  `id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `treated` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `team_request`
+--
+
+INSERT INTO `team_request` (`id`, `player_id`, `team_id`, `Date`, `treated`) VALUES
+(1, 1, 9, '2024-11-08 13:28:07', 1),
+(2, 1, 9, '2024-11-08 13:40:38', 1),
+(3, 1, 9, '2024-11-08 13:56:46', 1),
+(4, 1, 9, '2024-11-08 13:59:28', 1),
+(5, 1, 9, '2024-11-08 16:40:06', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `team_tournaments`
 --
 
@@ -233,6 +233,30 @@ CREATE TABLE `tournaments` (
   `participant` tinyint(4) NOT NULL,
   `Register_time` tinyint(1) NOT NULL,
   `Creation_Date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `tournaments`
+--
+
+INSERT INTO `tournaments` (`id`, `Name`, `game_id`, `Match_system`, `participant`, `Register_time`, `Creation_Date`) VALUES
+(1, 'Test1', 1, 2, 1, 1, '2024-11-08 18:18:07'),
+(2, 'Test2', 1, 1, 1, 6, '2024-11-08 18:19:32');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tournament_request`
+--
+
+CREATE TABLE `tournament_request` (
+  `id` int(11) NOT NULL,
+  `player_id` int(11) DEFAULT 0,
+  `team_id` int(11) DEFAULT 0,
+  `tournament_id` int(11) NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `treated` tinyint(1) DEFAULT 0,
+  `Creator_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -273,18 +297,18 @@ ALTER TABLE `player_tournaments`
   ADD KEY `player_id` (`player_id`);
 
 --
--- Index pour la table `request`
---
-ALTER TABLE `request`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `teams`
 --
 ALTER TABLE `teams`
   ADD PRIMARY KEY (`id`),
   ADD KEY `creator_id` (`creator_id`),
   ADD KEY `game_id` (`game_id`);
+
+--
+-- Index pour la table `team_request`
+--
+ALTER TABLE `team_request`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `team_tournaments`
@@ -317,22 +341,22 @@ ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `request`
---
-ALTER TABLE `request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT pour la table `teams`
 --
 ALTER TABLE `teams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT pour la table `team_request`
+--
+ALTER TABLE `team_request`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT pour la table `tournaments`
 --
 ALTER TABLE `tournaments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

@@ -15,7 +15,7 @@
         if (isset($_GET['Update_request'])) {
             if ($_GET['Update_request'] == 1) {
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM request WHERE id = :request_id), :team_id)";  
+                $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM team_request WHERE id = :request_id), :team_id)";  
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
                 $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
@@ -23,7 +23,7 @@
             }
         }
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "UPDATE request SET treated = 1 WHERE id = :request_id";
+        $sql = "UPDATE team_request SET treated = 1 WHERE id = :request_id";
         $rep = $conn->prepare($sql);
         $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
         $rep->execute();
@@ -195,7 +195,7 @@
                 <div class="sub_Title">Request</div>
             <div class="Menu_info">
             <?php
-            $sql = "SELECT request.id AS request_id, request.Date AS request_Date, request.treated, players.username FROM request INNER JOIN players ON players.id = request.player_id WHERE request.team_id = :team_id";
+            $sql = "SELECT tr.id AS request_id, tr.Date AS request_Date, tr.treated, players.username FROM team_request tr INNER JOIN players ON players.id = tr.player_id WHERE tr.team_id = :team_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
             $rep->execute();

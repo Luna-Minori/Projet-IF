@@ -1,5 +1,11 @@
 <?php
     session_start();
+
+    if (!isset($_SESSION['username'])) {
+        header('Location: Login_user.php');
+        exit();
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $tournament_name = $_POST['Name'];
         $game_id = $_POST['game'];
@@ -8,18 +14,50 @@
         $Register_Time = $_POST['Register_Time'];
 
         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "INSERT INTO tournaments(Name, game_id, Match_system, participant, Register_time) VALUES (:name, :game_id,:Choice_system,:Choice_participant,:Register_Time)";
+        $sql = "SELECT * FROM tournaments";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
-        $rep->bindParam(':game_id', $game_id, PDO::PARAM_INT);
-        $rep->bindParam(':Choice_system', $Choice_system, PDO::PARAM_INT);
-        $rep->bindParam(':Choice_participant', $Choice_participant, PDO::PARAM_INT);
-        $rep->bindParam(':Register_Time', $Register_Time, PDO::PARAM_INT);
         $rep->execute();
 
-        $_SESSION['tournament_name'] = $tournament_name;
-        header('Location: Tournament_management.php');
-        exit();
+        $bool = false;
+        while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
+            if( $Basedata['Name'] == $name && $Basedata['History'] == 0){
+                echo "this username is already use";
+                $bool = true;
+                exit();
+            }
+        }
+        if($bool){
+            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+            $sql = "INSERT INTO tournaments(Name, game_id, Match_system, participant, Register_time, creator_id) VALUES (:name, :game_id,:Choice_system,:Choice_participant,:Register_Time, (SELECT id FROM player WHERE username =:username)";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
+            $rep->bindParam(':game_id', $game_id, PDO::PARAM_INT);
+            $rep->bindParam(':Choice_system', $Choice_system, PDO::PARAM_INT);
+            $rep->bindParam(':Choice_participant', $Choice_participant, PDO::PARAM_INT);
+            $rep->bindParam(':Register_Time', $Register_Time, PDO::PARAM_INT);
+            $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_INT);
+            $rep->execute();
+    
+            if($Choice_participant == 1){
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT id FROM players WHERE username = :username";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+                $rep->execute();
+                $_SESSION['player_id'] = $rep->fetchColumn();
+
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "INSERT INTO player_tournaments(tournament_id, player_id) VALUES ((SELECT id FROM tournament WHERE Name = :name AND History=0), :player_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
+                $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
+                $rep->execute();
+            }
+    
+            $_SESSION['tournament_name'] = $tournament_name;
+            header('Location: Tournament_management.php');
+            exit();
+        }
     }
 ?>
     

@@ -157,12 +157,16 @@ CREATE TABLE `request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Index pour les tables déchargées
+-- Index pour la table `request`
 --
+
+ALTER TABLE request
+ADD COLUMN treated tinyint(1) DEFAULT 0;
 
 --
 -- Index pour la table `request`
 --
+
 ALTER TABLE `request`
   ADD PRIMARY KEY (`id`);
 

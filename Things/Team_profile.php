@@ -12,21 +12,23 @@
     }
     
     if (isset($_GET['request_id'])) {
-        if(isset($_GET['Update_request'])){
-            if($_GET['Update_request'] == 1){
-                $sql = "INSERT INTO player_teams(player_id, team_id VALUES (SELECT player_id FROM request WHERE id = :request_id), :team_id)";
+        if (isset($_GET['Update_request'])) {
+            if ($_GET['Update_request'] == 1) {
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM request WHERE id = :request_id), :team_id)";  
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
                 $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
                 $rep->execute();
             }
         }
-        $sql = "DELETE FROM request WHERE request_id = :request_id";
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $sql = "UPDATE request SET treated = 1 WHERE id = :request_id";
         $rep = $conn->prepare($sql);
         $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
         $rep->execute();
-
     }
+    
 ?>
 
 <!DOCTYPE html>
@@ -193,7 +195,7 @@
                 <div class="sub_Title">Request</div>
             <div class="Menu_info">
             <?php
-            $sql = "SELECT request.id AS request_id, request.Date AS request_Date, players.username FROM request INNER JOIN players ON players.id = request.player_id WHERE request.team_id = :team_id";
+            $sql = "SELECT request.id AS request_id, request.Date AS request_Date, request.treated, players.username FROM request INNER JOIN players ON players.id = request.player_id WHERE request.team_id = :team_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
             $rep->execute();
@@ -209,23 +211,26 @@
                 </tr>
                 <?php
                     foreach ($requests as $r) {
+                        if($r['treated'] == 0){
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($r['request_id']) . "</td>";
                         echo "<td>" . htmlspecialchars($r['username']) . "</td>";
                         echo "<td>" . htmlspecialchars($r['request_Date']) . "</td>";
                         echo "<td>" . " <form method='GET' action='Team_profile.php'>
                                         <input type='submit' value='Delete' />
-                                        <input type='hidden' name='team_id' value='" . $team['id'] . "' /> </form>
-                                        <input type='hidden' name='Update_request' value='0' /> </form>
+                                        <input type='hidden' name='team_id' value='" . $team['id'] . "' />
+                                        <input type='hidden' name='Update_request' value='0' />
                                         <input type='hidden' name='request_id' value='" . $r['request_id'] . "' /> </form>" .
                             "</td>";
                         echo "<td>" . " <form method='GET' action='Team_profile.php'>
                                         <input type='submit' value='Accept' />
-                                        <input type='hidden' name='team_id' value='" . $team['id'] . "' /> </form>
-                                        <input type='hidden' name='Update_request' value='1' /> </form>
+                                        <input type='hidden' name='team_id' value='" . $team['id'] . "' />
+                                        <input type='hidden' name='Update_request' value='1' />
                                         <input type='hidden' name='request_id' value='" . $r['request_id'] . "' /> </form>" .
                             "</td>";
                         echo "</tr>";
+                        }
+
                     }
                 ?>
             </table>

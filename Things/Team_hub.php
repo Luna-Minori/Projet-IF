@@ -26,13 +26,24 @@
 <body>
     <?php
         if (isset($_GET['team_id'])) {
-            $sql = "INSERT INTO request(player_id, team_id) VALUES (:player_id, :team_id)";
+            $sql = "SELECT COUNT(*) id FROM player_teams WHERE player_id = :player_id AND team_id = :team_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
             $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
             $rep->execute();
-            $Basedata = $rep->fetchAll();
-            echo "<div class='popup'><p>Your request has been sent </p></div>";
+            $Bool = $rep->fetchColumn();
+            if($Bool == 0){
+                $sql = "INSERT INTO request(player_id, team_id) VALUES (:player_id, :team_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+                $rep->execute();
+                $Basedata = $rep->fetchAll();
+                echo "<div class='popup'><p>Your request has been sent </p></div>";
+            }
+            else{
+                echo "<div class='popup'><p>Your are already in the team</p></div>";
+            }
         }
     ?>
     <div class="Team_join">

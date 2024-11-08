@@ -5,6 +5,7 @@
         header('Location: Login_user.php');
         exit();
     }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $title = $_POST['title'];
         $password = $_POST['password'];
@@ -57,7 +58,7 @@
             }
             else {
                 echo "This name is already used";
-            }
+            }   
         }
         else {
         echo "Invalid password";
@@ -71,7 +72,7 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Create_team.css">
+    <link rel="stylesheet" href="Create.css">
 </head>
 <body>
 <header>
@@ -79,7 +80,7 @@
         <div class="Create">
             <form method="post" action="Create_team.php">
                 <div class="bo">
-                    <h2 class="Title_form">Account Creation</h2>
+                    <h2 class="Title_form">Team Creation</h2>
                         <div class="text_form">
                             <br>
                             <div class="arena_text">

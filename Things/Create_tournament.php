@@ -20,7 +20,7 @@
 
         $bool = false;
         while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
-            if( $Basedata['Name'] == $name && $Basedata['History'] == 0){
+            if( $Basedata['Name'] == $tournament_name && $Basedata['History'] == 0){
                 echo "this username is already use";
                 $bool = true;
                 exit();
@@ -53,7 +53,23 @@
                 $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
                 $rep->execute();
             }
-    
+            if($Choice_participant == 2){
+                $team_name = $_POST['Team_name'];
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT id FROM teams WHERE team = :team_name";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':team_name', $team_name, PDO::PARAM_STR);
+                $rep->execute();
+                $_SESSION['team_id'] = $rep->fetchColumn();
+
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "INSERT INTO team_tournaments(tournament_id, team_id) VALUES ((SELECT id FROM tournament WHERE Name = :name AND History=0), :team_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
+                $rep->bindParam(':team_name', $team_name, PDO::PARAM_STR);
+                $rep->execute();
+            }
+
             $_SESSION['tournament_name'] = $tournament_name;
             header('Location: Tournament_management.php');
             exit();
@@ -67,7 +83,7 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Create_user.css">
+    <link rel="stylesheet" href="Create.css">
 </head>
 <body>
 <header>
@@ -82,7 +98,7 @@
                                 <input class="left-space" type="text" name="Name" size="12" required>
                                     <label> Name of Tournament</label>
                                     <span> Name</span>
-                                </div>
+                            </div>
                                 <div class="arena_text">
                                     <select name="game" id="game_select">
                                             <?php 
@@ -98,14 +114,19 @@
                                      </select>
                                 </div>
                                 <div class="arena_text">
-                                    <select name="Choice_participant" id="Register_time_select" required>
+                                    <select name="Choice_participant" id="Participant_select" required>
                                         <option value="">--Please choose an option--</option>
                                         <option value="1"> Single player</option>
                                         <option value="2"> Team</option>
                                     </select>
                                 </div>
+                                <div class="arena_text" id="champ_hidden" style="display:none;">
+                                    <input class="left-space" type="text" name="Team_Name" size="12" required>
+                                    <label> Name your Team</label>
+                                    <span> Name your Team</span>
+                                </div>
                                 <div class="arena_text">
-                                    <select name="Choice_system" id="Register_time_select" required>
+                                    <select name="Choice_system" id="Match_system_select" required>
                                         <option value="">--Please choose an option--</option>
                                         <option value="1"> elimnation rounds</option>
                                         <option value="2"> Swiss system</option>
@@ -129,6 +150,18 @@
                             </div>
                         </div>
                     </form>
+                    <script>
+                        const participantSelect = document.getElementById("Participant_select");
+                        const teamName = document.getElementById("champ_hidden");
+
+                        participantSelect.addEventListener("change", function() {
+                            if (this.value === "2") {
+                                teamName.style.display = "block";
+                            } else {
+                                teamName.style.display = "none";
+                            }
+                        });
+                </script>
             </div>
         </div>
     </main>

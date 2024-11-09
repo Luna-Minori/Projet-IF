@@ -26,9 +26,9 @@
                 exit();
             }
         }
-        if($bool){
+        if($bool == false){
             $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-            $sql = "INSERT INTO tournaments(Name, game_id, Match_system, participant, Register_time, creator_id) VALUES (:name, :game_id,:Choice_system,:Choice_participant,:Register_Time, (SELECT id FROM player WHERE username =:username)";
+            $sql = "INSERT INTO tournaments(Name, game_id, Match_system, participant, Register_time, creator_id) VALUES (:name, :game_id,:Choice_system,:Choice_participant,:Register_Time, (SELECT id FROM players WHERE username =:username LIMIT 1))";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
             $rep->bindParam(':game_id', $game_id, PDO::PARAM_INT);
@@ -47,7 +47,7 @@
                 $_SESSION['player_id'] = $rep->fetchColumn();
 
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "INSERT INTO player_tournaments(tournament_id, player_id) VALUES ((SELECT id FROM tournament WHERE Name = :name AND History=0), :player_id)";
+                $sql = "INSERT INTO player_tournaments(tournament_id, player_id) VALUES ((SELECT id FROM tournaments WHERE Name = :name AND History=0), :player_id)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
                 $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
@@ -121,7 +121,7 @@
                                     </select>
                                 </div>
                                 <div class="arena_text" id="champ_hidden" style="display:none;">
-                                    <input class="left-space" type="text" name="Team_Name" size="12" required>
+                                    <input class="left-space" type="text" name="Team_Name" size="12">
                                     <label> Name your Team</label>
                                     <span> Name your Team</span>
                                 </div>
@@ -136,17 +136,17 @@
                                 <div class="arena_text">
                                     <select name="Register_Time" id="Register_time_select" required>
                                     <option value="">--Please choose an option--</option>
-                                    <option value="1"> 30 m</option>
-                                    <option value="2"> 1 hour</option>
-                                    <option value="3"> 3 hours</option>
-                                    <option value="4"> 12 hours</option>
-                                    <option value="5"> 1 day </option>
-                                    <option value="6"> 3 days</option>
-                                    <option value="7"> 1 week</option>
+                                    <option value="1800"> 30 m</option>
+                                    <option value="3600"> 1 hour</option>
+                                    <option value="10800"> 3 hours</option>
+                                    <option value="43200"> 12 hours</option>
+                                    <option value="86400"> 1 day </option>
+                                    <option value="259200"> 3 days</option>
+                                    <option value="604800"> 1 week</option>
                                     </select>
                                 </div>
                                 
-                                <input class="button" type="submit" name="condition" value="Creation" value="1" required>
+                                <input class="button" type="submit" name="condition" value="Creation">
                             </div>
                         </div>
                     </form>
@@ -155,13 +155,16 @@
                         const teamName = document.getElementById("champ_hidden");
 
                         participantSelect.addEventListener("change", function() {
-                            if (this.value === "2") {
-                                teamName.style.display = "block";
-                            } else {
-                                teamName.style.display = "none";
-                            }
+                        if (this.value === "2") {
+                            teamName.style.display = "block";
+                            teamInput.setAttribute('required', 'required');
+                        } 
+                        else {
+                            teamName.style.display = "none";
+                            teamInput.removeAttribute('required');
+                        }
                         });
-                </script>
+                    </script>
             </div>
         </div>
     </main>

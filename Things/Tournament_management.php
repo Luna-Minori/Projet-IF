@@ -6,7 +6,7 @@
         exit();
     }
 
-    if (!isset($_GET['team_id'])) {
+    if (!isset($_GET['tournament_name'])) {
         header('Location: Team_hub.php');
         exit();
     }
@@ -67,7 +67,7 @@
     <div class="Box_section">
         <section class="Profile_Main">
         <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM teams WHERE id = :id";
+                $sql = "SELECT * FROM tournaments WHERE id = :id";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':id', $_GET['team_id'], PDO::PARAM_STR);
                 $rep->execute();

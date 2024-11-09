@@ -142,7 +142,7 @@
                             $sort = $_GET['sort'];
                         }
                         else {
-                            $sort = "'team_id";
+                            $sort = "team_id";
                         } 
                     }
                     else {

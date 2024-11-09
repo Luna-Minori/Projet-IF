@@ -211,7 +211,7 @@
                         foreach ($Basedata as $T ){
                             echo "<form method='GET' action='Tournament_management.php'>
                                   <input type='submit' value='Tournament info' />
-                                  <input type='hidden' name='team_id' value='" . $T['id'] . "' /> </form>";
+                                  <input type='hidden' name='tournament_id' value='" . $T['id'] . "' /> </form>";
                         }
                     ?>
                 </td>

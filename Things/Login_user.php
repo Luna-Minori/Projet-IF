@@ -50,6 +50,41 @@
     <link rel="stylesheet" href="Login_user.css">
 </head>
 <body>
+<header>
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                        </li>
+            </ul>   
+        </nav>
+    </header> 
     <main>
             <div class="Connexion">
                     <form method="post" action="login_user.php">
@@ -62,14 +97,13 @@
                                     <label>Username</label>
                                     <span>Username</span>
                                 </div>
-                                <br>
                                 <div class="arena_text">
                                 <input class="left-space" type="text" name="password" size="12" required>
                                     <label>Password</label>
                                     <span>Password</span>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="Connexion" value="1" required>
-                                <a class="Button_create_user" href="Create_user.php"><p> Create a account </p></a>
+                                <input class="button" type="submit" name="condition" value="Log in" value="1" required>
+                                <a class="Button_create_user" href="Create_user.php"><p> Sign in </p></a>
                             </div>
                         </div>
                     </form>
@@ -77,9 +111,6 @@
         </div>
     </main>
     <div class="Main_page">
-
-
-
-        </div>
+</div>
 </body>
 </html>

@@ -23,28 +23,30 @@
                                    <li><a href="Create_user.php"> Browse Players </a></li>
                                 </ul>
                            </li>
-                        <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
-                            <ul class="deroulant_Second">
-                                <li><a href="Team_hub.php"> My Teams </a></li>
-                                <li><a> Join Teams </a></li>
-                           </ul>
-                        </li>
-                        <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
                                 <ul class="deroulant_Second">
                                     <li><a href="Profile_user.php"> Add game </a></li>
                                     <li><a> Browse games </a></li>
                                 </ul>
-                        <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
                                 <ul class="deroulant_Second">
                                     <li><a> My tournaments </a></li>
                                     <li><a> Join tournament </a></li>
                                     <li><a> Browse tournaments </a></li>    
                                 </ul>
                             </li>
-                         </li>
-                    </ul>
-                </nav>
-                <div class = "content">
+                        </li>
+            </ul>   
+        </nav>
+    </header>
+<div class = "content">
                     <section id="welcome">
                         <h2>WELCOME TO GAME ARENA</h2>
                         <p>Manage your tournaments, teams, and players all in one place!</p>
@@ -79,7 +81,5 @@
                     </section>
                 </div>
             </ul>
-        </nav>
-    </header>
-</body>
+        </body>
 </html>

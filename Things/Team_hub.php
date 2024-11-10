@@ -1,17 +1,17 @@
 <?php
     session_start();
-    if (!isset($_SESSION['username'])) {
-        header('Location: login_user.php');
-        exit();
-    }
+    // if (!isset($_SESSION['username'])) {
+    //     header('Location: login_user.php');
+    //     exit();
+    // }
     
 
-    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    $sql = "SELECT id FROM players WHERE username = :username";
-    $rep = $conn->prepare($sql);
-    $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
-    $rep->execute();
-    $_SESSION['id'] = $rep->fetchColumn();
+    // $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+    // $sql = "SELECT id FROM players WHERE username = :username";
+    // $rep = $conn->prepare($sql);
+    // $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+    // $rep->execute();
+    // $_SESSION['id'] = $rep->fetchColumn();
 
 ?>
 
@@ -23,6 +23,41 @@
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Team_hub.css">
 </head>
+<header>
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                        </li>
+            </ul>   
+        </nav>
+    </header>
 <body>
     <?php
         if (isset($_GET['team_id'])) {

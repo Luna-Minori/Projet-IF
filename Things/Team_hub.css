@@ -150,3 +150,34 @@ section {
     align-items: center;
     background-color: black, 0.5;
 }
+
+table {
+    border-collapse: collapse;
+    color: white;
+    margin: 20px 0;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+  }
+  
+  table thead tr {
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+  
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+  
+table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+  
+table tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}

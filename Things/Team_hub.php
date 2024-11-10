@@ -1,17 +1,17 @@
 <?php
     session_start();
-    // if (!isset($_SESSION['username'])) {
-    //     header('Location: login_user.php');
-    //     exit();
-    // }
+    if (!isset($_SESSION['username'])) {
+        header('Location: login_user.php');
+        exit();
+    }
     
 
-    // $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    // $sql = "SELECT id FROM players WHERE username = :username";
-    // $rep = $conn->prepare($sql);
-    // $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
-    // $rep->execute();
-    // $_SESSION['id'] = $rep->fetchColumn();
+    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+    $sql = "SELECT id FROM players WHERE username = :username";
+    $rep = $conn->prepare($sql);
+    $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+    $rep->execute();
+    $_SESSION['id'] = $rep->fetchColumn();
 
 ?>
 

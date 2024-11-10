@@ -42,26 +42,37 @@
 <body>
 <header>
         <nav>
-            <div class="Title_nav">
-                <h1>Tournament Manager</h1>
-            </div>
             <ul>
-                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Create_user.php"> Account creation </a></li>
-                        <li><a href="Create_user.php"> Team creation </a></li>
-                        <li><a href="Create_user.php"> Tournament creation </a></li>
-                    </ul>
-                </li>
-                
-                <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
-                        <ul class="deroulant_Second">
-                            <li><a> Account creation </a></li>
-                            <li><a> Team creation </a></li>
-                            <li><a> Tournament creation </a></li>
-                        </ul>
-                 </li>
-            </ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                        </li>
+            </ul>   
         </nav>
     </header>
     <div class="Box_section">

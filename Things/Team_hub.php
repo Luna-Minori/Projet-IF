@@ -163,7 +163,7 @@
     <section>
         <div class="Team_choices">
             <div class="Tab">
-                <table >
+                <table>
                     <?php
                         $valid_columns = ['team_id', 'team_title', 'creator_id', 'username', 'game_title'];
                         $order = "ASC";

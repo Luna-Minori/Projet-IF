@@ -55,7 +55,6 @@
             <ul>
                 <li class="logo_container">
                     <img class="logo" src="Image/logo.png">
-                        </li>
                             <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                                 <ul class="deroulant_Second">
                                    <li><a href="Login_user.php"> My Profile </a></li>
@@ -81,10 +80,10 @@
                                     <li><a> Browse tournaments </a></li>    
                                 </ul>
                             </li>
-                        </li>
+                    </li>
             </ul>   
         </nav>
-    </header> 
+</header> 
     <main>
             <div class="Connexion">
                     <form method="post" action="login_user.php">
@@ -110,7 +109,5 @@
             </div>
         </div>
     </main>
-    <div class="Main_page">
-</div>
 </body>
 </html>

@@ -122,18 +122,17 @@ main{
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.Connexion{
+.Create{
     display: flex;
     justify-content: center;
     align-items: center; 
-    height: 96%;
+    height: 200%;
 }
 
 form{
     display: flex;
     flex-direction: column;
     box-shadow: 0 0px 25px rgb(192, 187, 187);
-    z-index: 1;
 }
 
 .Title_form{

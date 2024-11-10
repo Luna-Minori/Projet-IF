@@ -58,11 +58,44 @@
 </head>
 <body>
 <header>
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <img class="logo" src="Image/logo.png">
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                    </li>
+            </ul>   
+        </nav>
+    </header>
     <main>
         <div class="Create">
             <form method="post" action="Create_user.php">
                 <div class="bo">
-                    <h2 class="Title_form">Account Creation</h2>
+                    <h2 class="Title_form">Sign in</h2>
                         <div class="text_form">
                             <br>
                             <div class="arena_text">
@@ -80,15 +113,14 @@
                                     <label>email</label>
                                     <span>email</span>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="Creation" value="1" required>
+                                <input class="button" type="submit" name="condition" value="Create Account" value="1" required>
+                                <a class="Button_create_user" href="Login_user.php"><p> Log in </p></a>
                             </div>
                         </div>
                     </form>
             </div>
         </div>
     </main>
-
-        <a href=Main.php> Retour Main</a>
     </body>
 
 </html>

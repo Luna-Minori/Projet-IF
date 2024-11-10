@@ -1,71 +1,39 @@
-    <?php
-        session_start();
+<?php
+    session_start();
+    if (!isset($_SESSION['username'])) {
+        header('Location: Login_user.php');
+        exit();
+    }
 
-        if (!isset($_SESSION['username'])) {
-            header('Location: Login_user.php');
-            exit();
+    if (!isset($_GET['tournament_id'])) {
+        header('Location: Tournament_hub.php');
+        exit();
+    }
+
+    function round($tournament_participant, $round, $tournament){
+
+        $Nparticipant = count($tournament_participant);
+        if($Nparticipant == 0){
+            return 0;
         }
 
-        if (!isset($_GET['tournament_id'])) {
-            header('Location: Tournament_hub.php');
-            exit();
+        $temp = log($Nparticipant, 2);
+        $entier = (int)$temp;
+        if( $entier == $temp){
+            $Powof2 = pow(2, $entier);
+        }
+        else{
+            $Powof2 = pow(2, $entier + 1);
         }
 
-        function round($tournament_participant, $round, $tournament_type){
+        while($Nparticipant < $Powof2){
+            $tournament_participant[] = -1;
+        }
+        shuffle($tournament_participant);
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        for ($i = 0; $i < $Nparticipant; $i += 2) {
             
-            $Nparticipant = count($tournament_participant);
-            if($Nparticipant == 0){
-                return 0;
-            }
-
-            shuffle($tournament_participant);
-            if($tournament_type == 1){
-                $TableP = 'player_match_tournaments';
-                $P_id = 'player_id';
-            }
-
-            else{
-                $TableP = 'team_match_tournaments';
-                $P_id = 'team_id';
-            }
-
-            $temp = log($tournament['Nparticipant'], 2);
-            $entier = (int)$nombre;
-            if( $nombre == $temp){
-                $Powof2 = pow($entier, 2);
-            }
-            else
-                $Powof2 = pow($entier + 1, 2);
-            }
-
-            while($Nparticipant < $Powof2){
-                $tournament_participant[] = 0;
-            }
-            
-            for ($i = 0; $i < $Nparticipants; $i += 2) {
-
-                    if($tournament_type == 1){
-                        $TableP = 'player_match_tournaments';
-                        $P_id = 'player_id';
-                    }
-
-                    else{
-                        $TableP = 'team_match_tournaments';
-                        $P_id = 'team_id';
-                    }
-    
-                    $temp = log($tournament['Nparticipant'], 2);
-                    $entier = (int)$nombre;
-                    if( $nombre == $temp){
-                        $Powof2 = pow($entier, 2);
-                    }
-                    else
-                        $Powof2 = pow($entier + 1, 2);
-                    }
-    
-                    while($Nparticipant < $Powof2){
-                        $tournament_participant[] = '0';
-                    }
+            if($tournament['participant'] == 1){
                 $sql = "INSERT INTO player_match_tournaments(tournament_id, player1_id, player2_id, round) VALUES (:tournament_id, :player1_id, :player2_id, :round)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
@@ -74,111 +42,102 @@
                 $rep->bindParam(':round', $round, PDO::PARAM_INT);                        
                 $rep->execute();
             }
+            else{
+                $sql = "INSERT INTO team_match_tournaments(tournament_id, team1_id, team2_id, round) VALUES (:tournament_id, :player1_id, :player2_id, :round)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                $rep->bindParam(':team1_id', $tournament_participant[$i], PDO::PARAM_INT);
+                $rep->bindParam(':team2_id', $tournament_participant[$i + 1], PDO::PARAM_INT);
+                $rep->bindParam(':round', $round, PDO::PARAM_INT);                        
+                $rep->execute();
+            }
         }
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "SELECT * FROM tournaments WHERE id = :id";
+    }
+
+    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+    $sql = "SELECT * FROM tournaments WHERE id = :id";
+    $rep = $conn->prepare($sql);
+    $rep->bindParam(':id', $_GET['tournament_id'], PDO::PARAM_STR);
+    $rep->execute();
+    $tournament = $rep->fetch(PDO::FETCH_ASSOC);
+
+    $creation_date = new DateTime($tournament['Creation_Date']);
+    $Register_time = $tournament['Register_time'];
+
+    $End_date = $creation_date;
+    $Between = new DateInterval('PT' . $Register_time . 'S');
+    $End_date->add($Between);
+
+    $Now = new DateTime();
+    $Between = $Now->diff($End_date);
+
+    if ($Now < $End_date) {
+        $remaining_time = $Between->format('%a days %h Hours %i minutes');
+    } 
+    else {
+        $remaining_time = "Inscription fermée.";
+        $sql = "UPDATE tournaments SET History = 1 WHERE id = :tournament_id";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':id', $_GET['tournament_id'], PDO::PARAM_STR);
+        $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
         $rep->execute();
-        $tournament = $rep->fetch(PDO::FETCH_ASSOC);
+    }
 
-        $creation_date = new DateTime($tournament['Creation_Date']);
-        $Register_time = $tournament['Register_time'];
-
-        $End_date = $creation_date;
-        $Between = new DateInterval('PT' . $Register_time . 'S');
-        $End_date->add($Between);
-
-        $Now = new DateTime();
-        $Between = $Now->diff($End_date);
-
-        if ($Now < $End_date) {
-            $remaining_time = $Between->format('%a days %h Hours %i minutes');
-        } 
-        else {
-            $remaining_time = "Inscription fermée.";
-            $sql = "UPDATE tournaments SET History = 1 WHERE id = :tournament_id";
-            $rep = $conn->prepare($sql);
-            $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-            $rep->execute();
-        }
-
-        if($remaining_time == "Inscription fermée." || $tournament['History'] == 1){
+    if($tournament['rounds'] != -1 && ($remaining_time == "Inscription fermée." || $tournament['History'] == 1)){
+        if($tournament['rounds']== 0){
             if($tournament['participant'] == 1){
-                $TableP = 'player_tournaments';
-                $P_id = 'player_id';
+                $sql = "SELECT player_id FROM player_tournaments WHERE tournaments_id = :tournament_id";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
             }
             else{
-                $TableP = 'team_tournaments';
-                $P_id = 'team_id';
+                $sql = "SELECT team_id FROM team_tournaments WHERE tournaments_id = :tournament_id";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
             }
-            $sql = "SELECT :P_id FROM :TableP WHERE tournaments_id = :tournament_id";
-            $rep = $conn->prepare($sql);
-            $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-            $rep->bindParam(':TableP', $TableP, PDO::PARAM_STR);
-            $rep->bindParam(':P_id', $P_id, PDO::PARAM_STR);
-            $rep->execute();
-            $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
             $Nparticipant = count($tournament_participant);
+            round($tournament_participant, $tournament['round'], $tournament);
+        }
+        else{
+            if($tournament['participant'] == 1){
+                $sql = "SELECT COUNT(win) FROM player_match_tournaments WHERE tournaments_id = :tournament_id AND win = 0";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $checkround = $rep->fetch();
+            }
+            else{
+                $sql = "SELECT COUNT(win) FROM team_match_tournaments WHERE tournaments_id = :tournament_id AND win = 0";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $checkround = $rep->fetch();
+            }
 
-            
-
-
-                
-                
-                if($tournament['Nparticipant']%2 == 0){
-
-                    for ($i = 0; $i < count($tournament_participant); $i += 2) {
-                        if (isset($tournament_participant[$i + 1])) {
-                            if($tournament['participant'] == 1){
-                                $sql = "INSERT INTO player_games_tournaments(tournament_id, player1_id, player2_id) VALUES (:tournament_id, :player1_id, :player2_id)";
-                                $rep = $conn->prepare($sql);
-                                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                                $rep->bindParam(':player1_id', $tournament_participant[$i], PDO::PARAM_INT);
-                                $rep->bindParam(':player2_id', $tournament_participant[$i + 1], PDO::PARAM_INT);
-                                $rep->execute();
-                            }
-                            if($tournament['participant'] == 2){
-                                $sql = "INSERT INTO team_games_tournaments(tournament_id, team1_id, team2_id) VALUES (:tournament_id, :team1_id, :team2_id)";
-                                $rep = $conn->prepare($sql);
-                                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                                $rep->bindParam(':team1_id', $tournament_participant[$i], PDO::PARAM_INT);
-                                $rep->bindParam(':team2_id', $tournament_participant[$i + 1], PDO::PARAM_INT);
-                                $rep->execute();
-                            }
-                        }
-                    }
-                    
+            if($checkround == 0){
+                    if($tournament['participant'] == 1){
+                        $sql = "SELECT win FROM player_match_tournaments WHERE tournaments_id = :tournament_id AND win != 0 AND round = :round";
+                        $rep = $conn->prepare($sql);
+                        $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                        $rep->bindParam(':round', $tournament['round'], PDO::PARAM_STR);
+                        $rep->execute();
+                        $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
+                        round($tournament_participant, $tournament['round'], $tournament);
                 }
                 else{
-                    $sql = "SELECT games_won, games_tied, games_lost FROM :TableP WHERE id = :id";
+                    $sql = "SELECT win FROM team_match_tournaments WHERE tournaments_id = :tournament_id AND win != 0 AND round = :round";
                     $rep = $conn->prepare($sql);
-                    $rep->bindParam(':TableP', $TableP, PDO::PARAM_STR);
-                    $rep->bindParam(':id', $tournament_participant, PDO::PARAM_STR);
-                    $valide_number = [];
-
-                    while (count($valide_number)-1 < $tournament['Nparticipant']) {
-                        $Random_number = rand(1, $Nparticipant);
-                    
-                        if (!in_array($Random_number, $valide_number)) {
-                            $valide_number[] = $Random_number;
-                        }
-                    }
-                    for ($i = 0; $i < count($valide_number); $i += 2) {
-                        if (isset($valide_number[$i + 1])) {
-                            $sql = "INSERT INTO player_games_touraments(tournament_id, player1_id, player2_id) VALUES (:tournament_id, :player1_id, :player2_id)";
-                            $rep = $conn->prepare($sql);
-                            $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                            $rep->bindParam(':player1_id', $valide_number[$i], PDO::PARAM_INT);
-                            $rep->bindParam(':player2_id', $valide_number[$i+1], PDO::PARAM_INT);
-                        }
-                    }
+                    $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
+                    $rep->bindParam(':round', $tournament['round'], PDO::PARAM_STR);
+                    $rep->execute();
+                    $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
+                    round($tournament_participant, $tournament['round'], $tournament);
                 }
-                            
-                    
-            }
-            }
-
+        }
+    }
         if (isset($_GET['request_id'])) {
             if (isset($_GET['Update_request'])) {
                 if ($_GET['Update_request'] == 1) {

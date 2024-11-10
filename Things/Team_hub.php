@@ -59,6 +59,7 @@
         </nav>
     </header>
 <body>
+    <div class = "content">
     <?php
         if (isset($_GET['team_id'])) {
             $sql = "SELECT COUNT(*) id FROM player_teams WHERE player_id = :player_id AND team_id = :team_id";

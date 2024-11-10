@@ -119,6 +119,25 @@ h2 {
     margin-bottom: 10px;
 }
 
+.content {
+    z-index: 0;
+    position : absolute;
+    top: 6em;
+    margin-left: 10%;
+    width: 80%;
+    height: 200%;
+    padding: 20px;
+    background-color: rgba(45, 45, 45, 0.8);
+}
+
+section {
+    margin-bottom: 20px;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .Tab_game_select{
     width: 500px;
     display: flex;

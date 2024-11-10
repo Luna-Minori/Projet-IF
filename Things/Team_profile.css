@@ -217,3 +217,54 @@ input:hover{
     text-justify: center;
     text-align: 5px;
 }
+
+
+.content {
+    z-index: 0;
+    position : absolute;
+    top: 6em;
+    margin-left: 10%;
+    width: 80%;
+    height: 200%;
+    padding: 20px;
+    background-color: rgba(45, 45, 45, 0.8);
+}
+
+section {
+    margin-bottom: 20px;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+table {
+    border-collapse: collapse;
+    color: white;
+    margin: 20px 0;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+  }
+  
+  table thead tr {
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+  
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+  
+table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+  
+table tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}

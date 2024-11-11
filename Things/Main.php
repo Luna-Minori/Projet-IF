@@ -37,9 +37,9 @@
                             </li>
                             <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
                                 <ul class="deroulant_Second">
-                                    <li><a> My tournaments </a></li>
-                                    <li><a> Join tournament </a></li>
-                                    <li><a> Browse tournaments </a></li>    
+                                    <li><a href="Tournament_hub.php"> My tournaments </a></li>
+                                    <li><a href="Tournament_hub.php"> Join tournament </a></li>
+                                    <li><a href="Create_tournament.php"> Browse tournaments </a></li>    
                                 </ul>
                             </li>
                         </li>

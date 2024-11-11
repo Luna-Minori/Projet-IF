@@ -13,11 +13,11 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Profile_user.css">
+    <link rel="stylesheet" href="Profile.css">
 </head>
 <body>
-<header>
-    <nav>
+    <header>
+        <nav>
             <ul>
                 <li class="logo_container">
                     <img class="logo" src="Image/logo.png">
@@ -28,28 +28,29 @@
                                    <li><a href="Create_user.php"> Browse Players </a></li>
                                 </ul>
                            </li>
-                        <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
-                            <ul class="deroulant_Second">
-                                <li><a href="Team_hub.php"> My Teams </a></li>
-                                <li><a> Join Teams </a></li>
-                           </ul>
-                        </li>
-                        <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
                                 <ul class="deroulant_Second">
                                     <li><a href="Profile_user.php"> Add game </a></li>
                                     <li><a> Browse games </a></li>
                                 </ul>
-                        <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
                                 <ul class="deroulant_Second">
-                                    <li><a> My tournaments </a></li>
-                                    <li><a> Join tournament </a></li>
-                                    <li><a> Browse tournaments </a></li>    
+                                    <li><a href="Tournament_hub.php"> My tournaments </a></li>
+                                    <li><a href="Tournament_hub.php"> Join tournament </a></li>
+                                    <li><a href="Create_tournament.php"> Browse tournaments </a></li>    
                                 </ul>
                             </li>
-                </li>
-            </ul>
-    </nav>
-</header>
+                        </li>
+            </ul>   
+        </nav>
+    </header>
     <div class="content">
         <section class="Profile_Main">
          <?php  $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');

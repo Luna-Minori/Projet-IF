@@ -165,7 +165,7 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Team_profile.css">
+    <link rel="stylesheet" href="Profile.css">
 </head>
 <body>
 <header>

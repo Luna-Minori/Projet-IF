@@ -9,6 +9,85 @@
         header('Location: Tournament_hub.php');
         exit();
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if($_POST['Form'] == 1){
+            $Name = $_POST['Name_tournament'];
+            $Rules = $_POST['Rules_tournament'];
+
+            if(!isset($Name)){
+                header('Location: Tournament_management_upg.php');
+                exit();
+            }
+
+            if(!isset($Rules)){
+                $Rules = null;
+            }
+        
+            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+            $sql = "SELECT * FROM tournaments";
+            $rep = $conn->prepare($sql);
+            $rep->execute();
+        
+            $bool = false;
+            while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
+                if ($Basedata['id'] != $_SESSION['tournament_id']) {
+                    if ($Basedata['Name'] == $Name) {
+                        echo "This tournament name is already in use.";
+                        $bool = true;
+                        exit();
+                    }
+                }
+            }
+        
+            if ($bool == false) {
+                $sql = "UPDATE tournaments SET Name = :Name, Rules = :Rules WHERE id = :id";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':Name', $Name, PDO::PARAM_STR);
+                $rep->bindParam(':Rules', $Rules, PDO::PARAM_STR);
+                $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_INT);
+                $rep->execute();
+            }
+            header('Location: Tournament_management_upg.php');
+            exit();
+        }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if($_POST['Form'] == 2){
+            $match_id = $_POST['match_id'];
+            $winner = $_POST['Winner_username'];
+        
+            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+            $sql = "SELECT * FROM player_match_tournaments WHERE id=:match_id";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':id', $match_id, PDO::PARAM_INT);
+            $rep->execute();
+            $Match = $rep->fetch(PDO::FETCH_ASSOC);
+
+            if($Match['player1_id'] == $winner && $Match['player2_id'] == $winner){
+                $sql = "SELECT id FROM players WHERE username=:username";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':username', $winner, PDO::PARAM_STR);
+                $rep->execute();
+                $id = $rep->fetch();
+
+                if(isset($id)){
+
+
+                    if ($Match == 0) {
+                        $sql = "UPDATE player_match_tournaments SET win = :winner WHERE id = :id";
+                        $rep = $conn->prepare($sql);
+                        $rep->bindParam(':winner', $winner, PDO::PARAM_INT);
+                        $rep->bindParam(':id', $match_id, PDO::PARAM_INT);
+                        $rep->execute();
+                    }
+                }
+                header('Location: Tournament_management_upg.php');
+                exit();
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -17,99 +96,111 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Profile_user.css">
+    <link rel="stylesheet" href="Profile.css">
 </head>
 <body>
-<header>
+    <header>
         <nav>
-            <div class="Title_nav">
-                <h1>Tournament Manager</h1>
-            </div>
             <ul>
-                <li class="deroulant_Main"><a href="#"> Creation &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Create_user.php"> Account creation </a></li>
-                        <li><a href="Create_user.php"> Team creation </a></li>
-                        <li><a href="Create_user.php"> Tournament creation </a></li>
-                    </ul>
+                <li class="logo_container">
+                    <a href=Main.php class="link_logo" > <img class="logo" src="Image/logo.png"> </a>
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                        </li>
                 </li>
-                
-                <li class="deroulant_Main"><a href="#"> Profile &ensp;</a>
-                        <ul class="deroulant_Second">
-                            <li><a> Account creation </a></li>
-                            <li><a> Team creation </a></li>
-                            <li><a> Tournament creation </a></li>
-                        </ul>
-                 </li>
-            </ul>
-        </nav>
+            </ul>   
+        </nav>    
     </header>
-    <div class="Box_section">
-        <section class="Profile_Main">
-        <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "SELECT * FROM tournaments WHERE id = :id";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_STR);
-                $rep->execute();
-                $tournament = $rep->fetch(PDO::FETCH_ASSOC);
-        ?>
-        <div class="information">
-            <div class="Menu_info">
-                <div class="sub_Title">Information</div>
-                <div class="button">
-                    <a href="Tournament_management_upg.php"><img src="Image/Menu.png" class="img_button"></a>
+    <section>
+        <div class="Box_section">
+            <section class="Profile_Main">
+            <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                    $sql = "SELECT * FROM tournaments WHERE id = :id";
+                    $rep = $conn->prepare($sql);
+                    $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_STR);
+                    $rep->execute();
+                    $tournament = $rep->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">Information</div>
                 </div>
-            </div>
-            <form action="Tournament_management_upg.php">
-                <div class="tab_item">
-                    <div class="item">
-                        <?php echo "<input type='text' name='Name_tournament' value='" . $tournament['Name'] . "'>"; ?>
-                    </div>
-                    <div class="item">
-                        <?php echo "<input type='text' name='Rules_tournament' value='" . $tournament['Rules'] . "'>"; ?>
-                    </div>
-                    <?php
-                        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                        $sql = "SELECT title, rules FROM games WHERE id = :id";
-                        $rep = $conn->prepare($sql);
-                        $rep->bindParam(':id', $tournament['game_id'], PDO::PARAM_INT);
-                        $rep->execute();
-                        $game = $rep->fetch(PDO::FETCH_ASSOC);
-
-                    ?>
-                    <div class="item">
-                        <?php echo "Game : " . $game['title'];?>
-                    </div>
-                    <div class="item">
-                        <?php echo "Rules of game : " . $game['Rules'];?>
-                    <div class="item">
-                    <div class="item">
-                        <?php echo "Specific rules of tournament : " . $tournament['Rules'];?>
-                    <div class="item">
+                <form method="post" action="Tournament_management_upg.php">
+                    <div class="tab_item">
+                        <div class="item">
+                            <p> Name : </p>
+                            <input type="text" name="Name_tournament" value="<?php echo htmlspecialchars($tournament['Name'] ?? ''); ?>">
+                        </div>
                         <?php
-                                if($tournament['Match_system'] == 1): ?>
-                                    <p> elimnation rounds </p>
-                                <?php endif; 
-                                if($tournament['Match_system'] == 2): ?>
-                                    <p> Swiss system </p>
+                            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                            $sql = "SELECT title, rules FROM games WHERE id = :id";
+                            $rep = $conn->prepare($sql);
+                            $rep->bindParam(':id', $tournament['game_id'], PDO::PARAM_INT);
+                            $rep->execute();
+                            $game = $rep->fetch(PDO::FETCH_ASSOC);
+
+                        ?>
+                        <div class="item">
+                            <?php echo "Game : " . $game['title'];?>
+                        </div>
+                        <div class="item">
+                            <?php echo "Rules of game : " . $game['rules'];?>
+                        </div>
+                        <div class="item">
+                            <p> Specific rules of tournament : </p>
+                            <input type="text" name="Rules_tournament" value="<?php echo htmlspecialchars($tournament['Rules'] ?? ''); ?>">
+                        </div>
+                        <div class="item">
+                            <?php
+                                    if($tournament['Match_system'] == 1): ?>
+                                        <p> elimnation rounds </p>
+                                    <?php endif; 
+                                    if($tournament['Match_system'] == 2): ?>
+                                        <p> Swiss system </p>
+                                    <?php endif;
+                                    if($tournament['Match_system'] == 3): ?>
+                                        <p> league format </p>
+                                    <?php endif; 
+                            ?>    
+                        </div>
+                        <div class="item">
+                            <?php 
+                                if($tournament['participant'] == 1): ?>
+                                    <p> Type of participant : Singleplayer </p>
                                 <?php endif;
-                                if($tournament['Match_system'] == 3): ?>
-                                    <p> league format </p>
-                                <?php endif; 
-                        ?>    
+                                if($tournament['participant'] == 2): ?>
+                                    <p> Type of participant : Team </p>
+                                <?php endif; ?>
+                        </div>
                     </div>
-                    <div class="item">
-                        <?php 
-                            if($tournament['participant'] == 1): ?>
-                                <p> Type of participant : Singleplayer </p>
-                            <?php endif;
-                            if($tournament['participant'] == 2): ?>
-                                <p> Type of participant : Team </p>
-                            <?php endif; ?>
-                    </div>
-                </div>
-            </form>
-        </div>
+                    <input class="button" type="submit" name="Form" value="1" hidden>
+                    <input class="button" type="submit" name="condition" value="Valid" required>
+                </form>
+            </div>
     </section>
     <section class="Member">
         <div class="information">
@@ -119,7 +210,6 @@
                     <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
-
             <table class="Tab">
                 <?php
                     if($tournament['participant'] == 1){
@@ -252,6 +342,26 @@
                 </tr>
             </table>
         </div>
+    </section>
+    <section class="insert">
+        <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">Request</div>
+                </div> 
+                <form method="GET" action="Tournament_management_upg.php">
+                    <div class="tab_item">
+                        <div class="item">
+                            <p> ID of match</p>
+                            <input type="text" name="match_id" value="">
+                        </div>
+                        <div class="item">
+                            <p> Username of winner</p>
+                            <input type="text" name="Winner_username" value="">
+                        </div>
+                    <input class="button" type="submit" name="Form" value="2" hidden>
+                    <input class="button" type="submit" name="condition" value="Valid" required>
+                </form>
+        </div>  
     </section>
     <section class="History">
             

@@ -10,7 +10,7 @@
         exit();
     }
 
-    function round($tournament_participant, $round, $tournament){
+    function generate_round($tournament_participant, $round, $tournament){
 
         $Nparticipant = count($tournament_participant);
         if($Nparticipant == 0){
@@ -99,7 +99,7 @@
                 $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
             }
             $Nparticipant = count($tournament_participant);
-            round($tournament_participant, $tournament['round'], $tournament);
+            generate_round($tournament_participant, $tournament['round'], $tournament);
         }
         else{
             if($tournament['participant'] == 1){
@@ -134,29 +134,30 @@
                     $rep->bindParam(':round', $tournament['round'], PDO::PARAM_STR);
                     $rep->execute();
                     $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
-                    round($tournament_participant, $tournament['round'], $tournament);
-                }
-        }
-    }
-        if (isset($_GET['request_id'])) {
-            if (isset($_GET['Update_request'])) {
-                if ($_GET['Update_request'] == 1) {
-                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                    $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM request WHERE id = :request_id), :team_id)";  
-                    $rep = $conn->prepare($sql);
-                    $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
-                    $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
-                    $rep->execute();
+                    generate_round($tournament_participant, $tournament['round'], $tournament);
                 }
             }
-            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-            $sql = "UPDATE request SET treated = 1 WHERE id = :request_id";
-            $rep = $conn->prepare($sql);
-            $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
-            $rep->execute();
         }
-        
-    ?>
+    }
+
+    if (isset($_GET['request_id'])) {
+        if (isset($_GET['Update_request'])) {
+            if ($_GET['Update_request'] == 1) {
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM request WHERE id = :request_id), :team_id)";  
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+                $rep->execute();
+            }
+        }
+        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+        $sql = "UPDATE request SET treated = 1 WHERE id = :request_id";
+        $rep = $conn->prepare($sql);
+        $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
+        $rep->execute();
+    }        
+?>
 
 <!DOCTYPE html>
 <html lang="fr">

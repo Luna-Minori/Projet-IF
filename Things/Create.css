@@ -7,7 +7,6 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #333333;
     color: #333333;
     background-image: url(Image/fond.png);
     background-size: cover;
@@ -37,7 +36,6 @@ header {
     box-shadow: none;
     margin-bottom: 1em;
     margin-left: 1em;
-    
 }
 
 nav{
@@ -67,6 +65,10 @@ nav ul li{
 nav ul::after{
     display: table;
     clear: both;
+}
+
+.link_logo{
+    padding: 0px 0px;
 }
 
 nav a{
@@ -118,21 +120,24 @@ h1 {
     padding: 0.5em;
 }
 
-main{
+section{
     background-color: rgba(0, 0, 0, 0.6);
+    padding-top: 50px;
 }
 
 .Create{
     display: flex;
     justify-content: center;
     align-items: center; 
-    height: 200%;
+    min-height: 100vh; 
 }
 
 form{
     display: flex;
     flex-direction: column;
     box-shadow: 0 0px 25px rgb(192, 187, 187);
+    align-items: center;
+    justify-content: center; 
 }
 
 .Title_form{
@@ -187,21 +192,37 @@ label{
 }
 
 .button{
-    background-color: rgba(208, 208, 208, 0.5);
+    background-color: rgba(208, 208, 208);
     border-radius: 5px;
     border: rgb(208, 208, 208);
     padding: 10px;
-    width: 60%;
+    width: 100%;
     margin-left: 50px;
     text-align: center;
     font-weight: bold;
+    margin: 10px;
+    align-items: center;
+    margin: 10px;
 }
 
-.Button_create_user{
-    text-decoration: none;
-    position: center;
-    font-size: 14px;
-    text-align: center;
-    width: 100%;
+.choice_game{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    margin-bottom: 12px;
+    margin-top: 3px;
 }
 
+select{
+    align-items: center;
+    border-radius: 5px;
+    border-style: 5px;
+    margin: 10px
+}
+
+p{
+    color: #000000;
+}

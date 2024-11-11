@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -29,7 +30,6 @@
         }
         if( $bool == false ){
 
-            echo "coucou";
             $sql = "UPDATE FROM players(username, email, hashed_password, bio) VALUES (:username,:email,:hashed_password,:bio)";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':username', $username, PDO::PARAM_STR);
@@ -54,14 +54,15 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Create_user.css">
+    <link rel="stylesheet" href="Create.css">
 </head>
 <body>
-<header>
+    <header>
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href=Main.php class="link_logo" > <img class="logo" src="Image/logo.png"> </a>
+                        </li>
                             <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                                 <ul class="deroulant_Second">
                                    <li><a href="Login_user.php"> My Profile </a></li>
@@ -87,40 +88,41 @@
                                     <li><a> Browse tournaments </a></li>    
                                 </ul>
                             </li>
-                    </li>
+                        </li>
+                </li>
             </ul>   
-        </nav>
+        </nav>    
     </header>
-    <main>
-        <div class="Create">
-            <form method="post" action="Create_user.php">
-                <div class="bo">
-                    <h2 class="Title_form">Sign in</h2>
-                        <div class="text_form">
-                            <br>
-                            <div class="arena_text">
-                                <input class="left-space" type="text" id="username" name="username" size="12" required>
-                                    <label>Username</label>
-                                    <span>Username</span>
-                                </div>
+    <section>
+        <main>
+            <div class="Create">
+                <form method="post" action="Create_user.php">
+                    <div class="bo">
+                        <h2 class="Title_form">Account Creation</h2>
+                            <div class="text_form">
+                                <br>
                                 <div class="arena_text">
-                                    <input class="left-space" type="text" name="password" size="12" required>
-                                    <label>Password</label>
-                                    <span>Password</span>
+                                    <input class="left-space" type="text" id="username" name="username" size="12" required>
+                                        <label>Username</label>
+                                        <span>Username</span>
+                                    </div>
+                                    <div class="arena_text">
+                                        <input class="left-space" type="text" name="password" size="12" required>
+                                        <label>Password</label>
+                                        <span>Password</span>
+                                    </div>
+                                    <div class="arena_text">
+                                        <input class="left-space" type="email" name="email" size="12" required>
+                                        <label>email</label>
+                                        <span>email</span>
+                                    </div>
+                                    <input class="button" type="submit" name="condition" value="Creation" value="1" required>
                                 </div>
-                                <div class="arena_text">
-                                    <input class="left-space" type="email" name="email" size="12" required>
-                                    <label>email</label>
-                                    <span>email</span>
-                                </div>
-                                <input class="button" type="submit" name="condition" value="Create Account" value="1" required>
-                                <a class="Button_create_user" href="Login_user.php"><p> Log in </p></a>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>     
+    </section>
     </body>
-
 </html>

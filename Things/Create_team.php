@@ -76,48 +76,84 @@
 </head>
 <body>
 <header>
-    <main>
-        <div class="Create">
-            <form method="post" action="Create_team.php">
-                <div class="bo">
-                    <h2 class="Title_form">Team Creation</h2>
-                        <div class="text_form">
-                            <br>
-                            <div class="arena_text">
-                                <input class="left-space" type="text" id="username" name="title" size="12" required>
-                                    <label>Name of your team</label>
-                                    <span>Name of your team</span>
-                                </div>
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <a href=Main.php class="link_logo" > <img class="logo" src="Image/logo.png"> </a>
+                        </li>
+                            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                                <ul class="deroulant_Second">
+                                   <li><a href="Login_user.php"> My Profile </a></li>
+                                   <li><a href="Create_user.php"> Browse Players </a></li>
+                                </ul>
+                           </li>
+                            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Team_hub.php"> My Teams </a></li>
+                                    <li><a> Join Teams </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a href="Profile_user.php"> Add game </a></li>
+                                    <li><a> Browse games </a></li>
+                                </ul>
+                            </li>
+                            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                                <ul class="deroulant_Second">
+                                    <li><a> My tournaments </a></li>
+                                    <li><a> Join tournament </a></li>
+                                    <li><a> Browse tournaments </a></li>    
+                                </ul>
+                            </li>
+                        </li>
+                </li>
+            </ul>   
+        </nav>    
+    </header>
+    <section
+        <main>
+            <div class="Create">
+                <form method="post" action="Create_team.php">
+                    <div class="bo">
+                        <h2 class="Title_form">Team Creation</h2>
+                            <div class="text_form">
+                                <br>
                                 <div class="arena_text">
-                                    <input class="left-space" type="text" name="password" size="12" required>
-                                    <label>Your Password</label>
-                                    <span>Your Password</span>
-                                </div>
+                                    <input class="left-space" type="text" id="username" name="title" size="12" required>
+                                        <label>Name of your team</label>
+                                        <span>Name of your team</span>
+                                    </div>
+                                    <div class="arena_text">
+                                        <input class="left-space" type="text" name="password" size="12" required>
+                                        <label>Your Password</label>
+                                        <span>Your Password</span>
+                                    </div>
 
-                                <div class="arena_text">
-                                    <select name="game" id="game_select">
-                                        <?php 
-                                            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                                            $sql = "SELECT title, id FROM games";
-                                            $rep = $conn->prepare($sql);
-                                            $rep->execute();
-                                            $Basedata = $rep->fetchAll();
-                                            foreach ($Basedata as $game) {
-                                                echo "<option value='" . htmlspecialchars($game['id']) . "'>" . htmlspecialchars($game['title']) . "</option>";
-                                            }
+                                    <div class="arena_text">
+                                        <div class="choice_game">
+                                            <p>Choice game</p>
+                                            <select name="game" id="game_select">
+                                                <?php 
+                                                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                                                    $sql = "SELECT title, id FROM games";
+                                                    $rep = $conn->prepare($sql);
+                                                    $rep->execute();
+                                                    $Basedata = $rep->fetchAll();
+                                                    foreach ($Basedata as $game) {
+                                                        echo "<option value='" . htmlspecialchars($game['id']) . "'>" . htmlspecialchars($game['title']) . "</option>";
+                                                    }
 
-                                        ?>
-                                    </select>
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input class="button" type="submit" name="condition" value="Creation" value="1" required>
                                 </div>
-                                <input class="button" type="submit" name="condition" value="Creation" value="1" required>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                </div>
             </div>
-        </div>
-    </main>
-
-        <a href=Main.php> Retour Main</a>
+        </main>
     </body>
-
 </html>

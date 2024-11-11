@@ -105,8 +105,10 @@
                 <th><a href="?sort_tournament_join=Name&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>"> Tournament Name </a></th>
                 <th><a href="?sort_tournament_join=Match_system&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>">Creator username </a></th>
                 <th><a href="?sort_tournament_join=title&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>">Game </a></th>
-                <th><a href="?sort_tournament_join=Match_system&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>">Match system </a></th> 
-            </tr>
+                <th><a href="?sort_tournament_join=Match_system&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>">Match system </a></th>
+                <th><a href="?sort_tournament_join=Register_time&order=<?= $order_tournament_join === 'ASC' ? 'desc' : 'asc' ?>">Register time </a></th>
+                <th> Profile </th>
+            </tr>   
             <tr>
                 <td> 
                     <?php 

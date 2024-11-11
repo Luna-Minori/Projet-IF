@@ -47,7 +47,7 @@
                 $_SESSION['player_id'] = $rep->fetchColumn();
 
                 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "INSERT INTO player_tournaments(tournament_id, player_id) VALUES ((SELECT id FROM tournaments WHERE Name = :name AND History=0), :player_id)";
+                $sql = "INSERT INTO player_tournaments(tournament_id, player_id, Administrator) VALUES ((SELECT id FROM tournaments WHERE Name = :name AND History=0), :player_id, 2)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':name', $tournament_name, PDO::PARAM_STR);
                 $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);

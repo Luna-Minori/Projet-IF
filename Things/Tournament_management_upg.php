@@ -262,7 +262,7 @@
             <div class="Menu_info">
                 <div class="sub_Title">Member</div>
                 <div class="button">
-                    <a href="Tournament_management_upg.php"><img src="Image/Menu.png" class="img_button"></a>
+                    <a href="Profile_user_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
 

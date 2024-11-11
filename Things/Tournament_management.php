@@ -262,6 +262,7 @@
             <div class="Menu_info">
                 <div class="sub_Title">Member</div>
                 <div class="button">
+                    <?php $_SESSION['tournament_id'] = $tournament['id']; ?>
                     <a href="Tournament_management_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>

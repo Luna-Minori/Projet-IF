@@ -5,158 +5,10 @@
         exit();
     }
 
-    if (!isset($_GET['tournament_id'])) {
+    if (!isset($_SESSION['tournament_id'])) {
         header('Location: Tournament_hub.php');
         exit();
     }
-
-    function generate_round($tournament_participant, $round, $tournament){
-
-        $Nparticipant = count($tournament_participant);
-        if($Nparticipant == 0){
-            return 0;
-        }
-
-        $temp = log($Nparticipant, 2);
-        $entier = (int)$temp;
-        if( $entier == $temp){
-            $Powof2 = pow(2, $entier);
-        }
-        else{
-            $Powof2 = pow(2, $entier + 1);
-        }
-
-        while($Nparticipant < $Powof2){
-            $tournament_participant[] = -1;
-        }
-        shuffle($tournament_participant);
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        for ($i = 0; $i < $Nparticipant; $i += 2) {
-            
-            if($tournament['participant'] == 1){
-                $sql = "INSERT INTO player_match_tournaments(tournament_id, player1_id, player2_id, round) VALUES (:tournament_id, :player1_id, :player2_id, :round)";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->bindParam(':player1_id', $tournament_participant[$i], PDO::PARAM_INT);
-                $rep->bindParam(':player2_id', $tournament_participant[$i + 1], PDO::PARAM_INT);
-                $rep->bindParam(':round', $round, PDO::PARAM_INT);                        
-                $rep->execute();
-            }
-            else{
-                $sql = "INSERT INTO team_match_tournaments(tournament_id, team1_id, team2_id, round) VALUES (:tournament_id, :player1_id, :player2_id, :round)";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->bindParam(':team1_id', $tournament_participant[$i], PDO::PARAM_INT);
-                $rep->bindParam(':team2_id', $tournament_participant[$i + 1], PDO::PARAM_INT);
-                $rep->bindParam(':round', $round, PDO::PARAM_INT);                        
-                $rep->execute();
-            }
-        }
-    }
-
-    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    $sql = "SELECT * FROM tournaments WHERE id = :id";
-    $rep = $conn->prepare($sql);
-    $rep->bindParam(':id', $_GET['tournament_id'], PDO::PARAM_STR);
-    $rep->execute();
-    $tournament = $rep->fetch(PDO::FETCH_ASSOC);
-
-    $creation_date = new DateTime($tournament['Creation_Date']);
-    $Register_time = $tournament['Register_time'];
-
-    $End_date = $creation_date;
-    $Between = new DateInterval('PT' . $Register_time . 'S');
-    $End_date->add($Between);
-
-    $Now = new DateTime();
-    $Between = $Now->diff($End_date);
-
-    if ($Now < $End_date) {
-        $remaining_time = $Between->format('%a days %h Hours %i minutes');
-    } 
-    else {
-        $remaining_time = "Inscription fermée.";
-        $sql = "UPDATE tournaments SET History = 1 WHERE id = :tournament_id";
-        $rep = $conn->prepare($sql);
-        $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-        $rep->execute();
-    }
-
-    if($tournament['round'] != -1 && ($remaining_time == "Inscription fermée." || $tournament['History'] == 1)){
-        if($tournament['round'] == 0){
-            if($tournament['participant'] == 1){
-                $sql = "SELECT player_id FROM player_tournaments WHERE tournaments_id = :tournament_id";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
-            }
-            else{
-                $sql = "SELECT team_id FROM team_tournaments WHERE tournaments_id = :tournament_id";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
-            }
-            $Nparticipant = count($tournament_participant);
-            generate_round($tournament_participant, $tournament['round'], $tournament);
-        }
-        else{
-            if($tournament['participant'] == 1){
-                $sql = "SELECT COUNT(win) FROM player_match_tournaments WHERE tournaments_id = :tournament_id AND win = 0";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $checkround = $rep->fetch();
-            }
-            else{
-                $sql = "SELECT COUNT(win) FROM team_match_tournaments WHERE tournaments_id = :tournament_id AND win = 0";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                $rep->execute();
-                $checkround = $rep->fetch();
-            }
-
-            if($checkround == 0){
-                    if($tournament['participant'] == 1){
-                        $sql = "SELECT win FROM player_match_tournaments WHERE tournaments_id = :tournament_id AND win != 0 AND round = :round";
-                        $rep = $conn->prepare($sql);
-                        $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                        $rep->bindParam(':round', $tournament['round'], PDO::PARAM_STR);
-                        $rep->execute();
-                        $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
-                        round($tournament_participant, $tournament['round'], $tournament);
-                }
-                else{
-                    $sql = "SELECT win FROM team_match_tournaments WHERE tournaments_id = :tournament_id AND win != 0 AND round = :round";
-                    $rep = $conn->prepare($sql);
-                    $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
-                    $rep->bindParam(':round', $tournament['round'], PDO::PARAM_STR);
-                    $rep->execute();
-                    $tournament_participant = $rep->fetchAll(PDO::FETCH_COLUMN);
-                    generate_round($tournament_participant, $tournament['round'], $tournament);
-                }
-            }
-        }
-    }
-
-    if (isset($_GET['request_id'])) {
-        if (isset($_GET['Update_request'])) {
-            if ($_GET['Update_request'] == 1) {
-                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM request WHERE id = :request_id), :team_id)";  
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
-                $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
-                $rep->execute();
-            }
-        }
-        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-        $sql = "UPDATE request SET treated = 1 WHERE id = :request_id";
-        $rep = $conn->prepare($sql);
-        $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
-        $rep->execute();
-    }        
 ?>
 
 <!DOCTYPE html>
@@ -165,7 +17,7 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Manager</title>
-    <link rel="stylesheet" href="Team_profile.css">
+    <link rel="stylesheet" href="Profile_user.css">
 </head>
 <body>
 <header>
@@ -197,7 +49,7 @@
         <?php   $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
                 $sql = "SELECT * FROM tournaments WHERE id = :id";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':id', $_GET['tournament_id'], PDO::PARAM_STR);
+                $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_STR);
                 $rep->execute();
                 $tournament = $rep->fetch(PDO::FETCH_ASSOC);
         ?>
@@ -208,53 +60,55 @@
                     <a href="Tournament_management_upg.php"><img src="Image/Menu.png" class="img_button"></a>
                 </div>
             </div>
-            <div class="tab_item">
-                <div class="item">
-                    <?php echo "Username : " . $tournament['Name']; ?>
-                </div>
-                <div class="item">
-                    <?php echo "create the : " . $tournament['Creation_Date'];?>
-                </div>
-                <?php
-                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                    $sql = "SELECT title, rules FROM games WHERE id = :id";
-                    $rep = $conn->prepare($sql);
-                    $rep->bindParam(':id', $tournament['game_id'], PDO::PARAM_INT);
-                    $rep->execute();
-                    $game = $rep->fetch(PDO::FETCH_ASSOC);
-
-                ?>
-                <div class="item">
-                    <?php echo "Game : " . $game['title'];?>
-                </div>
-                <div class="item">
-                    <?php echo "Rules of game : " . $game['Rules'];?>
-                <div class="item">
-                <div class="item">
-                    <?php echo "Specific rules of tournament : " . $tournament['Rules'];?>
-                <div class="item">
+            <form action="Tournament_management_upg.php">
+                <div class="tab_item">
+                    <div class="item">
+                        <?php echo "<input type='text' name='Name_tournament' value='" . $tournament['Name'] . "'>"; ?>
+                    </div>
+                    <div class="item">
+                        <?php echo "<input type='text' name='Rules_tournament' value='" . $tournament['Rules'] . "'>"; ?>
+                    </div>
                     <?php
-                            if($tournament['Match_system'] == 1): ?>
-                                <p> elimnation rounds </p>
-                            <?php endif; 
-                            if($tournament['Match_system'] == 2): ?>
-                                <p> Swiss system </p>
+                        $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                        $sql = "SELECT title, rules FROM games WHERE id = :id";
+                        $rep = $conn->prepare($sql);
+                        $rep->bindParam(':id', $tournament['game_id'], PDO::PARAM_INT);
+                        $rep->execute();
+                        $game = $rep->fetch(PDO::FETCH_ASSOC);
+
+                    ?>
+                    <div class="item">
+                        <?php echo "Game : " . $game['title'];?>
+                    </div>
+                    <div class="item">
+                        <?php echo "Rules of game : " . $game['Rules'];?>
+                    <div class="item">
+                    <div class="item">
+                        <?php echo "Specific rules of tournament : " . $tournament['Rules'];?>
+                    <div class="item">
+                        <?php
+                                if($tournament['Match_system'] == 1): ?>
+                                    <p> elimnation rounds </p>
+                                <?php endif; 
+                                if($tournament['Match_system'] == 2): ?>
+                                    <p> Swiss system </p>
+                                <?php endif;
+                                if($tournament['Match_system'] == 3): ?>
+                                    <p> league format </p>
+                                <?php endif; 
+                        ?>    
+                    </div>
+                    <div class="item">
+                        <?php 
+                            if($tournament['participant'] == 1): ?>
+                                <p> Type of participant : Singleplayer </p>
                             <?php endif;
-                            if($tournament['Match_system'] == 3): ?>
-                                <p> league format </p>
-                            <?php endif; 
-                    ?>    
+                            if($tournament['participant'] == 2): ?>
+                                <p> Type of participant : Team </p>
+                            <?php endif; ?>
+                    </div>
                 </div>
-                <div class="item">
-                    <?php 
-                        if($tournament['participant'] == 1): ?>
-                            <p> Type of participant : Singleplayer </p>
-                        <?php endif;
-                        if($tournament['participant'] == 2): ?>
-                            <p> Type of participant : Team </p>
-                        <?php endif; ?>
-                </div>
-            </div>
+            </form>
         </div>
     </section>
     <section class="Member">

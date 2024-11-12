@@ -33,12 +33,7 @@ session_start();
                         <li><a href="Create_team.php"> Create Team </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Profile_user.php"> Add game </a></li>
-                        <li><a> Browse games </a></li>
-                    </ul>
-                </li>
+
                 <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
                     <ul class="deroulant_Second">
                         <li><a href="Tournament_hub.php"> My tournaments </a></li>
@@ -46,6 +41,7 @@ session_start();
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
+                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
                 </li>
             </ul>
         </nav>

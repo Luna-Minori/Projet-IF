@@ -9,52 +9,56 @@
         header('Location: Tournament_hub.php');
         exit();
     }
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if($_POST['Form'] == 1){
+        if ($_POST['Form'] == 1) {
             $Name = $_POST['Name_tournament'];
             $Rules = $_POST['Rules_tournament'];
-
-            if(!isset($Name)){
+        
+            if (empty($Name)) {
                 header('Location: Tournament_management_upg.php');
                 exit();
             }
-
-            if(!isset($Rules)){
+        
+            if (empty($Rules)) {
                 $Rules = null;
             }
         
-            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-            $sql = "SELECT * FROM tournaments";
-            $rep = $conn->prepare($sql);
-            $rep->execute();
+            try {
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-            $bool = false;
-            while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
-                if ($Basedata['id'] != $_SESSION['tournament_id']) {
-                    if ($Basedata['Name'] == $Name) {
+                $sql = "SELECT * FROM tournaments";
+                $rep = $conn->prepare($sql);
+                $rep->execute();
+                
+                $bool = false;
+                while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
+                    if ($Basedata['id'] != $_SESSION['tournament_id'] && $Basedata['Name'] == $Name) {
                         echo "This tournament name is already in use.";
                         $bool = true;
-                        exit();
+                        break;
                     }
                 }
+        
+                if ($bool == false) {
+                    $sql = "UPDATE tournaments SET Name = :Name, Rules = :Rules WHERE id = :id";
+                    $rep = $conn->prepare($sql);
+                    $rep->bindParam(':Name', $Name, PDO::PARAM_STR);
+                    $rep->bindParam(':Rules', $Rules, PDO::PARAM_STR);
+                    $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_INT);
+                    $rep->execute();
+                }
+        
+            } catch (PDOException $e) {
+                echo 'Database error: ' . $e->getMessage();
+                exit();
             }
         
-            if ($bool == false) {
-                $sql = "UPDATE tournaments SET Name = :Name, Rules = :Rules WHERE id = :id";
-                $rep = $conn->prepare($sql);
-                $rep->bindParam(':Name', $Name, PDO::PARAM_STR);
-                $rep->bindParam(':Rules', $Rules, PDO::PARAM_STR);
-                $rep->bindParam(':id', $_SESSION['tournament_id'], PDO::PARAM_INT);
-                $rep->execute();
-            }
             header('Location: Tournament_management_upg.php');
             exit();
-        }
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if($_POST['Form'] == 2){
+        }        
+        elseif ($_POST['Form'] == 2) {
             $match_id = $_POST['match_id'];
             $winner = $_POST['Winner_username'];
         
@@ -65,16 +69,13 @@
             $rep->execute();
             $Match = $rep->fetch(PDO::FETCH_ASSOC);
 
-            if($Match['player1_id'] == $winner && $Match['player2_id'] == $winner){
+            if($Match['player1_id'] == $winner || $Match['player2_id'] == $winner){
                 $sql = "SELECT id FROM players WHERE username=:username";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':username', $winner, PDO::PARAM_STR);
                 $rep->execute();
                 $id = $rep->fetch();
-
                 if(isset($id)){
-
-
                     if ($Match == 0) {
                         $sql = "UPDATE player_match_tournaments SET win = :winner WHERE id = :id";
                         $rep = $conn->prepare($sql);
@@ -86,7 +87,7 @@
                 header('Location: Tournament_management_upg.php');
                 exit();
             }
-        }
+         }
     }
 ?>
 
@@ -149,7 +150,7 @@
                 <div class="Menu_info">
                     <div class="sub_Title">Information</div>
                 </div>
-                <form method="post" action="Tournament_management_upg.php">
+                <form method="POST" action="Tournament_management_upg.php">
                     <div class="tab_item">
                         <div class="item">
                             <p> Name : </p>
@@ -177,13 +178,13 @@
                         <div class="item">
                             <?php
                                     if($tournament['Match_system'] == 1): ?>
-                                        <p> elimnation rounds </p>
+                                        <p> Elimnation rounds </p>
                                     <?php endif; 
                                     if($tournament['Match_system'] == 2): ?>
                                         <p> Swiss system </p>
                                     <?php endif;
                                     if($tournament['Match_system'] == 3): ?>
-                                        <p> league format </p>
+                                        <p> League format </p>
                                     <?php endif; 
                             ?>    
                         </div>
@@ -197,7 +198,7 @@
                                 <?php endif; ?>
                         </div>
                     </div>
-                    <input class="button" type="submit" name="Form" value="1" hidden>
+                    <input class="button" type="hidden" name="Form" value="1" >
                     <input class="button" type="submit" name="condition" value="Valid" required>
                 </form>
             </div>
@@ -282,7 +283,7 @@
                     if($tournament['participant'] == 1){
 
                         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                        $sql = "SELECT p1.username AS player1_username, p2.username AS player2_username, pmt.round, pmt.id, pmt.win, pmt.player1_id, pmt.player2_id FROM player_match_tournaments pmt INNER JOIN players p1 ON pmt.player1_id = p1.id INNER JOIN players p2 ON pmt.player2_id = p2.id WHERE pmt.tournament_id = :tournament_id AND pmt.round = :round ORDER BY pmt.round ASC";
+                        $sql = "SELECT * FROM player_match_tournaments WHERE tournament_id = :tournament_id AND round = :round ORDER BY round ASC";
                         $rep = $conn->prepare($sql);
                         $rep->bindParam(':tournament_id', $tournament['id'], PDO::PARAM_INT);
                         $rep->bindParam(':round', $tournament['round'], PDO::PARAM_INT);
@@ -295,7 +296,7 @@
                         $rep = $conn->prepare($sql);
                         $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
                         $rep->execute();
-                        $Member = $rep->fetchAll(PDO::FETCH_ASSOC);
+                        $Match = $rep->fetchAll(PDO::FETCH_ASSOC);
                     }
 
                 ?>
@@ -318,14 +319,27 @@
                         <?php endforeach; ?>    
                     </td>                       
                      <td>
-                        <?php foreach ($Member as $M): ?>
-                            <p><?php echo htmlspecialchars($M['player1_username']); ?></p>
-                        <?php endforeach; ?>
+                        <?php foreach ($Member as $M){
+                           
+                            $sql = "SELECT username FROM players WHERE id = :id";
+                            $rep = $conn->prepare($sql);
+                            $rep->bindParam(':id', $Match['player1_id'], PDO::PARAM_INT);
+                            $rep->execute();
+                            $username = $rep->fetch();
+                            echo htmlspecialchars($username);
+                            }   
+                         ?>
                     </td>
                     <td>
-                        <?php foreach ($Member as $M): ?>
-                            <p><?php echo htmlspecialchars($M['player2_username']); ?></p>
-                        <?php endforeach; ?>
+                        <?php foreach ($Member as $M){
+                                if(empty($M['player2_username'])){
+                                    echo "";
+                                    }
+                                if(!empty($M['player2_username'])){
+                                    echo htmlspecialchars($M['player1_username']);
+                                }
+                            }
+                        ?>
                     </td>
                     <td>
                         <?php foreach ($Member as $M):
@@ -348,7 +362,7 @@
                 <div class="Menu_info">
                     <div class="sub_Title">Request</div>
                 </div> 
-                <form method="GET" action="Tournament_management_upg.php">
+                <form method="POST" action="Tournament_management_upg.php">
                     <div class="tab_item">
                         <div class="item">
                             <p> ID of match</p>
@@ -358,7 +372,7 @@
                             <p> Username of winner</p>
                             <input type="text" name="Winner_username" value="">
                         </div>
-                    <input class="button" type="submit" name="Form" value="2" hidden>
+                    <input class="button" type="hidden" name="Form" value="2">
                     <input class="button" type="submit" name="condition" value="Valid" required>
                 </form>
         </div>  

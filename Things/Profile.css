@@ -169,9 +169,11 @@ section {
 
 .tab_item{
     display: flex;
+    flex-direction: row;
 }
 
 .item{
+    height: 15%;
     margin: auto;
     align-self: center;
 }

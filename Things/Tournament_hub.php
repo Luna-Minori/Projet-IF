@@ -43,9 +43,16 @@ foreach ($Tournament_basedata as $T) {
         $rep->execute();
         $Bool = $rep->fetchAll(PDO::FETCH_ASSOC);
         if ($Bool['participant'] == 1) {
-            $sql = "SELECT COUNT(*) id FROM player_tournament WHERE player_id = :player_id AND tournament_id = :tournament_id";
+            $sql = "SELECT COUNT(*) id FROM player_tournaments WHERE player_id = :player_id AND tournament_id = :tournament_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
+            $rep->bindParam(':tournament_id', $_GET['tournament_id'], PDO::PARAM_INT);
+            $rep->execute();
+            $Bool = $rep->fetchColumn();
+        } else {
+            $sql = "SELECT COUNT(*) id FROM team_tournaments WHERE team_id = :team_id AND tournament_id = :tournament_id";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':team_id', $_SESSION['id'], PDO::PARAM_INT);
             $rep->bindParam(':tournament_id', $_GET['tournament_id'], PDO::PARAM_INT);
             $rep->execute();
             $Bool = $rep->fetchColumn();
@@ -266,7 +273,7 @@ foreach ($Tournament_basedata as $T) {
                         <td>
                             <?php
                             foreach ($Basedata as $T) {
-                                echo "<form method='GET' action='Tournament_hub.php'>
+                                echo "<form method='GET' action='Team_tournament_request.php'>
                                     <input type='submit' value='Ask to Join' />
                                     <input type='hidden' name='tournament_id' value='" . $T['id'] . "' /> 
                                  </form>";

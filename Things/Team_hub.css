@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-align:justify;
+    text-align: justify;
 }
 
 body {
@@ -25,21 +25,22 @@ header {
     color: white;
     display: relative;
 }
-.Title_nav{
-    color : black;
+
+.Title_nav {
+    color: black;
 }
 
-.logo_container{
+.logo_container {
     width: 10%;
     display: flex;
     flex-direction: column;
     box-shadow: none;
     margin-bottom: 1em;
     margin-left: 1em;
-    
+
 }
 
-nav{
+nav {
     width: 100%;
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 1);
@@ -52,23 +53,23 @@ nav{
     font-size: 20px;
 }
 
-nav ul{
+nav ul {
     list-style-type: none;
 }
 
-nav ul li{
+nav ul li {
     float: left;
     width: 10%;
     text-align: center;
     position: relative;
 }
 
-nav ul::after{
+nav ul::after {
     display: table;
     clear: both;
 }
 
-nav a{
+nav a {
     display: block;
     text-decoration: none;
     color: white;
@@ -77,34 +78,38 @@ nav a{
     text-align: center;
 }
 
-nav a:hover{
+nav a:hover {
     color: lightblue;
     border-bottom: 2px solid lightblue;
 }
 
-.deroulant_Second{
+.deroulant_Second {
     display: none;
     background-color: rgba(29, 29, 33, 0.9);
     position: absolute;
     z-index: 1000;
 }
-nav > ul li:hover .deroulant_Second{
+
+nav>ul li:hover .deroulant_Second {
     display: block;
 }
-.deroulant_Second li{
+
+.deroulant_Second li {
     text-align: center;
     width: 100%;
 }
-.deroulant_Second a{
+
+.deroulant_Second a {
     padding: 10px;
     border-bottom: none;
 }
-.deroulant_Second a:hover{
+
+.deroulant_Second a:hover {
     border-bottom: none;
-    background-color: RGBa(45, 45, 45,1);
+    background-color: RGBa(45, 45, 45, 1);
 }
 
-.deroulant_Main > a::after{
+.deroulant_Main>a::after {
     font-size: 24px;
 }
 
@@ -121,7 +126,7 @@ h2 {
 
 .content {
     z-index: 0;
-    position : absolute;
+    position: absolute;
     top: 6em;
     margin-left: 10%;
     width: 80%;
@@ -139,7 +144,7 @@ section {
 }
 
 
-.Tab_game_select{
+.Tab_game_select {
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -147,9 +152,32 @@ section {
 }
 
 .popup {
-    z-index: 100;
-    align-items: center;
-    background-color: black, 0.5;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1000;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: red;
 }
 
 table {
@@ -158,23 +186,24 @@ table {
     margin: 20px 0;
     width: 100%;
     border: 2px solid rgba(0, 0, 0, 0.7);
-  }
-  
-  table thead tr {
+}
+
+table thead tr {
     color: white;
     text-align: left;
     font-weight: bold;
 }
-  
-table th, table td {
+
+table th,
+table td {
     padding: 12px 15px;
     border: 1px solid rgba(0, 0, 0, 0.7);
 }
-  
+
 table tbody tr {
     border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 }
-  
+
 table tbody tr:nth-of-type(even) {
     background-color: rgba(0, 0, 0, 0.3);
 }

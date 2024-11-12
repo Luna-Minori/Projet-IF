@@ -52,27 +52,25 @@ if (isset($_GET['request_id'])) {
                     <ul class="deroulant_Second">
                         <li><a href="Login_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
+                        <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
                     <ul class="deroulant_Second">
                         <li><a href="Team_hub.php"> My Teams </a></li>
-                        <li><a> Join Teams </a></li>
+                        <li><a href="Team_hub.php"> Join Teams </a></li>
+                        <li><a href="Create_team.php"> Create Team </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
-                    <ul class="deroulant_Second">
-                        <li><a href="Profile_user.php"> Add game </a></li>
-                        <li><a> Browse games </a></li>
-                    </ul>
-                </li>
+
                 <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
                     <ul class="deroulant_Second">
-                        <li><a> My tournaments </a></li>
-                        <li><a> Join tournament </a></li>
-                        <li><a> Browse tournaments </a></li>
+                        <li><a href="Tournament_hub.php"> My tournaments </a></li>
+                        <li><a href="Tournament_hub.php"> Join tournament </a></li>
+                        <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
+                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
                 </li>
             </ul>
         </nav>

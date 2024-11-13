@@ -121,11 +121,14 @@ ul {
 }
 
 section {
-    margin-top: 50px;
     color: white;
     padding: 15px;
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Profile_Main {
+    margin-top: 10%;
 }
 
 .content {

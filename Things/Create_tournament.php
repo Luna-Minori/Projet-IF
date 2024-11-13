@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['player_username'])) {
     header('Location: Login_user.php');
     exit();
 }

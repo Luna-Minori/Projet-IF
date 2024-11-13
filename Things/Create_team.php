@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// if (!isset($_SESSION['username'])) {
-//     header('Location: Login_user.php');
-//     exit();
-// }
+if (!isset($_SESSION['player_username'])) {
+    header('Location: Login_user.php');
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];

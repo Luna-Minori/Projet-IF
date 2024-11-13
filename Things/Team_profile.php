@@ -1,7 +1,7 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['username'])) {
+/*
+if (!isset($_SESSION['player_username'])) {
     header('Location: Login_user.php');
     exit();
 }
@@ -10,7 +10,7 @@ if (!isset($_GET['team_id'])) {
     header('Location: Team_hub.php');
     exit();
 }
-
+*/
 if (isset($_GET['request_id'])) {
     if (isset($_GET['Update_request'])) {
         if ($_GET['Update_request'] == 1) {
@@ -46,7 +46,7 @@ if (isset($_GET['request_id'])) {
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">

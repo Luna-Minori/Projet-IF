@@ -125,8 +125,11 @@ h1 {
 }
 
 section {
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.6);
     padding-top: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .Create {
@@ -140,6 +143,11 @@ form {
     display: flex;
     flex-direction: column;
     box-shadow: 0 0px 25px rgb(192, 187, 187);
+
+}
+
+main {
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -181,7 +189,6 @@ input {
 
 input :hover {
     border-bottom: rgb(151, 151, 151);
-
 }
 
 span {
@@ -222,13 +229,11 @@ label {
     margin-top: 3px;
 }
 
-select {
-    align-items: center;
-    border-radius: 5px;
-    border-style: 5px;
-    margin: 10px
-}
-
 p {
     color: #000000;
+    font-size: 14px;
+}
+
+.Button_create_user {
+    text-decoration: none;
 }

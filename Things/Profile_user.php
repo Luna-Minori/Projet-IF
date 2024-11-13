@@ -1,12 +1,37 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['player_username'])) {
     header('Location: Login_user.php');
     exit();
 }
-?>
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $Name_newgame = $_POST['Name_newgame'];
+    $Game_type = $_POST['Game_type'];
+    echo "1  " . $_POST['username'];
+
+    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+    $sql = "SELECT COUNT(title) FROM games WHERE title = :title";
+    $rep = $conn->prepare($sql);
+    $rep->bindParam(':title', $Name_newgame, PDO::PARAM_STR);
+    $rep->execute();
+    $number = $rep->fetchColumn();
+
+    if ($number == 0) {
+        $sql = "INSERT INTO games (title, team_based) VALUES (:title, :Game_type)";
+        $rep = $conn->prepare($sql);
+        $rep->bindParam(':Game_type', $title, PDO::PARAM_STR);
+        $rep->bindParam(':title', $_SESSION['username'], PDO::PARAM_STR);
+        $rep->execute();
+        header('Location: Team_hub.php');
+        exit();
+    } else {
+        echo "<div class='popup'><p>This game is already in the Database<div class='popup'><p>";
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -51,12 +76,12 @@ if (!isset($_SESSION['username'])) {
             </ul>
         </nav>
     </header>
-    <div class="content">
+    <div class="Box_sections">
         <section class="Profile_Main">
             <?php $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
             $sql = "SELECT * FROM players WHERE username = :session_username";
             $rep = $conn->prepare($sql);
-            $rep->bindParam(':session_username', $_SESSION['username'], PDO::PARAM_STR);
+            $rep->bindParam(':session_username', $_SESSION['player_username'], PDO::PARAM_STR);
             $rep->execute();
             $user = $rep->fetch(PDO::FETCH_ASSOC);
 
@@ -132,7 +157,7 @@ if (!isset($_SESSION['username'])) {
             <div class="information">
                 <div class="Menu_info">
                     <h2>Newgame</h2>
-                    <form method="post" action="login_user.php">
+                    <form method="POST" action="Profile_user.php">
                         <div class="bo">
                             <div class="arena_text">
                                 <input class="left-space" type="text" name="Name_newgame" size="12" required>
@@ -140,16 +165,16 @@ if (!isset($_SESSION['username'])) {
                                 <span>Name</span>
                             </div>
                             <div class="arena_text">
-                                <input class="left-space" type="text" name="Rules_newgame" size="12" required>
-                                <label>Rules</label>
-                                <span>Rules</span>
+                                <div class="choice">
+                                    <p> Game type </p>
+                                    <select name="Game_type" required>
+                                        <option value="">--Please choose an option--</option>
+                                        <option value="0"> Single player</option>
+                                        <option value="1"> Team</option>
+                                        <option value="2"> Both </option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="arena_text">
-                                <input class="left-space" type="text" name="Name_newgame" size="12" required>
-                                <label>Name</label>
-                                <span>Name</span>
-                            </div>
-                            <input class="button" type="submit" name="add_newgame" value="Connexion" value="1" required>
                         </div>
                 </div>
                 </form>

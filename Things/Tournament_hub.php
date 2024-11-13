@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['player_username'])) {
     header('Location: login_user.php');
     exit();
 }
@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
 $sql = "SELECT id FROM players WHERE username = :username";
 $rep = $conn->prepare($sql);
-$rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+$rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
 $rep->execute();
 $_SESSION['player_id'] = $rep->fetchColumn();
 
@@ -79,14 +79,14 @@ foreach ($Tournament_basedata as $T) {
             if ($Bool['participant'] == 1) {
                 $sql = "SELECT COUNT(*) id FROM player_tournaments WHERE player_id = :player_id AND tournament_id = :tournament_id";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
+                $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
                 $rep->bindParam(':tournament_id', $_GET['tournament_id'], PDO::PARAM_INT);
                 $rep->execute();
                 $Bool = $rep->fetchColumn();
             } else {
                 $sql = "SELECT COUNT(*) id FROM team_tournaments WHERE team_id = :team_id AND tournament_id = :tournament_id";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':team_id', $_SESSION['id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_SESSION['player_id'], PDO::PARAM_INT);
                 $rep->bindParam(':tournament_id', $_GET['tournament_id'], PDO::PARAM_INT);
                 $rep->execute();
                 $Bool = $rep->fetchColumn();
@@ -95,7 +95,7 @@ foreach ($Tournament_basedata as $T) {
             if ($Bool == 0) {
                 $sql = "INSERT INTO tournament.request(player_id, team_id) VALUES (:player_id, :team_id)";
                 $rep = $conn->prepare($sql);
-                $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
+                $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
                 $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
                 $rep->execute();
                 $Basedata = $rep->fetchAll();
@@ -136,7 +136,7 @@ foreach ($Tournament_basedata as $T) {
 
                             $sql = "SELECT p.username, t.Name, t.id, t.creator_id, t.Creation_Date, t.game_id, t.Match_system, t.Register_time, t.participant FROM tournaments t LEFT JOIN player_tournaments pt ON pt.tournament_id = t.id INNER JOIN players p ON p.id = pt.player_id LEFT JOIN team_tournaments tt ON tt.tournament_id = t.id WHERE (pt.player_id = :player_id OR tt.team_id IN (SELECT team_id FROM player_teams WHERE player_id = :player_id))  AND (t.history = 0 OR t.history = 1) ORDER BY $sort_tournament_join $order_tournament_join";
                             $rep = $conn->prepare($sql);
-                            $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
+                            $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
                             $rep->execute();
                             $Basedata = $rep->fetchAll();
                             ?>

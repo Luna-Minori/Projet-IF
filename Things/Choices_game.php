@@ -1,30 +1,9 @@
 <?php
 session_start();
-echo "Méthode : " . $_SERVER['REQUEST_METHOD'] . "<br>";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    $sql = "SELECT username, hashed_password FROM players WHERE username = :username";
-    $rep = $conn->prepare($sql);
-    $rep->bindParam(':username', $username, PDO::PARAM_STR);
-    $rep->execute();
-    $user = $rep->fetch(PDO::FETCH_ASSOC);
-    if ($user != null) {
-        if (password_verify($password, $user['hashed_password'])) {
-            $_SESSION['player_username'] = $user['username'];
-            header('Location: Profile_user.php');
-            exit();
-        } else {
-            echo "<div class='popup'><p>password false</p></div>";
-        }
-    } else {
-        echo "<div class='popup'><p>password false</p></div>";
-    }
+if (!isset($_SESSION['player_username'])) {
+    header('Location: Login_user.php');
+    exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -72,25 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <section>
         <main>
             <div class="Connexion">
-                <form method="POST" action="Login_user.php">
+                <form method="POST" action="Profile_game.php">
                     <div class="bo">
-                        <h2 class="Title_form">Connexion</h2>
+                        <h2 class="Title_form">Choose a game to see its stats</h2>
                         <div class="text_form">
                             <br>
                             <div class="arena_text">
-                                <input class="left-space" type="text" id="username" name="username" size="12" required>
-                                <label>Username</label>
-                                <span>Username</span>
-                            </div>
-                            <div class="arena_text">
-                                <input class="left-space" type="password" name="password" size="12" required>
-                                <label>Password</label>
-                                <span>Password</span>
+                                <input class="left-space" type="text" id="username" name="game_title" size="12" required>
+                                <label>Name</label>
+                                <span>Name</span>
                             </div>
                             <input class="button" type="submit" name="condition" value="Log in" required>
-                            <a class="Button_create_user" href="Create_user.php">
-                                <p> Sign in </p>
-                            </a>
                         </div>
                     </div>
                 </form>

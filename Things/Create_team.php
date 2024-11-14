@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
     $sql = "SELECT hashed_password FROM players WHERE username = :username";
     $rep = $conn->prepare($sql);
-    $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+    $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
     $rep->execute();
     $Hpassword = $rep->fetchColumn();
 
@@ -31,13 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $rep = $conn->prepare($sql);
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $rep->bindParam(':title', $title, PDO::PARAM_STR);
-            $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+            $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
             $rep->bindParam(':game', $game, PDO::PARAM_STR);
             $rep->execute();
 
             $sql = "SELECT id FROM players WHERE username = :username";
             $rep = $conn->prepare($sql);
-            $rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+            $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
             $rep->execute();
             $id_player = $rep->fetchColumn();
 
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">

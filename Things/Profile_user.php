@@ -9,7 +9,6 @@ if (!isset($_SESSION['player_username'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Name_newgame = $_POST['Name_newgame'];
     $Game_type = $_POST['Game_type'];
-    echo "1  " . $_POST['username'];
 
     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
     $sql = "SELECT COUNT(title) FROM games WHERE title = :title";
@@ -21,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($number == 0) {
         $sql = "INSERT INTO games (title, team_based) VALUES (:title, :Game_type)";
         $rep = $conn->prepare($sql);
-        $rep->bindParam(':Game_type', $title, PDO::PARAM_STR);
-        $rep->bindParam(':title', $_SESSION['username'], PDO::PARAM_STR);
+        $rep->bindParam(':Game_type', $Game_type, PDO::PARAM_STR);
+        $rep->bindParam(':title', $Name_newgame, PDO::PARAM_STR);
         $rep->execute();
-        header('Location: Team_hub.php');
+        header('Location: Profile_user.php');
         exit();
     } else {
         echo "<div class='popup'><p>This game is already in the Database<div class='popup'><p>";
@@ -47,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
@@ -136,48 +135,145 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="information">
                 <div class="Menu_info">
                     <h2>Team</h2>
-                    <div class="Menu_info">
+                </div>
+                <main>
+                    <table>
                         <?php
                         $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                        $sql = "SELECT title FROM teams WHERE id = (SELECT game_id FROM player_teams WHERE player_id = :user_id)";
+                        $sql = "SELECT COUNT(team_id) FROM player_teams WHERE player_id = :user_id";
                         $rep = $conn->prepare($sql);
                         $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
                         $rep->execute();
-                        $Team = $rep->fetch(PDO::FETCH_ASSOC);
+                        $number = $rep->fetchColumn();
+                        if ($number != 0):
+
+                            $valid_columns_team = ['id', 'title', 'creation_date', 'games_won', 'games_lost', 'games_tied'];
+                            $order_team = "ASC";
+                            if (isset($_POST['order_team'])) {
+                                if ($_POST['order_team'] === 'desc') {
+                                    $order_team = 'DESC';
+                                } else {
+                                    $order_team = 'ASC';
+                                }
+                            }
+
+                            if (isset($_POST['sort_team'])) {
+                                if (in_array($_POST['sort_team'], $valid_columns_team)) {
+                                    $sort_team = $_POST['sort_team'];
+                                } else {
+                                    $sort_team = "id";
+                                }
+                            } else {
+                                $sort_team = "id";
+                            }
+
+                            $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                            $sql = "SELECT * FROM teams INNER JOIN player_teams ON teams.id = player_teams.team_id WHERE player_teams.player_id = :user_id ORDER BY $sort_team $order_team";
+                            $rep = $conn->prepare($sql);
+                            $rep->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
+                            $rep->execute();
+                            $Team = $rep->fetchAll(PDO::FETCH_ASSOC);
                         ?>
-                        <div class="Username">
-                            <?php echo "Username : " . $Team['Title']; ?>
-                        </div>
-                    </div>
+
+                            <tr>
+                                <th><a href="?sort_team=id&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>">ID</a></th>
+                                <th><a href="?sort_team=title&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>"> Name</a></th>
+                                <th><a href="?sort_team=creation_date&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>">Creation Date</a></th>
+                                <th>Game</th>
+                                <th><a href="?sort_team=games_won&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>"> Win</a></th>
+                                <th><a href="?sort_team=games_lost&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>">Lose</a></th>
+                                <th><a href="?sort_team=games_tied&order=<?= $order_team === 'ASC' ? 'desc' : 'asc' ?>">Tied</a></th>
+                                <th>Profile</th>
+                            </tr>
+
+                            <?php foreach ($Team as $T): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($T['id']) ?></td>
+                                    <td><?php echo htmlspecialchars($T['title']) ?></td>
+                                    <td><?php echo htmlspecialchars($T['creation_date']) ?></td>
+                                    <td>
+                                        <?php
+                                        $sql_game = "SELECT g.title FROM games g INNER JOIN teams t ON t.game_id = g.id WHERE t.id = :team_id";
+                                        $rep_game = $conn->prepare($sql_game);
+                                        $rep_game->bindParam(':team_id', $T['id'], PDO::PARAM_INT);
+                                        $rep_game->execute();
+                                        $game = $rep_game->fetch();
+                                        echo htmlspecialchars($game['title']);
+                                        ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($T['games_won']) ?></td>
+                                    <td><?php echo htmlspecialchars($T['games_lost']) ?></td>
+                                    <td><?php echo htmlspecialchars($T['games_tied']) ?></td>
+                                    <td>
+                                        <form method="POST" action="Team_profile.php">
+                                            <input type="submit" value="Team info" />
+                                            <input type="hidden" name="team_id" value="<?= $T['id'] ?>" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                    </table>
+                <?php endif; ?>
+                </main>
         </section>
         <section class="History">
+            <div class="information">
+                <div class="Menu_info">
+                    <div class="sub_Title">History</div>
+                </div>
+                <?php
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT t.*, pt.round FROM tournaments t INNER JOIN player_tournaments pt ON pt.tournament_id = t.id WHERE id = :player_id";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':player_id', $user['id'], PDO::PARAM_INT);
+                $rep->execute();
+                $Tournaments = $rep->fetch(PDO::FETCH_ASSOC);
+                if (!empty($Tournaments)): ?>
+                    <table class="Tab">
+                        <tr>
+                            <th> Name of tournament </th>
+                            <th> Placement </th>
+                            <th> Date </th>
+                        </tr>
+                        <?php foreach ($Tournaments as $T): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($T['Name']); ?></td>
+                                <td><?php echo htmlspecialchars($T['round']); ?></td>
+                                <td><?php echo htmlspecialchars($T['Creation_Date']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <?php echo "You never participated in a tournament"; ?>
+                <?php endif; ?>
 
         </section>
         <section class="Newgame">
             <div class="information">
                 <div class="Menu_info">
-                    <h2>Newgame</h2>
+                    <h2>New game</h2>
+                </div>
+                <main>
                     <form method="POST" action="Profile_user.php">
                         <div class="bo">
                             <div class="arena_text">
-                                <input class="left-space" type="text" name="Name_newgame" size="12" required>
                                 <label>Name</label>
-                                <span>Name</span>
+                                <input class="left-space" type="text" name="Name_newgame" size="12" required>
                             </div>
                             <div class="arena_text">
                                 <div class="choice">
-                                    <p> Game type </p>
+                                    <p>Game type</p>
                                     <select name="Game_type" required>
                                         <option value="">--Please choose an option--</option>
                                         <option value="0"> Single player</option>
                                         <option value="1"> Team</option>
-                                        <option value="2"> Both </option>
                                     </select>
                                 </div>
                             </div>
+                            <input class="button" type="submit" name="condition" value="Valid" required>
                         </div>
-                </div>
-                </form>
+                    </form>
+                </main>
             </div>
     </div>
     </section>

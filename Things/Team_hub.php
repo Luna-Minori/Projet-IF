@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    header('Location: login_user.php');
+if (!isset($_SESSION['player_username'])) {
+    header('Location: Login_user.php');
     exit();
 }
 
@@ -24,62 +24,62 @@ $_SESSION['id'] = $rep->fetchColumn();
     <title>Tournament Manager</title>
     <link rel="stylesheet" href="Team_hub.css">
 </head>
-<header>
-    <nav>
-        <ul>
-            <li class="logo_container">
-                <img class="logo" src="Image/logo.png">
-            </li>
-            <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
-                <ul class="deroulant_Second">
-                    <li><a href="Login_user.php"> My Profile </a></li>
-                    <li><a href="Create_user.php"> Browse Players </a></li>
-                    <li><a href="Log_out.php"> Log Out </a></li>
-                </ul>
-            </li>
-            <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
-                <ul class="deroulant_Second">
-                    <li><a href="Team_hub.php"> My Teams </a></li>
-                    <li><a href="Team_hub.php"> Join Teams </a></li>
-                    <li><a href="Create_team.php"> Create Team </a></li>
-                </ul>
-            </li>
-
-            <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
-                <ul class="deroulant_Second">
-                    <li><a href="Tournament_hub.php"> My tournaments </a></li>
-                    <li><a href="Tournament_hub.php"> Join tournament </a></li>
-                    <li><a href="Create_tournament.php"> Browse tournaments </a></li>
-                </ul>
-            </li>
-            <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
-            </li>
-        </ul>
-    </nav>
-</header>
 
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li class="logo_container">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
+                </li>
+                <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Login_user.php"> My Profile </a></li>
+                        <li><a href="Create_user.php"> Browse Players </a></li>
+                        <li><a href="Log_out.php"> Log Out </a></li>
+                    </ul>
+                </li>
+                <li class="deroulant_Main"><a href="#"> Teams &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Team_hub.php"> My Teams </a></li>
+                        <li><a href="Team_hub.php"> Join Teams </a></li>
+                        <li><a href="Create_team.php"> Create Team </a></li>
+                    </ul>
+                </li>
+
+                <li class="deroulant_Main"><a href="#"> Tournaments &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Tournament_hub.php"> My tournaments </a></li>
+                        <li><a href="Tournament_hub.php"> Join tournament </a></li>
+                        <li><a href="Create_tournament.php"> Browse tournaments </a></li>
+                    </ul>
+                </li>
+                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div class="content">
         <?php
-        if (isset($_GET['team_id'])) {
+        if (isset($_POST['team_id'])) {
             $sql = "SELECT COUNT(*) id FROM player_teams WHERE player_id = :player_id AND team_id = :team_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
-            $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+            $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
             $rep->execute();
             $Bool = $rep->fetchColumn();
             if ($Bool == 0) {
                 $sql = "SELECT COUNT(*) id FROM team_request WHERE player_id = :player_id AND team_id = :team_id AND treated = 0";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
-                $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
                 $rep->execute();
                 $Bool = $rep->fetchColumn();
                 if ($Bool == 0) {
                     $sql = "INSERT INTO team_request(player_id, team_id) VALUES (:player_id, :team_id)";
                     $rep = $conn->prepare($sql);
                     $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
-                    $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+                    $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
                     $rep->execute();
                     $Basedata = $rep->fetchAll();
                     echo "<div class='popup'><p>Your request has been sent </p></div>";
@@ -112,59 +112,28 @@ $_SESSION['id'] = $rep->fetchColumn();
                             <th> Game </th>
                             <th> Profile </th>
                         </tr>
-                        <tr>
-                            <td>
+                        <?php
+                        foreach ($Basedata as $team): ?>
+                            <tr>
                                 <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['id']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['title']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['creator_id']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
+                                echo "<td>" . htmlspecialchars($team['id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['title']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['creator_id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['username']) . "</td>";
+                                $sql = "SELECT g.title FROM games g INNER JOIN teams t ON t.game_id = g.id WHERE t.id = :team_id";
+                                $rep = $conn->prepare($sql);
+                                $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
+                                $rep->execute();
+                                $game = $rep->fetch();
 
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['username']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    $sql = "SELECT g.title FROM games g INNER JOIN teams t ON t.game_id = g.id WHERE t.id = :team_id";
-                                    $rep = $conn->prepare($sql);
-                                    $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
-                                    $rep->execute();
-                                    $game = $rep->fetch();
+                                echo "<td>" . htmlspecialchars($game['title']) . "</td>";
 
-                                    echo "<p>" . htmlspecialchars($game['title']) . "</p>";
-                                }
+                                echo "<td><form method='POST' action='Team_profile.php'>
+                                        <input type='submit' value='Profile' />
+                                        <input type='hidden' name='team_id' value='" . $team['id'] . "' /> </form></td>";
                                 ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<form method='GET' action='Team_profile.php'>
-                                    <input type='submit' value='Profile' />
-                                    <input type='hidden' name='team_id' value='" . $team['id'] . "' /> </form>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
                 </div>
             </div>
@@ -176,17 +145,17 @@ $_SESSION['id'] = $rep->fetchColumn();
                         <?php
                         $valid_columns = ['team_id', 'team_title', 'creator_id', 'username', 'game_title'];
                         $order = "ASC";
-                        if (isset($_GET['order'])) {
-                            if ($_GET['order'] === 'desc') {
+                        if (isset($_POST['order'])) {
+                            if ($_POST['order'] === 'desc') {
                                 $order = 'DESC';
                             } else {
                                 $order = 'ASC';
                             }
                         }
 
-                        if (isset($_GET['sort'])) {
-                            if (in_array($_GET['sort'], $valid_columns)) {
-                                $sort = $_GET['sort'];
+                        if (isset($_POST['sort'])) {
+                            if (in_array($_POST['sort'], $valid_columns)) {
+                                $sort = $_POST['sort'];
                             } else {
                                 $sort = "team_id";
                             }
@@ -206,53 +175,22 @@ $_SESSION['id'] = $rep->fetchColumn();
                             <th><a href="?sort=username&order=<?= $order === 'ASC' ? 'desc' : 'asc' ?>">Creator username </a></th>
                             <th><a href="?sort=game_title&order=<?= $order === 'ASC' ? 'desc' : 'asc' ?>">Game </a></th>
                         </tr>
-                        <tr>
-                            <td>
+                        <?php foreach ($Basedata as $team): ?>
+                            <tr>
                                 <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['team_id']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['team_title']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['creator_id']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['username']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<p>" . htmlspecialchars($team['game_title']) . "</p>";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                foreach ($Basedata as $team) {
-                                    echo "<form method='GET' action='Team_hub.php'>
+                                echo "<td>" . htmlspecialchars($team['team_id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['team_title']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['creator_id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['username']) . "</td>";
+                                echo "<td>" . htmlspecialchars($team['game_title']) . "</td>";
+                                echo " <td><form method='POST' action='Team_hub.php'>
                                         <input type='submit' value='Ask to Join' />
                                         <input type='hidden' name='team_id' value='" . $team['team_id'] . "' /> 
-                                    </form>";
-                                }
+                                    </form></td>";
+
                                 ?>
-                            </td>
-                        </tr>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
                 </div>
             </div>

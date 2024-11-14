@@ -1,31 +1,54 @@
 <?php
 session_start();
-/*
+
 if (!isset($_SESSION['player_username'])) {
     header('Location: Login_user.php');
     exit();
 }
 
-if (!isset($_GET['team_id'])) {
+if (!isset($_POST['team_id'])) {
     header('Location: Team_hub.php');
     exit();
 }
-*/
-if (isset($_GET['request_id'])) {
-    if (isset($_GET['Update_request'])) {
-        if ($_GET['Update_request'] == 1) {
+
+if (isset($_POST['request_id'])) {
+    if (isset($_POST['Update_request'])) {
+        if ($_POST['Update_request'] == 1) {
             $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+
+            $sql = "SELECT game_id FROM teams WHERE teams.id = :team_id)";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+            $rep->execute();
+            $game = $rep->fetchColumn();
+
+            $sql = "SELECT COUNT(player_id) FROM played_games(player_id, game_id) WHERE player_id = (SELECT player_id FROM team_request WHERE id = :request_id) AND game_id = :game_id";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':request_id', $_POST['request_id'], PDO::PARAM_INT);
+            $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+            $rep->execute();
+            $number = $rep->fetchColumn();
+            if ($number == 0) {
+
+                $sql = "INSERT INTO played_games(player_id, game_id) VALUES ((SELECT player_id FROM team_request WHERE id = :request_id), :game_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':game_id', $game, PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+                $rep->execute();
+            }
+
+
             $sql = "INSERT INTO player_teams(player_id, team_id) VALUES ((SELECT player_id FROM team_request WHERE id = :request_id), :team_id)";
             $rep = $conn->prepare($sql);
-            $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
-            $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
+            $rep->bindParam(':request_id', $_POST['request_id'], PDO::PARAM_INT);
+            $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
             $rep->execute();
         }
     }
     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
     $sql = "UPDATE team_request SET treated = 1 WHERE id = :request_id";
     $rep = $conn->prepare($sql);
-    $rep->bindParam(':request_id', $_GET['request_id'], PDO::PARAM_INT);
+    $rep->bindParam(':request_id', $_POST['request_id'], PDO::PARAM_INT);
     $rep->execute();
 }
 
@@ -78,9 +101,9 @@ if (isset($_GET['request_id'])) {
     <div class="Box_section">
         <section class="Profile_Main">
             <?php $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-            $sql = "SELECT * FROM teams WHERE id = :id";
+            $sql = "SELECT teams.*, games.title AS game FROM teams INNER JOIN games ON games.id = teams.game_id WHERE teams.id = :id";
             $rep = $conn->prepare($sql);
-            $rep->bindParam(':id', $_GET['team_id'], PDO::PARAM_STR);
+            $rep->bindParam(':id', $_POST['team_id'], PDO::PARAM_STR);
             $rep->execute();
             $team = $rep->fetch(PDO::FETCH_ASSOC);
             ?>
@@ -97,6 +120,9 @@ if (isset($_GET['request_id'])) {
                     </div>
                     <div class="item">
                         <?php echo "creation_acc : " . $team['creation_date']; ?>
+                    </div>
+                    <div class="item">
+                        <?php echo "Game : " . $team['game']; ?>
                     </div>
                     <div class="item">
                         <?php echo "Bio : " . $team['bio']; ?>
@@ -159,31 +185,32 @@ if (isset($_GET['request_id'])) {
             <div class="information">
                 <div class="Menu_info">
                     <div class="sub_Title">History</div>
-                    <?php
-                    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-                    $sql = "SELECT t.*, tt.round FROM tournaments t INNER JOIN team_tournaments tt ON tt.tournament_id = t.id WHERE id = :team_id";
-                    $rep = $conn->prepare($sql);
-                    $rep->bindParam(':team_id', $_GET['team_id'], PDO::PARAM_INT);
-                    $rep->execute();
-                    $Tournaments = $rep->fetch(PDO::FETCH_ASSOC);
-                    if (!empty($Tournaments)): ?>
-                        <table class="Tab">
+                </div>
+                <?php
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
+                $sql = "SELECT t.*, tt.round FROM tournaments t INNER JOIN team_tournaments tt ON tt.tournament_id = t.id WHERE id = :team_id";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+                $rep->execute();
+                $Tournaments = $rep->fetch(PDO::FETCH_ASSOC);
+                if (!empty($Tournaments)): ?>
+                    <table class="Tab">
+                        <tr>
+                            <th> Name of tournament </th>
+                            <th> Placement </th>
+                            <th> Date </th>
+                        </tr>
+                        <?php foreach ($Tournaments as $T): ?>
                             <tr>
-                                <th> Name of tournament </th>
-                                <th> Placement </th>
-                                <th> Date </th>
+                                <td><?php echo htmlspecialchars($T['Name']); ?></td>
+                                <td><?php echo htmlspecialchars($T['round']); ?></td>
+                                <td><?php echo htmlspecialchars($T['Creation_Date']); ?></td>
                             </tr>
-                            <?php foreach ($Tournaments as $T): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($T['Name']); ?></td>
-                                    <td><?php echo htmlspecialchars($T['round']); ?></td>
-                                    <td><?php echo htmlspecialchars($T['Creation_Date']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    <?php else: ?>
-                        <?php echo "You never participated in a tournament"; ?>
-                    <?php endif; ?>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <?php echo "You never participated in a tournament"; ?>
+                <?php endif; ?>
 
         </section>
 
@@ -191,50 +218,52 @@ if (isset($_GET['request_id'])) {
             <div class="information">
                 <div class="Menu_info">
                     <div class="sub_Title">Request</div>
-                    <div class="Menu_info">
-                        <?php
-                        $sql = "SELECT tr.id AS request_id, tr.Date AS request_Date, tr.treated, players.username FROM team_request tr INNER JOIN players ON players.id = tr.player_id WHERE tr.team_id = :team_id";
-                        $rep = $conn->prepare($sql);
-                        $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
-                        $rep->execute();
-                        $requests = $rep->fetchAll(PDO::FETCH_ASSOC);
-                        ?>
+                </div>
+                <main>
+                    <?php
+                    $sql = "SELECT tr.id AS request_id, tr.Date AS request_Date, tr.treated, players.username FROM team_request tr INNER JOIN players ON players.id = tr.player_id WHERE tr.team_id = :team_id";
+                    $rep = $conn->prepare($sql);
+                    $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
+                    $rep->execute();
+                    $requests = $rep->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
 
-                        <?php if ($requests): ?>
-                            <table class="Tab">
-                                <tr>
-                                    <th> ID request </th>
-                                    <th> Username </th>
-                                    <th> Date </th>
-                                </tr>
-                                <?php
-                                foreach ($requests as $r) {
-                                    if ($r['treated'] == 0) {
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($r['request_id']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($r['username']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($r['request_Date']) . "</td>";
-                                        echo "<td>" . " <form method='GET' action='Team_profile.php'>
+                    <?php if ($requests): ?>
+                        <table class="Tab">
+                            <tr>
+                                <th> ID request </th>
+                                <th> Username </th>
+                                <th> Date </th>
+                            </tr>
+                            <?php
+                            foreach ($requests as $r) {
+                                if ($r['treated'] == 0) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($r['request_id']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($r['username']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($r['request_Date']) . "</td>";
+                                    echo "<td>" . " <form method='POST' action='Team_profile.php'>
                                         <input type='submit' value='Delete' />
                                         <input type='hidden' name='team_id' value='" . $team['id'] . "' />
                                         <input type='hidden' name='Update_request' value='0' />
                                         <input type='hidden' name='request_id' value='" . $r['request_id'] . "' /> </form>" .
-                                            "</td>";
-                                        echo "<td>" . " <form method='GET' action='Team_profile.php'>
+                                        "</td>";
+                                    echo "<td>" . " <form method='POST' action='Team_profile.php'>
                                         <input type='submit' value='Accept' />
                                         <input type='hidden' name='team_id' value='" . $team['id'] . "' />
                                         <input type='hidden' name='Update_request' value='1' />
                                         <input type='hidden' name='request_id' value='" . $r['request_id'] . "' /> </form>" .
-                                            "</td>";
-                                        echo "</tr>";
-                                    }
+                                        "</td>";
+                                    echo "</tr>";
                                 }
-                                ?>
-                            </table>
-                        <?php else: ?>
-                            <p>No requests</p>
-                        <?php endif; ?>
-
+                            }
+                            ?>
+                        </table>
+                    <?php else: ?>
+                        <p>No requests</p>
+                    <?php endif; ?>
+                </main>
+            </div>
         </section>
     </div>
 

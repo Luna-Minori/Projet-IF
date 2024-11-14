@@ -24,6 +24,7 @@ header {
     background-color: #000000;
     color: white;
     display: relative;
+    z-index: 100;
 }
 
 .Title_nav {
@@ -198,6 +199,7 @@ table th,
 table td {
     padding: 12px 15px;
     border: 1px solid rgba(0, 0, 0, 0.7);
+    text-decoration: none;
 }
 
 table tbody tr {

@@ -2,44 +2,20 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Name = $_POST['Name'];
+    if (isset($_POST['request_id'])) {
+        if (isset($_POST['Update_request'])) {
+            if ($_POST['Update_request'] == 2) {
 
-    $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
-    $sql = "SELECT * FROM team_tournaments WHERE tournament_id =:tournament_id AND team_id = (SELECT id FROM teams WHERE title =:title_team)";
-    $rep->bindParam(':tournament_id', $_GET['tournament_id'], PDO::PARAM_INT);
-    $rep->bindParam(':title_team', $Name, PDO::PARAM_STR);
-    $rep = $conn->prepare($sql);
-    $rep->execute();
+                $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
 
-    if (!empty($Basedata)) {
-        $_SESSION[''] = $username;
-        $_SESSION['hashed_password'] = $password;
-        $_SESSION['email'] = $email;
-        $_SESSION['bio'] = $bio;
-        header('Location: Profile_user.php');
-        exit();
-    }
-    while ($Basedata = $rep->fetch(PDO::FETCH_ASSOC)) {
-        if (!empty($Basedata)) {
-            echo "this username is already use";
-            $bool = true;
-            exit();
+                $sql = "INSERT INTO team_tournaments(team_id, tournament_id VALUES (tournament_id =:tournament_id AND team_id = (SELECT id FROM teams WHERE id =:team_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':tournament_id', $_POST['tournament_id'], PDO::PARAM_INT);
+                $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_STR);
+                $rep->execute();
+                $number = $rep->fetchColumn();
+            }
         }
-        if ($email == $Basedata['email']) {
-            echo "this email is already use";
-            $bool = true;
-            exit();
-        }
-    }
-    if ($bool == false) {
-
-        $sql = "INSERT INTO players(username, email, hashed_password, bio) VALUES (:username,:email,:hashed_password,:bio)";
-        $rep = $conn->prepare($sql);
-        $rep->bindParam(':username', $username, PDO::PARAM_STR);
-        $rep->bindParam(':email', $email, PDO::PARAM_STR);
-        $rep->bindParam(':hashed_password', password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
-        $rep->bindParam(':bio', $bio, PDO::PARAM_STR);
-        $rep->execute();
     }
 }
 ?>
@@ -59,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">

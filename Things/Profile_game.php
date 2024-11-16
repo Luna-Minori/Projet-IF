@@ -12,39 +12,6 @@ if (!isset($_POST['game_title'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['game_title'];
-    /*
-    echo "Avant boucle: '$title'<br>";  // Affiche la chaîne avant la boucle
-
-    $newTitle = '';
-    for ($i = 0; $i < strlen($title); $i++) {
-        echo "Caractère analysé : '" . ord($title[$i]) . "'<br>";  // Affiche chaque caractère
-        if ($title[$i] != ' ' || ($i > 0 && $title[$i - 1] != ' ')) {
-            $newTitle .= $title[$i];
-        }
-    }
-    $title = trim($newTitle);
-    echo "Après boucle: '$title'<br>";
-    $title = trim($title);
-    echo $title;
-    for ($i = 0; $i < strlen($title); $i++) {
-        echo "Caractère analysé : '" . ord($title[$i]) . "'<br>";  // Affiche chaque caractère
-    }
-
-    // Nom du fichier
-    */
-    $filename = "C:\\Var\\Test.txt";
-    $file = fopen($filename, "w"); // "w" écrase le fichier si il existe, "a" ajoute à la fin
-
-    if ($file) {
-        fwrite($file, $title);
-        fclose($file);
-
-        echo "Le fichier a été créé et la variable a été ajoutée!";
-    }
-    $content = file_get_contents($filename);
-    echo "content" . $content;
-
     $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
     $sql = "SELECT pg.*, t.title AS Nteam, g.id AS id, g.title AS title, g.rules AS rules, g.team_based FROM games g INNER JOIN played_games pg ON pg.game_id = g.id INNER JOIN teams t ON t.game_id = g.id WHERE g.title = :title";
     $rep = $conn->prepare($sql);

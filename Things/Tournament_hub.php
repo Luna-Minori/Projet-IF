@@ -43,7 +43,8 @@ foreach ($Tournament_basedata as $T) {
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
-                        <li><a href="Login_user.php"> My Profile </a></li>
+                        <li><a href="Login_user.php"> Log in </a></li>
+                        <li><a href="Profile_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
                         <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
@@ -63,7 +64,12 @@ foreach ($Tournament_basedata as $T) {
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Profile_user.php"> Add Games </a></li>
+                        <li><a href="Profile_game.php"> Games Stats </a></li>
+                    </ul>
+                </li>
                 </li>
             </ul>
         </nav>
@@ -135,7 +141,7 @@ foreach ($Tournament_basedata as $T) {
                                 $sort_tournament_join = "t.id";
                             }
 
-                            $sql = "SELECT p.username, t.Name, t.id, t.creator_id, t.Creation_Date, t.game_id, t.Match_system, t.Register_time, t.participant FROM tournaments t LEFT JOIN player_tournaments pt ON pt.tournament_id = t.id INNER JOIN players p ON p.id = pt.player_id LEFT JOIN team_tournaments tt ON tt.tournament_id = t.id WHERE (pt.player_id = :player_id OR tt.team_id IN (SELECT team_id FROM player_teams WHERE player_id = :player_id))  AND (t.history = 0 OR t.history = 1) ORDER BY $sort_tournament_join $order_tournament_join";
+                            $sql = "SELECT t.Name, t.id, t.creator_id, t.Creation_Date, t.game_id, t.Match_system, t.Register_time, t.participant FROM tournaments t LEFT JOIN player_tournaments pt ON pt.tournament_id = t.id INNER JOIN players p ON p.id = pt.player_id LEFT JOIN team_tournaments tt ON tt.tournament_id = t.id WHERE (pt.player_id = :player_id OR tt.team_id IN (SELECT team_id FROM player_teams WHERE player_id = :player_id))  AND (t.history = 0 OR t.history = 1) ORDER BY $sort_tournament_join $order_tournament_join";
                             $rep = $conn->prepare($sql);
                             $rep->bindParam(':player_id', $_SESSION['player_id'], PDO::PARAM_INT);
                             $rep->execute();
@@ -157,7 +163,14 @@ foreach ($Tournament_basedata as $T) {
                                 <tr>
                                     <td><?php echo htmlspecialchars($T['id']) ?></td>
                                     <td><?php echo htmlspecialchars($T['Name']) ?></td>
-                                    <td><?php echo htmlspecialchars($T['username']) ?></td>
+                                    <?php
+                                    $sql = "SELECT username FROM players WHERE id =:player_id";
+                                    $rep = $conn->prepare($sql);
+                                    $rep->bindParam(':player_id', $T['creator_id'], PDO::PARAM_INT);
+                                    $rep->execute();
+                                    $username = $rep->fetchColumn();
+                                    ?>
+                                    <td><?php echo htmlspecialchars($username) ?></td>
                                     <td><?php
                                         if ($T['participant'] == 1) {
                                             echo "Singleplayer";
@@ -168,11 +181,11 @@ foreach ($Tournament_basedata as $T) {
                                         ?></td>
                                     <td>
                                         <?php
-                                        $sql_game = "SELECT g.title FROM games g INNER JOIN tournaments t ON t.game_id = g.id WHERE t.id = :tournament_id";
-                                        $rep_game = $conn->prepare($sql_game);
-                                        $rep_game->bindParam(':tournament_id', $T['id'], PDO::PARAM_INT);
-                                        $rep_game->execute();
-                                        $game = $rep_game->fetch();
+                                        $sql = "SELECT g.title FROM games g INNER JOIN tournaments t ON t.game_id = g.id WHERE t.id = :tournament_id";
+                                        $rep = $conn->prepare($sql);
+                                        $rep->bindParam(':tournament_id', $T['id'], PDO::PARAM_INT);
+                                        $rep->execute();
+                                        $game = $rep->fetch();
                                         echo htmlspecialchars($game['title']);
                                         ?>
                                     </td>
@@ -252,7 +265,7 @@ foreach ($Tournament_basedata as $T) {
                             $sort = "team_id";
                         }
 
-                        $sql = "SELECT t.*, p_creator.username AS creator_username FROM tournaments t INNER JOIN players p_creator ON t.creator_id = p_creator.id WHERE t.history = 0";
+                        $sql = "SELECT DISTINCT t.*, p_creator.username AS creator_username FROM tournaments t INNER JOIN players p_creator ON t.creator_id = p_creator.id WHERE t.history = 0";
                         $rep = $conn->prepare($sql);
                         $rep->execute();
                         $Basedata = $rep->fetchAll();

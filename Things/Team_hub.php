@@ -9,7 +9,7 @@ if (!isset($_SESSION['player_username'])) {
 $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
 $sql = "SELECT id FROM players WHERE username = :username";
 $rep = $conn->prepare($sql);
-$rep->bindParam(':username', $_SESSION['username'], PDO::PARAM_STR);
+$rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
 $rep->execute();
 $_SESSION['id'] = $rep->fetchColumn();
 
@@ -34,7 +34,8 @@ $_SESSION['id'] = $rep->fetchColumn();
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
-                        <li><a href="Login_user.php"> My Profile </a></li>
+                        <li><a href="Login_user.php"> Log in </a></li>
+                        <li><a href="Profile_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
                         <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
@@ -54,7 +55,12 @@ $_SESSION['id'] = $rep->fetchColumn();
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Profile_user.php"> Add Games </a></li>
+                        <li><a href="Profile_game.php"> Games Stats </a></li>
+                    </ul>
+                </li>
                 </li>
             </ul>
         </nav>
@@ -97,7 +103,7 @@ $_SESSION['id'] = $rep->fetchColumn();
                     <table>
                         <?php
 
-                        $sql = "SELECT t.title, t.id, t.creator_id, t.game_id, p.username, t.game_id FROM teams t INNER JOIN player_teams pt ON pt.team_id = t.id INNER JOIN players p ON pt.player_id = p.id WHERE pt.player_id = :player_id";
+                        $sql = "SELECT t.title, t.id, t.creator_id, t.game_id FROM teams t INNER JOIN player_teams pt ON pt.team_id = t.id INNER JOIN players p ON pt.player_id = p.id WHERE pt.player_id = :player_id";
                         $rep = $conn->prepare($sql);
                         $rep->bindParam(':player_id', $_SESSION['id'], PDO::PARAM_INT);
                         $rep->execute();
@@ -119,7 +125,13 @@ $_SESSION['id'] = $rep->fetchColumn();
                                 echo "<td>" . htmlspecialchars($team['id']) . "</td>";
                                 echo "<td>" . htmlspecialchars($team['title']) . "</td>";
                                 echo "<td>" . htmlspecialchars($team['creator_id']) . "</td>";
-                                echo "<td>" . htmlspecialchars($team['username']) . "</td>";
+                                $sql = "SELECT username FROM players WHERE id =:player_id";
+                                $rep = $conn->prepare($sql);
+                                $rep->bindParam(':player_id', $team['creator_id'], PDO::PARAM_INT);
+                                $rep->execute();
+                                $username = $rep->fetchColumn();
+
+                                echo "<td>" . htmlspecialchars($username) . "</td>";
                                 $sql = "SELECT g.title FROM games g INNER JOIN teams t ON t.game_id = g.id WHERE t.id = :team_id";
                                 $rep = $conn->prepare($sql);
                                 $rep->bindParam(':team_id', $team['id'], PDO::PARAM_INT);
@@ -163,7 +175,7 @@ $_SESSION['id'] = $rep->fetchColumn();
                             $sort = "team_id";
                         }
 
-                        $sql = "SELECT t.title AS team_title, t.id AS team_id, t.creator_id, p.username, g.title AS game_title FROM teams t INNER JOIN player_teams pt ON pt.team_id = t.id INNER JOIN players p ON pt.player_id = p.id INNER JOIN games g ON t.game_id = g.id  ORDER BY $sort $order";
+                        $sql = "SELECT DISTINCT t.title AS team_title, t.id AS team_id, t.creator_id, g.title AS game_title FROM teams t INNER JOIN player_teams pt ON pt.team_id = t.id INNER JOIN games g ON t.game_id = g.id  ORDER BY $sort $order";
                         $rep = $conn->prepare($sql);
                         $rep->execute();
                         $Basedata = $rep->fetchAll();
@@ -181,7 +193,13 @@ $_SESSION['id'] = $rep->fetchColumn();
                                 echo "<td>" . htmlspecialchars($team['team_id']) . "</td>";
                                 echo "<td>" . htmlspecialchars($team['team_title']) . "</td>";
                                 echo "<td>" . htmlspecialchars($team['creator_id']) . "</td>";
-                                echo "<td>" . htmlspecialchars($team['username']) . "</td>";
+                                $sql = "SELECT username FROM players WHERE id =:player_id";
+                                $rep = $conn->prepare($sql);
+                                $rep->bindParam(':player_id', $team['creator_id'], PDO::PARAM_INT);
+                                $rep->execute();
+                                $username = $rep->fetchColumn();
+
+                                echo "<td>" . htmlspecialchars($username) . "</td>";
                                 echo "<td>" . htmlspecialchars($team['game_title']) . "</td>";
                                 echo " <td><form method='POST' action='Team_hub.php'>
                                         <input type='submit' value='Ask to Join' />

@@ -17,11 +17,12 @@ session_start();
         <nav>
             <ul>
                 <li class="logo_container">
-                    <img class="logo" src="Image/logo.png">
+                    <a href="Main.php"><img class="logo" src="Image/logo.png"></a>
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
-                        <li><a href="Login_user.php"> My Profile </a></li>
+                        <li><a href="Login_user.php"> Log in </a></li>
+                        <li><a href="Profile_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
                         <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
@@ -41,7 +42,12 @@ session_start();
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Profile_user.php"> Add Games </a></li>
+                        <li><a href="Profile_game.php"> Games Stats </a></li>
+                    </ul>
+                </li>
                 </li>
             </ul>
         </nav>

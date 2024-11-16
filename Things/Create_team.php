@@ -7,7 +7,7 @@ if (!isset($_SESSION['player_username'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
+    $title = $_POST['team_title'];
     $password = $_POST['password'];
     $game = $_POST['game'];
 
@@ -25,14 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rep->bindParam(':title', $title, PDO::PARAM_STR);
         $rep->execute();
         $number = $rep->fetchColumn();
-        echo $number;
         if ($number == 0) {
             $sql = "INSERT INTO teams (title, creator_id, game_id) VALUES (:title, (SELECT id FROM players WHERE username = :username), :game)";
             $rep = $conn->prepare($sql);
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $rep->bindParam(':title', $title, PDO::PARAM_STR);
             $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
-            $rep->bindParam(':game', $game, PDO::PARAM_STR);
+            $rep->bindParam(':game', $game, PDO::PARAM_INT);
             $rep->execute();
 
             $sql = "SELECT id FROM players WHERE username = :username";
@@ -52,6 +51,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $rep->bindParam(':id_player', $id_player, PDO::PARAM_INT);
             $rep->bindParam(':id_team', $id_team, PDO::PARAM_INT);
             $rep->execute();
+
+            $sql = "SELECT COUNT(player_id) FROM played_games WHERE player_id = (SELECT id FROM players WHERE username = :username) AND game_id = :game_id";
+            $rep = $conn->prepare($sql);
+            $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
+            $rep->bindParam(':game_id', $game, PDO::PARAM_INT);
+            $rep->execute();
+            $number = $rep->fetchColumn();
+
+            if ($number === 0) {
+                $sql = "INSERT INTO played_games(player_id, game_id) VALUES ((SELECT id FROM players WHERE username = :username), :game_id)";
+                $rep = $conn->prepare($sql);
+                $rep->bindParam(':game_id', $game, PDO::PARAM_INT);
+                $rep->bindParam(':username', $_SESSION['player_username'], PDO::PARAM_STR);
+                $rep->execute();
+            }
 
             header('Location: Team_hub.php');
             exit();
@@ -83,7 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </li>
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
-                        <li><a href="Login_user.php"> My Profile </a></li>
+                        <li><a href="Login_user.php"> Log in </a></li>
+                        <li><a href="Profile_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
                         <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
@@ -103,7 +118,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Profile_user.php"> Add Games </a></li>
+                        <li><a href="Profile_game.php"> Games Stats </a></li>
+                    </ul>
+                </li>
                 </li>
             </ul>
         </nav>
@@ -117,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="text_form">
                             <br>
                             <div class="arena_text">
-                                <input class="left-space" type="text" id="username" name="title" size="12" required>
+                                <input class="left-space" type="text" id="username" name="team_title" size="12" required>
                                 <label>Name of your team</label>
                                 <span>Name of your team</span>
                             </div>

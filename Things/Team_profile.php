@@ -16,24 +16,25 @@ if (isset($_POST['request_id'])) {
         if ($_POST['Update_request'] == 1) {
             $conn = new PDO('mysql:host=localhost;dbname=board_game_tournament', 'root', '');
 
-            $sql = "SELECT game_id FROM teams WHERE teams.id = :team_id)";
+            $sql = "SELECT game_id FROM teams WHERE id = :team_id)";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
             $rep->execute();
             $game = $rep->fetchColumn();
 
-            $sql = "SELECT COUNT(player_id) FROM played_games(player_id, game_id) WHERE player_id = (SELECT player_id FROM team_request WHERE id = :request_id) AND game_id = :game_id";
+            $sql = "SELECT COUNT(player_id) FROM played_games WHERE player_id = (SELECT player_id FROM team_request WHERE id = :request_id) AND game_id = :game_id";
             $rep = $conn->prepare($sql);
             $rep->bindParam(':request_id', $_POST['request_id'], PDO::PARAM_INT);
-            $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+            $rep->bindParam(':game_id', $game, PDO::PARAM_INT);
             $rep->execute();
             $number = $rep->fetchColumn();
+
             if ($number == 0) {
 
                 $sql = "INSERT INTO played_games(player_id, game_id) VALUES ((SELECT player_id FROM team_request WHERE id = :request_id), :game_id)";
                 $rep = $conn->prepare($sql);
                 $rep->bindParam(':game_id', $game, PDO::PARAM_INT);
-                $rep->bindParam(':team_id', $_POST['team_id'], PDO::PARAM_INT);
+                $rep->bindParam(':request_id', $_POST['request_id'], PDO::PARAM_INT);
                 $rep->execute();
             }
 
@@ -74,6 +75,8 @@ if (isset($_POST['request_id'])) {
                 <li class="deroulant_Main"><a href="#"> Players &ensp;</a>
                     <ul class="deroulant_Second">
                         <li><a href="Login_user.php"> My Profile </a></li>
+
+                        <li><a href="Login_user.php"> My Profile </a></li>
                         <li><a href="Create_user.php"> Browse Players </a></li>
                         <li><a href="Log_out.php"> Log Out </a></li>
                     </ul>
@@ -93,7 +96,12 @@ if (isset($_POST['request_id'])) {
                         <li><a href="Create_tournament.php"> Browse tournaments </a></li>
                     </ul>
                 </li>
-                <li class="deroulant_Main"><a href=Profile_user.php> Add Games &ensp;</a></li>
+                <li class="deroulant_Main"><a href="#"> Games &ensp;</a>
+                    <ul class="deroulant_Second">
+                        <li><a href="Profile_user.php"> Add Games </a></li>
+                        <li><a href="Profile_game.php"> Games Stats </a></li>
+                    </ul>
+                </li>
                 </li>
             </ul>
         </nav>
